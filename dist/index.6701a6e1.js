@@ -23017,12 +23017,19 @@ class MovieCard extends _reactDefault.default.Component {
         }));
     }
 }
-MovieCard.propTypes = {
+MovieView.propTypes = {
     movie: _propTypesDefault.default.shape({
         Title: _propTypesDefault.default.string.isRequired,
         Description: _propTypesDefault.default.string.isRequired,
-        Genre: _propTypesDefault.default.array.isRequired,
-        Director: _propTypesDefault.default.object.isRequired,
+        Genre: _propTypesDefault.default.exact({
+            Title: _propTypesDefault.default.string.isRequired,
+            Description: _propTypesDefault.default.string.isRequired
+        }).isRequired,
+        Director: _propTypesDefault.default.shape({
+            Name: _propTypesDefault.default.string.isRequired,
+            Bio: _propTypesDefault.default.string.isRequired,
+            Birthdate: _propTypesDefault.default.instanceOf(Date).isRequired
+        }).isRequired,
         ImagePath: _propTypesDefault.default.string.isRequired,
         Featured: _propTypesDefault.default.bool,
         ReleaseYear: _propTypesDefault.default.number.isRequired
@@ -23862,8 +23869,15 @@ MovieView.propTypes = {
     movie: _propTypesDefault.default.shape({
         Title: _propTypesDefault.default.string.isRequired,
         Description: _propTypesDefault.default.string.isRequired,
-        Genre: _propTypesDefault.default.array.isRequired,
-        Director: _propTypesDefault.default.object.isRequired,
+        Genre: _propTypesDefault.default.exact({
+            Title: _propTypesDefault.default.string.isRequired,
+            Description: _propTypesDefault.default.string.isRequired
+        }).isRequired,
+        Director: _propTypesDefault.default.shape({
+            Name: _propTypesDefault.default.string.isRequired,
+            Bio: _propTypesDefault.default.string.isRequired,
+            Birthdate: _propTypesDefault.default.instanceOf(Date).isRequired
+        }).isRequired,
         ImagePath: _propTypesDefault.default.string.isRequired,
         Featured: _propTypesDefault.default.bool,
         ReleaseYear: _propTypesDefault.default.number.isRequired
