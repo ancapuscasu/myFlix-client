@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './registration-view.scss';
 import PropTypes from 'prop-types';
 
 export function RegistrationView (props) {

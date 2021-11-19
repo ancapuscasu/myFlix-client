@@ -1,4 +1,5 @@
 import React from 'react';
+import './main-view.scss';
 //importing axios library to use HTTP requests
 import axios from 'axios';
 

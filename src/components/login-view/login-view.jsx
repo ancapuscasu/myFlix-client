@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './login-view.scss';
 import PropTypes from 'prop-types';
 
 export function LoginView (props) {
