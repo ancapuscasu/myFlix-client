@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 export function LoginView (props) {
-
     const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
 
@@ -22,7 +21,16 @@ export function LoginView (props) {
                 Password:
                 <input type="password" value = { password } onChange = {event => setPassword(event.target.value)} />
             </label>
-            <button type="submit" onClick = {handleSubmit}>Submit</button>
+            <button type="submit" onClick = {handleSubmit}>Log In</button>
+            <button>Create new account </button>
         </form>
     )
 }
+
+LoginView.propTypes = {
+    user: PropTypes.shape({
+        username: PropTypes.string.isRequired,
+        password: PropTypes.string.isRequired
+    }),
+    onLoggedIn: PropTypes.func.isRequired
+};
