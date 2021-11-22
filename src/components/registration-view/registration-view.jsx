@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './registration-view.scss';
 import PropTypes from 'prop-types';
+import { Card, CardGroup, Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 export function RegistrationView (props) {
 
@@ -18,33 +19,95 @@ export function RegistrationView (props) {
     }
 
     return (
-        <form>
-            <label>
-                First name:
-                <input type="text" value = { firstname } onChange = {event => setFirstname(event.target.value)} />
-            </label>
-            <label>
-                Last name:
-                <input type="text" value = { lastname } onChange = {event => setLastname(event.target.value)} />
-            </label>
-            <label>
-                Email:
-                <input type="email" value = { email } onChange = {event => setEmail(event.target.value)} />
-            </label>
-            <label>
-                Username:
-                <input type="text" value = { username } onChange = {event => setUsername(event.target.value)} />
-            </label>
-            <label>
-                Password:
-                <input type="password" value = { password } onChange = {event => setPassword(event.target.value)} />
-            </label>
-            <label>
-                Birthday:
-                <input type="date" value = { birthdate} onChange = {event => setBirthdate(event.target.value)} />
-            </label>
-            <button type="submit" onClick = {handleSubmit}>Sign Up</button>
-        </form>
+      <Container>
+        <Row>
+          <Col></Col>
+          <Col xs={8} md={6} className="mt-5">
+            <CardGroup>
+              <Card>
+                <Card.Body>
+                  <Card.Title className="mb-3 mt-3">Sign Up</Card.Title>
+                  <Card.Subtitle className="mb-5 text-muted">it's quick and easy </Card.Subtitle>
+                  <Form>   
+
+                    <Row className="mb-2">
+                      <Form.Group as={Col} controlId="form FirstName">
+                        <Form.Label>First name</Form.Label>
+                        <Form.Control 
+                          type="text" 
+                          placeholder="First name"
+                          value = {firstname}
+                          onChange = {event => setFirstname(event.target.value)}
+                          required />
+                      </Form.Group>
+
+                      <Form.Group as={Col} controlId="formLastName">
+                        <Form.Label>Last name</Form.Label>
+                        <Form.Control 
+                          type="text" 
+                          placeholder="Last name"
+                          value={lastname}
+                          onChange = {event => setLastname(event.target.value)}
+                          required />
+                      </Form.Group>
+                    </Row>
+                 
+                    <Form.Group className="mb-2" controlId="formEmail"> 
+                      <Form.Label>Email address</Form.Label>
+                      <Form.Control 
+                        type="email" 
+                        placeholder="Email address"
+                        value={email}
+                        onChange = {event => setEmail(event.target.value)}
+                        required />
+                    </Form.Group>
+
+                    <Form.Group className="mb-2" controlId="formUsername"> 
+                      <Form.Label>Username</Form.Label>
+                      <Form.Control 
+                        type="text" 
+                        placeholder="Username"
+                        value={username}
+                        onChange = {event => setUsername(event.target.value)} 
+                        required
+                        minLength="5"/>
+                    </Form.Group>
+
+                    <Form.Group className="mb-2" controlId="formPassword"> 
+                      <Form.Label>Password</Form.Label>
+                      <Form.Control 
+                        type="password" 
+                        placeholder="Password"
+                        value={password}
+                        onChange = {event => setPassword(event.target.value)}
+                        required
+                        minLength="8" />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formBirthday"> 
+                      <Form.Label>Birthday</Form.Label>
+                      <Form.Control 
+                        type="date" 
+                        value={birthdate}
+                        onChange = {event => setBirthdate(event.target.value)}
+                        required />
+                    </Form.Group>
+
+                    <Button 
+                      variant="primary" 
+                      type="submit"
+                      onClick={handleSubmit}>
+                        Sign Up
+                    </Button>
+
+                  </Form>
+                </Card.Body>
+              </Card>
+            </CardGroup>
+          </Col>
+          <Col></Col>
+        </Row>
+      </Container>
     )
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import './main-view.scss';
 //importing axios library to use HTTP requests
 import axios from 'axios';
+import {Row, Col, Container} from 'react-bootstrap';
 
 //importing movie-card into main-view
 import { MovieCard } from '../movie-card/movie-card';
@@ -74,14 +75,22 @@ export class MainView extends React.Component {
     if (movies.length === 0) return <div className = "main-view"/> ;
     
     return (
-      <div className="main-view">
-        {selectedMovie
-          ? <MovieView movie = {selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
-          : movies.map(movie => (
-            <MovieCard key = {movie._id} movie={movie} onMovieClick={(newSelectedMovie) => { this.setSelectedMovie(newSelectedMovie) }} />
-            ))
-        }
-      </div>
+      <Container>
+        <Row 
+          className="main-view justify-content-center">
+          {selectedMovie
+            ? 
+              <Col xs={10} sm={9} md={8} lg={6} xl={5} className="mt-3">
+                <MovieView movie = {selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
+              </Col>
+            : movies.map(movie => (
+                <Col sm={6} md={4} lg={3} className="px-2 mt-3">
+                  <MovieCard key = {movie._id} movie={movie} onMovieClick={(newSelectedMovie) => { this.setSelectedMovie(newSelectedMovie) }} />
+                </Col>
+              ))
+          }
+        </Row>
+      </Container>
     );
   }
 }
