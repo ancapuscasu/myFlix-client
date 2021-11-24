@@ -2,18 +2,32 @@ import React, { useState } from 'react';
 import './login-view.scss';
 import PropTypes from 'prop-types';
 import {Form, Container, Row, Col, Card, CardGroup, Button} from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
+import axios from 'axios';
+
 
 
 export function LoginView (props) {
     const [ username, setUsername ] = useState('');
     const [ password, setPassword ] = useState('');
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(username, password);
-        props.onLoggedIn(username);
-    }
+    //When user clicks "Log In" button - POST request is made to /login
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        /* Send a request to the server for authentication */
+        axios.post('https://ancas-myflixapi.herokuapp.com/login', {
+          Username: username,
+          Password: password
+        })
+        //After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
+        .then(response => {
+          const data = response.data;
+          props.onLoggedIn(data);
+        })
+        //Error handling
+        .catch(e => {
+          console.log('no user found')
+        });
+    };
 
     return (
       <Container>
@@ -25,11 +39,12 @@ export function LoginView (props) {
                 <Card.Body>
                   <Card.Title className="mb-3">Log In</Card.Title>
                     <Form>   
-                      <Form.Group className="mb-2" controlId="formUsername"> 
+                      <Form.Group className="mb-2 login__formUsername" controlId="formUsername"> 
                         <Form.Label>Username: </Form.Label>
                         <Form.Control 
                           type="text" 
                           required
+                          minLength="5"
                           onChange = {event => setUsername(event.target.value)} />
                       </Form.Group>
 
@@ -38,6 +53,7 @@ export function LoginView (props) {
                         <Form.Control 
                           type="password" 
                           required
+                          minLength="8"
                           onChange = {event => setPassword(event.target.value)} />
                       </Form.Group>
 
