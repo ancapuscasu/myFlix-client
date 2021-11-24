@@ -22795,25 +22795,57 @@ class MainView extends _reactDefault.default.Component {
             registeredUser
         });
     }
-    //Successful user login
-    onLoggedIn(user) {
+    //After logging in, authorized user's username state is updated 
+    onLoggedIn(authData) {
+        console.log(authData);
         this.setState({
-            user
+            user: authData.user.Username
         });
+        //Storing user's username and token in local storage
+        localStorage.setItem('token', authData.token);
+        localStorage.setItem('user', authData.user.Username);
+        //get movies from API using authorized user's token 
+        this.getMovies(authData.token);
+    }
+    onLoggedOut() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        this.setState({
+            user: null
+        });
+    }
+    //get movies from API using authorized user's token
+    getMovies(token) {
+        _axiosDefault.default.get('https://ancas-myflixapi.herokuapp.com/movies', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then((response)=>{
+            //Assign the result to the state
+            this.setState({
+                movies: response.data
+            });
+        }).catch(function(error) {
+            console.log(error);
+        });
+    }
+    //Persist login data 
+    componentDidMount() {
+        //get token from local storage
+        let accessToken = localStorage.getItem('token');
+        //if token is not null, get user from local storage and set it 
+        if (accessToken !== null) {
+            this.setState({
+                user: localStorage.getItem('user')
+            });
+            this.getMovies(accessToken);
+        }
     }
     render() {
         const { movies , selectedMovie , user , registeredUser  } = this.state;
         //If no user registers, RegistrationView is rendered. 
         //If user does register, user details are passed as a prop to RegistrationView
-        if (!registeredUser) return(/*#__PURE__*/ _jsxRuntime.jsx(_registrationView.RegistrationView, {
-            onRegistration: (registeredUser1)=>this.onRegistration(registeredUser1)
-            ,
-            __source: {
-                fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 68
-            },
-            __self: this
-        }));
+        // if (!registeredUser) return <RegistrationView onRegistration = { registeredUser => this.onRegistration(registeredUser)} />
         //If no user, LoginView is rendered. 
         //If user does login, user details are passed as a prop to LoginView
         if (!user) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
@@ -22821,7 +22853,7 @@ class MainView extends _reactDefault.default.Component {
             ,
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 72
+                lineNumber: 117
             },
             __self: this
         }));
@@ -22829,70 +22861,90 @@ class MainView extends _reactDefault.default.Component {
             className: "main-view",
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 75
+                lineNumber: 120
             },
             __self: this
         }));
-        return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Container, {
+        return(/*#__PURE__*/ _jsxRuntime.jsxs("div", {
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 78
+                lineNumber: 123
             },
             __self: this,
-            children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
-                className: "main-view justify-content-center",
-                __source: {
-                    fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 79
-                },
-                __self: this,
-                children: selectedMovie ? /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
-                    xs: 10,
-                    sm: 9,
-                    md: 8,
-                    lg: 6,
-                    xl: 5,
-                    className: "mt-3",
+            children: [
+                /*#__PURE__*/ _jsxRuntime.jsx("button", {
+                    onClick: ()=>{
+                        this.onLoggedOut();
+                    },
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 83
+                        lineNumber: 124
                     },
                     __self: this,
-                    children: /*#__PURE__*/ _jsxRuntime.jsx(_movieView.MovieView, {
-                        movie: selectedMovie,
-                        onBackClick: (newSelectedMovie)=>{
-                            this.setSelectedMovie(newSelectedMovie);
-                        },
+                    children: "Logout"
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Container, {
+                    __source: {
+                        fileName: "src/components/main-view/main-view.jsx",
+                        lineNumber: 125
+                    },
+                    __self: this,
+                    children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
+                        className: "main-view justify-content-center",
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 84
-                        },
-                        __self: this
-                    })
-                }) : movies.map((movie)=>/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
-                        sm: 6,
-                        md: 4,
-                        lg: 3,
-                        className: "px-2 mt-3",
-                        __source: {
-                            fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 87
+                            lineNumber: 126
                         },
                         __self: this,
-                        children: /*#__PURE__*/ _jsxRuntime.jsx(_movieCard.MovieCard, {
-                            movie: movie,
-                            onMovieClick: (newSelectedMovie)=>{
-                                this.setSelectedMovie(newSelectedMovie);
-                            },
+                        children: selectedMovie ? /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
+                            xs: 10,
+                            sm: 9,
+                            md: 8,
+                            lg: 6,
+                            xl: 5,
+                            className: "mt-3",
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 88
+                                lineNumber: 130
                             },
-                            __self: this
-                        }, movie._id)
+                            __self: this,
+                            children: /*#__PURE__*/ _jsxRuntime.jsx(_movieView.MovieView, {
+                                movie: selectedMovie,
+                                onBackClick: (newSelectedMovie)=>{
+                                    this.setSelectedMovie(newSelectedMovie);
+                                },
+                                __source: {
+                                    fileName: "src/components/main-view/main-view.jsx",
+                                    lineNumber: 131
+                                },
+                                __self: this
+                            })
+                        }) : movies.map((movie)=>/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
+                                sm: 5,
+                                md: 4,
+                                lg: 3,
+                                className: "px-2 mt-3 main-view__grid",
+                                __source: {
+                                    fileName: "src/components/main-view/main-view.jsx",
+                                    lineNumber: 134
+                                },
+                                __self: this,
+                                children: /*#__PURE__*/ _jsxRuntime.jsx(_movieCard.MovieCard, {
+                                    movie: movie,
+                                    onMovieClick: (newSelectedMovie)=>{
+                                        this.setSelectedMovie(newSelectedMovie);
+                                    },
+                                    __source: {
+                                        fileName: "src/components/main-view/main-view.jsx",
+                                        lineNumber: 135
+                                    },
+                                    __self: this
+                                })
+                            }, movie._id)
+                        )
                     })
-                )
-            })
+                })
+            ]
         }));
     }
 }
@@ -23075,13 +23127,16 @@ var _button = require("react-bootstrap/Button");
 var _buttonDefault = parcelHelpers.interopDefault(_button);
 var _card = require("react-bootstrap/Card");
 var _cardDefault = parcelHelpers.interopDefault(_card);
+var _reactTextTruncate = require("react-text-truncate");
+var _reactTextTruncateDefault = parcelHelpers.interopDefault(_reactTextTruncate);
 class MovieCard extends _reactDefault.default.Component {
     render() {
         const { movie , onMovieClick  } = this.props;
         return(/*#__PURE__*/ _jsxRuntime.jsxs(_cardDefault.default, {
+            className: "movie-card p-3",
             __source: {
                 fileName: "src/components/movie-card/movie-card.jsx",
-                lineNumber: 12
+                lineNumber: 13
             },
             __self: this,
             children: [
@@ -23091,21 +23146,23 @@ class MovieCard extends _reactDefault.default.Component {
                     crossOrigin: "*",
                     __source: {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 13
+                        lineNumber: 14
                     },
                     __self: this
                 }),
                 /*#__PURE__*/ _jsxRuntime.jsxs(_cardDefault.default.Body, {
+                    className: "p-0",
                     __source: {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 14
+                        lineNumber: 15
                     },
                     __self: this,
                     children: [
                         /*#__PURE__*/ _jsxRuntime.jsxs(_cardDefault.default.Title, {
+                            className: "pt-3",
                             __source: {
                                 fileName: "src/components/movie-card/movie-card.jsx",
-                                lineNumber: 15
+                                lineNumber: 16
                             },
                             __self: this,
                             children: [
@@ -23114,17 +23171,27 @@ class MovieCard extends _reactDefault.default.Component {
                                 " "
                             ]
                         }),
-                        /*#__PURE__*/ _jsxRuntime.jsxs(_cardDefault.default.Text, {
+                        /*#__PURE__*/ _jsxRuntime.jsx(_cardDefault.default.Text, {
                             __source: {
                                 fileName: "src/components/movie-card/movie-card.jsx",
-                                lineNumber: 16
+                                lineNumber: 17
                             },
                             __self: this,
-                            children: [
-                                " ",
-                                movie.Description,
-                                " "
-                            ]
+                            children: /*#__PURE__*/ _jsxRuntime.jsx(_reactTextTruncateDefault.default, {
+                                line: 3,
+                                element: "span",
+                                truncateText: "...",
+                                text: movie.Description,
+                                textTruncateChild: /*#__PURE__*/ _jsxRuntime.jsx("a", {
+                                    href: "#",
+                                    children: "See More "
+                                }),
+                                __source: {
+                                    fileName: "src/components/movie-card/movie-card.jsx",
+                                    lineNumber: 18
+                                },
+                                __self: this
+                            })
                         }),
                         /*#__PURE__*/ _jsxRuntime.jsx(_buttonDefault.default, {
                             onClick: ()=>onMovieClick(movie)
@@ -23132,7 +23199,7 @@ class MovieCard extends _reactDefault.default.Component {
                             variant: "link",
                             __source: {
                                 fileName: "src/components/movie-card/movie-card.jsx",
-                                lineNumber: 17
+                                lineNumber: 26
                             },
                             __self: this,
                             children: "Open"
@@ -23155,8 +23222,7 @@ MovieCard.propTypes = {
         ImagePath: _propTypesDefault.default.string.isRequired,
         Featured: _propTypesDefault.default.bool,
         ReleaseYear: _propTypesDefault.default.number.isRequired
-    }).isRequired,
-    onMovieClick: _propTypesDefault.default.func.isRequired
+    }).isRequired
 };
 
   $parcel$ReactRefreshHelpers$4249.postlude(module);
@@ -23164,7 +23230,7 @@ MovieCard.propTypes = {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","prop-types":"1tgq3","./movie-card.scss":"cF5gT","react-bootstrap/Button":"9CzHT","react-bootstrap/Card":"MoOk8"}],"1tgq3":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","prop-types":"1tgq3","./movie-card.scss":"cF5gT","react-bootstrap/Button":"9CzHT","react-bootstrap/Card":"MoOk8","react-text-truncate":"adKVJ"}],"1tgq3":[function(require,module,exports) {
 var ReactIs = require('react-is');
 // By explicitly using `prop-types` you are opting into new development behavior.
 // http://fb.me/prop-types-in-prod
@@ -24235,7 +24301,380 @@ const context = /*#__PURE__*/ _react.createContext(null);
 context.displayName = 'CardHeaderContext';
 exports.default = context;
 
-},{"react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4"}],"ikZdr":[function(require,module,exports) {
+},{"react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4"}],"adKVJ":[function(require,module,exports) {
+"use strict";
+(function(global, factory) {
+    if (typeof define === "function" && define.amd) define([
+        "exports",
+        "react",
+        "prop-types"
+    ], factory);
+    else if (typeof exports !== "undefined") factory(exports, require("react"), require("prop-types"));
+    else {
+        var mod = {
+            exports: {
+            }
+        };
+        factory(mod.exports, global.React, global.propTypes);
+        global.undefined = mod.exports;
+    }
+})(void 0, function(exports, _react, _propTypes) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = undefined;
+    var _react2 = _interopRequireDefault(_react);
+    var _propTypes2 = _interopRequireDefault(_propTypes);
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+    function _typeof(obj) {
+        if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") _typeof = function _typeof1(obj1) {
+            return typeof obj1;
+        };
+        else _typeof = function _typeof2(obj1) {
+            return obj1 && typeof Symbol === "function" && obj1.constructor === Symbol && obj1 !== Symbol.prototype ? "symbol" : typeof obj1;
+        };
+        return _typeof(obj);
+    }
+    function _objectWithoutProperties(source, excluded) {
+        if (source == null) return {
+        };
+        var target = _objectWithoutPropertiesLoose(source, excluded);
+        var key, i;
+        if (Object.getOwnPropertySymbols) {
+            var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+            for(i = 0; i < sourceSymbolKeys.length; i++){
+                key = sourceSymbolKeys[i];
+                if (excluded.indexOf(key) >= 0) continue;
+                if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+                target[key] = source[key];
+            }
+        }
+        return target;
+    }
+    function _objectWithoutPropertiesLoose(source, excluded) {
+        if (source == null) return {
+        };
+        var target = {
+        };
+        var sourceKeys = Object.keys(source);
+        var key, i;
+        for(i = 0; i < sourceKeys.length; i++){
+            key = sourceKeys[i];
+            if (excluded.indexOf(key) >= 0) continue;
+            target[key] = source[key];
+        }
+        return target;
+    }
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+    }
+    function _defineProperties(target, props) {
+        for(var i = 0; i < props.length; i++){
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        return Constructor;
+    }
+    function _possibleConstructorReturn(self, call) {
+        if (call && (_typeof(call) === "object" || typeof call === "function")) return call;
+        return _assertThisInitialized(self);
+    }
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf1(o1) {
+            return o1.__proto__ || Object.getPrototypeOf(o1);
+        };
+        return _getPrototypeOf(o);
+    }
+    function _assertThisInitialized(self) {
+        if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+        return self;
+    }
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                writable: true,
+                configurable: true
+            }
+        });
+        if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf1(o1, p1) {
+            o1.__proto__ = p1;
+            return o1;
+        };
+        return _setPrototypeOf(o, p);
+    }
+    function _defineProperty(obj, key, value) {
+        if (key in obj) Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+        else obj[key] = value;
+        return obj;
+    }
+    var TextTruncate1 = function(_Component) {
+        _inherits(TextTruncate2, _Component);
+        function TextTruncate2() {
+            var _getPrototypeOf2;
+            var _this;
+            _classCallCheck(this, TextTruncate2);
+            for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+            _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(TextTruncate2)).call.apply(_getPrototypeOf2, [
+                this
+            ].concat(args)));
+            _defineProperty(_assertThisInitialized(_this), "onResize", function() {
+                if (_this.rafId) window.cancelAnimationFrame(_this.rafId);
+                _this.rafId = window.requestAnimationFrame(_this.update.bind(_assertThisInitialized(_this)));
+            });
+            _defineProperty(_assertThisInitialized(_this), "onToggled", function(truncated) {
+                typeof _this.props.onToggled === 'function' && setTimeout(function() {
+                    return _this.props.onToggled(truncated);
+                }, 0);
+            });
+            _defineProperty(_assertThisInitialized(_this), "onTruncated", function() {
+                typeof _this.props.onTruncated === 'function' && setTimeout(function() {
+                    return _this.props.onTruncated();
+                }, 0);
+            });
+            _defineProperty(_assertThisInitialized(_this), "onCalculated", function() {
+                typeof _this.props.onCalculated === 'function' && setTimeout(function() {
+                    return _this.props.onCalculated();
+                }, 0);
+            });
+            _defineProperty(_assertThisInitialized(_this), "update", function() {
+                var style = window.getComputedStyle(_this.scope);
+                var font = [
+                    style['font-weight'],
+                    style['font-style'],
+                    style['font-size'],
+                    style['font-family'],
+                    style['letter-spacing']
+                ].join(' ');
+                _this.canvas.font = font;
+                _this.forceUpdate();
+            });
+            return _this;
+        }
+        _createClass(TextTruncate2, [
+            {
+                key: "componentDidMount",
+                value: function componentDidMount() {
+                    var canvas = document.createElement('canvas');
+                    var docFragment = document.createDocumentFragment();
+                    var style = window.getComputedStyle(this.scope);
+                    var font = [
+                        style['font-weight'],
+                        style['font-style'],
+                        style['font-size'],
+                        style['font-family']
+                    ].join(' ');
+                    docFragment.appendChild(canvas);
+                    this.canvas = canvas.getContext('2d');
+                    this.canvas.font = font;
+                    this.forceUpdate();
+                    window.addEventListener('resize', this.onResize);
+                }
+            },
+            {
+                key: "componentWillUnmount",
+                value: function componentWillUnmount() {
+                    window.removeEventListener('resize', this.onResize);
+                    if (this.rafId) window.cancelAnimationFrame(this.rafId);
+                }
+            },
+            {
+                key: "measureWidth",
+                value: function measureWidth(text) {
+                    return Math.ceil(this.canvas.measureText(text).width);
+                }
+            },
+            {
+                key: "getRenderText",
+                value: function getRenderText() {
+                    var _this$props = this.props, containerClassName = _this$props.containerClassName, element = _this$props.element, line = _this$props.line, onCalculated = _this$props.onCalculated, onTruncated = _this$props.onTruncated, onToggled = _this$props.onToggled, text = _this$props.text, textElement = _this$props.textElement, textTruncateChild = _this$props.textTruncateChild, truncateText = _this$props.truncateText, maxCalculateTimes = _this$props.maxCalculateTimes, props = _objectWithoutProperties(_this$props, [
+                        "containerClassName",
+                        "element",
+                        "line",
+                        "onCalculated",
+                        "onTruncated",
+                        "onToggled",
+                        "text",
+                        "textElement",
+                        "textTruncateChild",
+                        "truncateText",
+                        "maxCalculateTimes"
+                    ]);
+                    var scopeWidth = this.scope.getBoundingClientRect().width; // return if display:none
+                    if (scopeWidth === 0) return null;
+                     // return if all of text can be displayed
+                    if (scopeWidth >= this.measureWidth(text)) {
+                        this.onToggled(false);
+                        return _react.createElement(textElement, props, text);
+                    }
+                    var childText = '';
+                    if (textTruncateChild && typeof textTruncateChild.type === 'string') {
+                        var type = textTruncateChild.type;
+                        if (type.indexOf('span') >= 0 || type.indexOf('a') >= 0) childText = textTruncateChild.props.children;
+                    }
+                    var currentPos = 1;
+                    var maxTextLength = text.length;
+                    var truncatedText = '';
+                    var splitPos = 0;
+                    var startPos = 0;
+                    var displayLine = line;
+                    var width = 0;
+                    var lastIsEng = false;
+                    var isPrevLineWithoutSpace = false;
+                    var lastPos = 0;
+                    var lastSpaceIndex = -1;
+                    var ext = '';
+                    var loopCnt = 0;
+                    while((displayLine--) > 0){
+                        ext = displayLine ? '' : truncateText + (childText ? ' ' + childText : '');
+                        while(currentPos <= maxTextLength){
+                            truncatedText = text.substr(startPos, currentPos);
+                            width = this.measureWidth(truncatedText + ext);
+                            if (width < scopeWidth) {
+                                splitPos = text.indexOf(' ', currentPos + 1);
+                                if (splitPos === -1) {
+                                    currentPos += 1;
+                                    lastIsEng = false;
+                                } else {
+                                    lastIsEng = true;
+                                    currentPos = splitPos;
+                                }
+                            } else {
+                                do {
+                                    if ((loopCnt++) >= maxCalculateTimes) break;
+                                    truncatedText = text.substr(startPos, currentPos);
+                                    if (!displayLine) currentPos--;
+                                    if (truncatedText[truncatedText.length - 1] === ' ') truncatedText = text.substr(startPos, currentPos - 1);
+                                    if (lastIsEng) {
+                                        lastSpaceIndex = truncatedText.lastIndexOf(' ');
+                                        if (lastSpaceIndex > -1) {
+                                            currentPos = lastSpaceIndex;
+                                            if (displayLine) currentPos++;
+                                            truncatedText = text.substr(startPos, currentPos);
+                                        } else {
+                                            currentPos--;
+                                            truncatedText = text.substr(startPos, currentPos);
+                                        }
+                                    } else {
+                                        currentPos--;
+                                        truncatedText = text.substr(startPos, currentPos);
+                                    }
+                                    width = this.measureWidth(truncatedText + ext);
+                                }while (width >= scopeWidth && truncatedText.length > 0)
+                                startPos += currentPos;
+                                break;
+                            }
+                        }
+                        if (currentPos >= maxTextLength) {
+                            startPos = maxTextLength;
+                            break;
+                        }
+                        if (lastIsEng && !isPrevLineWithoutSpace && text.substr(lastPos, currentPos).indexOf(' ') === -1) {
+                            isPrevLineWithoutSpace = text.substr(lastPos, currentPos).indexOf(' ') === -1;
+                            displayLine--;
+                        }
+                        lastPos = currentPos + 1;
+                    }
+                    if (startPos === maxTextLength) {
+                        this.onToggled(false);
+                        return _react.createElement(textElement, props, text);
+                    }
+                    this.onTruncated();
+                    this.onToggled(true);
+                    return _react2["default"].createElement("span", props, _react.createElement(textElement, props, text.substr(0, startPos) + truncateText + ' '), textTruncateChild);
+                }
+            },
+            {
+                key: "render",
+                value: function render() {
+                    var _this2 = this;
+                    var _this$props2 = this.props, element = _this$props2.element, text = _this$props2.text, _this$props2$style = _this$props2.style, style = _this$props2$style === void 0 ? {
+                    } : _this$props2$style, containerClassName = _this$props2.containerClassName, line = _this$props2.line, onCalculated = _this$props2.onCalculated, onTruncated = _this$props2.onTruncated, onToggled = _this$props2.onToggled, textElement = _this$props2.textElement, textTruncateChild = _this$props2.textTruncateChild, truncateText = _this$props2.truncateText, maxCalculateTimes = _this$props2.maxCalculateTimes, props = _objectWithoutProperties(_this$props2, [
+                        "element",
+                        "text",
+                        "style",
+                        "containerClassName",
+                        "line",
+                        "onCalculated",
+                        "onTruncated",
+                        "onToggled",
+                        "textElement",
+                        "textTruncateChild",
+                        "truncateText",
+                        "maxCalculateTimes"
+                    ]);
+                    var fontWeight = style.fontWeight, fontStyle = style.fontStyle, fontSize = style.fontSize, fontFamily = style.fontFamily;
+                    var renderText = this.scope && line ? this.getRenderText() : _react.createElement(textElement, props, text);
+                    var rootProps = {
+                        ref: function ref(el) {
+                            _this2.scope = el;
+                        },
+                        className: containerClassName,
+                        style: {
+                            overflow: 'hidden',
+                            fontWeight: fontWeight,
+                            fontStyle: fontStyle,
+                            fontSize: fontSize,
+                            fontFamily: fontFamily
+                        }
+                    };
+                    this.scope && this.onCalculated();
+                    return _react.createElement(element, rootProps, renderText);
+                }
+            }
+        ]);
+        return TextTruncate2;
+    }(_react.Component);
+    _defineProperty(TextTruncate1, "propTypes", {
+        containerClassName: _propTypes2["default"].string,
+        element: _propTypes2["default"].string,
+        line: _propTypes2["default"].oneOfType([
+            _propTypes2["default"].number,
+            _propTypes2["default"].bool
+        ]),
+        onCalculated: _propTypes2["default"].func,
+        onTruncated: _propTypes2["default"].func,
+        onToggled: _propTypes2["default"].func,
+        text: _propTypes2["default"].string,
+        textElement: _propTypes2["default"].node,
+        textTruncateChild: _propTypes2["default"].node,
+        truncateText: _propTypes2["default"].string,
+        maxCalculateTimes: _propTypes2["default"].number
+    });
+    _defineProperty(TextTruncate1, "defaultProps", {
+        element: 'div',
+        line: 1,
+        text: '',
+        textElement: 'span',
+        truncateText: '…',
+        maxCalculateTimes: 10
+    });
+    exports.default = TextTruncate1;
+    module.exports = exports.default;
+});
+
+},{"react":"6TuXu","prop-types":"1tgq3"}],"ikZdr":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$3741 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -24275,7 +24714,7 @@ class MovieView extends _reactDefault.default.Component {
                     },
                     __self: this,
                     children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card, {
-                        className: "movie-view",
+                        className: "movie-view p-3",
                         __source: {
                             fileName: "src/components/movie-view/movie-view.jsx",
                             lineNumber: 16
@@ -24368,7 +24807,7 @@ MovieView.propTypes = {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","prop-types":"1tgq3","./movie-view.scss":"kvL93","react-bootstrap":"h2YVd"}],"kvL93":[function() {},{}],"h2YVd":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","prop-types":"1tgq3","react-bootstrap":"h2YVd","./movie-view.scss":"kvL93"}],"h2YVd":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Accordion", ()=>_accordionDefault.default
@@ -35764,7 +36203,7 @@ Tooltip.defaultProps = defaultProps;
 Tooltip.displayName = 'Tooltip';
 exports.default = Tooltip;
 
-},{"classnames":"bOXOh","react":"6TuXu","./ThemeProvider":"eeqfi","./helpers":"S1Bw1","react/jsx-runtime":"8xIwr","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4"}],"iYoWk":[function(require,module,exports) {
+},{"classnames":"bOXOh","react":"6TuXu","./ThemeProvider":"eeqfi","./helpers":"S1Bw1","react/jsx-runtime":"8xIwr","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4"}],"kvL93":[function() {},{}],"iYoWk":[function(require,module,exports) {
 module.exports = require('./lib/axios');
 
 },{"./lib/axios":"3QmO2"}],"3QmO2":[function(require,module,exports) {
@@ -37340,35 +37779,45 @@ var _loginViewScss = require("./login-view.scss");
 var _propTypes = require("prop-types");
 var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 var _reactBootstrap = require("react-bootstrap");
-var _button = require("react-bootstrap/Button");
-var _buttonDefault = parcelHelpers.interopDefault(_button);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _s = $RefreshSig$();
 function LoginView(props) {
     _s();
     const [username, setUsername] = _react.useState('');
     const [password, setPassword] = _react.useState('');
-    const handleSubmit = (event)=>{
-        event.preventDefault();
-        console.log(username, password);
-        props.onLoggedIn(username);
+    //When user clicks "Log In" button - POST request is made to /login
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+        /* Send a request to the server for authentication */ _axiosDefault.default.post('https://ancas-myflixapi.herokuapp.com/login', {
+            Username: username,
+            Password: password
+        })//After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
+        .then((response)=>{
+            const data = response.data;
+            props.onLoggedIn(data);
+        })//Error handling
+        .catch((e1)=>{
+            console.log('no user found');
+        });
     };
     return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Container, {
         __source: {
             fileName: "src/components/login-view/login-view.jsx",
-            lineNumber: 19
+            lineNumber: 33
         },
         __self: this,
         children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
             __source: {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 20
+                lineNumber: 34
             },
             __self: this,
             children: [
                 /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
                     __source: {
                         fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 21
+                        lineNumber: 35
                     },
                     __self: this
                 }),
@@ -37378,25 +37827,25 @@ function LoginView(props) {
                     className: "mt-5",
                     __source: {
                         fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 22
+                        lineNumber: 36
                     },
                     __self: this,
                     children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.CardGroup, {
                         __source: {
                             fileName: "src/components/login-view/login-view.jsx",
-                            lineNumber: 23
+                            lineNumber: 37
                         },
                         __self: this,
                         children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card, {
                             __source: {
                                 fileName: "src/components/login-view/login-view.jsx",
-                                lineNumber: 24
+                                lineNumber: 38
                             },
                             __self: this,
                             children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
                                 __source: {
                                     fileName: "src/components/login-view/login-view.jsx",
-                                    lineNumber: 25
+                                    lineNumber: 39
                                 },
                                 __self: this,
                                 children: [
@@ -37404,7 +37853,7 @@ function LoginView(props) {
                                         className: "mb-3",
                                         __source: {
                                             fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 26
+                                            lineNumber: 40
                                         },
                                         __self: this,
                                         children: "Log In"
@@ -37412,23 +37861,23 @@ function LoginView(props) {
                                     /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form, {
                                         __source: {
                                             fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 27
+                                            lineNumber: 41
                                         },
                                         __self: this,
                                         children: [
                                             /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
-                                                className: "mb-2",
+                                                className: "mb-2 login__formUsername",
                                                 controlId: "formUsername",
                                                 __source: {
                                                     fileName: "src/components/login-view/login-view.jsx",
-                                                    lineNumber: 28
+                                                    lineNumber: 42
                                                 },
                                                 __self: this,
                                                 children: [
                                                     /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
                                                         __source: {
                                                             fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 29
+                                                            lineNumber: 43
                                                         },
                                                         __self: this,
                                                         children: "Username: "
@@ -37436,11 +37885,12 @@ function LoginView(props) {
                                                     /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
                                                         type: "text",
                                                         required: true,
+                                                        minLength: "5",
                                                         onChange: (event)=>setUsername(event.target.value)
                                                         ,
                                                         __source: {
                                                             fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 30
+                                                            lineNumber: 44
                                                         },
                                                         __self: this
                                                     })
@@ -37451,14 +37901,14 @@ function LoginView(props) {
                                                 controlId: "formPassword",
                                                 __source: {
                                                     fileName: "src/components/login-view/login-view.jsx",
-                                                    lineNumber: 36
+                                                    lineNumber: 51
                                                 },
                                                 __self: this,
                                                 children: [
                                                     /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
                                                         __source: {
                                                             fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 37
+                                                            lineNumber: 52
                                                         },
                                                         __self: this,
                                                         children: "Password: "
@@ -37466,23 +37916,24 @@ function LoginView(props) {
                                                     /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
                                                         type: "password",
                                                         required: true,
+                                                        minLength: "8",
                                                         onChange: (event)=>setPassword(event.target.value)
                                                         ,
                                                         __source: {
                                                             fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 38
+                                                            lineNumber: 53
                                                         },
                                                         __self: this
                                                     })
                                                 ]
                                             }),
-                                            /*#__PURE__*/ _jsxRuntime.jsx(_buttonDefault.default, {
+                                            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
                                                 variant: "primary",
                                                 type: "submit",
                                                 onClick: handleSubmit,
                                                 __source: {
                                                     fileName: "src/components/login-view/login-view.jsx",
-                                                    lineNumber: 44
+                                                    lineNumber: 60
                                                 },
                                                 __self: this,
                                                 children: "Log In"
@@ -37497,7 +37948,7 @@ function LoginView(props) {
                 /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
                     __source: {
                         fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 50
+                        lineNumber: 66
                     },
                     __self: this
                 })
@@ -37522,7 +37973,7 @@ $RefreshReg$(_c, "LoginView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","prop-types":"1tgq3","./login-view.scss":"lS4BK","react-bootstrap/Button":"9CzHT","react-bootstrap":"h2YVd"}],"lS4BK":[function() {},{}],"aP2YV":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","prop-types":"1tgq3","./login-view.scss":"lS4BK","react-bootstrap":"h2YVd","axios":"iYoWk"}],"lS4BK":[function() {},{}],"aP2YV":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$8dd4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
