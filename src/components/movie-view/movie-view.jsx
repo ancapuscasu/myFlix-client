@@ -13,7 +13,7 @@ export class MovieView extends React.Component {
         <Container>
           <Row>
             <Col>
-              <Card className='movie-view'>
+              <Card className='movie-view p-3'>
                 <Card.Img 
                   className="movie-poster" 
                   variant="top" 

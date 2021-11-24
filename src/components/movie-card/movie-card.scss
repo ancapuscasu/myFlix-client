@@ -1,0 +1,19 @@
+.movie-card {
+    max-width: 275px;
+}
+
+.movie-card:first-child {
+    align-items: center;
+}
+
+// .movie-card.card-body {
+
+// }
+
+.card-img-top {
+    height: auto;
+    max-height: 250px;
+    width: auto;
+    max-width: 225px;
+    object-fit: cover;
+}
