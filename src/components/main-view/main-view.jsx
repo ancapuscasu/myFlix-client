@@ -2,7 +2,7 @@ import React from 'react';
 import './main-view.scss';
 //importing axios library to use HTTP requests
 import axios from 'axios';
-import {Row, Col, Container} from 'react-bootstrap';
+import {Row, Col, Container, Button} from 'react-bootstrap';
 
 //importing movie-card into main-view
 import { MovieCard } from '../movie-card/movie-card';
@@ -52,20 +52,65 @@ export class MainView extends React.Component {
     });
   }
 
-  //Successful user login
-  onLoggedIn(user) {
+  //After logging in, authorized user's username state is updated 
+  onLoggedIn(authData) {
+    console.log(authData);
     this.setState({
-      user
+      user: authData.user.Username
     });
+
+    //Storing user's username and token in local storage
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
+    //get movies from API using authorized user's token 
+    this.getMovies(authData.token);
+  }
+
+  onLoggedOut() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.setState({
+      user:null
+    });
+  }
+
+  //get movies from API using authorized user's token
+  getMovies(token) {
+    axios.get('https://ancas-myflixapi.herokuapp.com/movies', {
+      headers: { Authorization: `Bearer ${token}`}
+    })
+    .then(response => {
+      //Assign the result to the state
+      this.setState({
+        movies: response.data
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  //Persist login data 
+  componentDidMount() {
+    //get token from local storage
+    let accessToken = localStorage.getItem('token');
+    //if token is not null, get user from local storage and set it 
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem('user')
+      });
+      this.getMovies(accessToken);
+    }
   }
 
 
   render() {
     const { movies, selectedMovie, user, registeredUser } = this.state;
 
+
     //If no user registers, RegistrationView is rendered. 
     //If user does register, user details are passed as a prop to RegistrationView
-    if (!registeredUser) return <RegistrationView onRegistration = { registeredUser => this.onRegistration(registeredUser)} />
+    // if (!registeredUser) return <RegistrationView onRegistration = { registeredUser => this.onRegistration(registeredUser)} />
     
     //If no user, LoginView is rendered. 
     //If user does login, user details are passed as a prop to LoginView
@@ -75,22 +120,26 @@ export class MainView extends React.Component {
     if (movies.length === 0) return <div className = "main-view"/> ;
     
     return (
-      <Container>
-        <Row 
-          className="main-view justify-content-center">
-          {selectedMovie
-            ? 
-              <Col xs={10} sm={9} md={8} lg={6} xl={5} className="mt-3">
-                <MovieView movie = {selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
-              </Col>
-            : movies.map(movie => (
-                <Col sm={6} md={4} lg={3} className="px-2 mt-3">
-                  <MovieCard key = {movie._id} movie={movie} onMovieClick={(newSelectedMovie) => { this.setSelectedMovie(newSelectedMovie) }} />
+      <div>
+        <button onClick={() => { this.onLoggedOut()}}>Logout</button>
+        <Container>
+          <Row 
+            className="main-view justify-content-center">
+            {selectedMovie
+              ? 
+                <Col xs={10} sm={9} md={8} lg={6} xl={5} className="mt-3">
+                  <MovieView movie = {selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
                 </Col>
-              ))
-          }
-        </Row>
-      </Container>
+              : movies.map(movie => (
+                  <Col key = {movie._id} sm={5} md={4} lg={3} className="px-2 mt-3 main-view__grid">
+                    <MovieCard movie={movie} onMovieClick={(newSelectedMovie) => { this.setSelectedMovie(newSelectedMovie) }} />
+                  </Col>
+                ))
+            }
+          </Row>
+        </Container>
+      </div>
+
     );
   }
 }
