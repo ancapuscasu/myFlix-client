@@ -1,0 +1,28 @@
+.main-view__grid {
+  display: flex;
+  justify-content: center;
+}
+.movie-card {
+  max-width: 275px;
+}
+
+.movie-card:first-child {
+  align-items: center;
+}
+
+.card-img-top {
+  height: auto;
+  max-height: 250px;
+  width: auto;
+  max-width: 225px;
+  object-fit: cover;
+}
+.movie-view:first-child {
+  align-items: center;
+}
+
+
+.my-flix {
+  color: pink;
+}
+/*# sourceMappingURL=index.17d663fa.css.map */
