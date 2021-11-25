@@ -1,16 +1,13 @@
 import React from 'react';
-import './main-view.scss';
 //importing axios library to use HTTP requests
 import axios from 'axios';
 import {Row, Col, Container, Button} from 'react-bootstrap';
 
-//importing movie-card into main-view
+import './main-view.scss';
+
 import { MovieCard } from '../movie-card/movie-card';
-//importing movie-view into main-view
 import { MovieView } from "../movie-view/movie-view";
-//importing login-view into main-view
 import { LoginView } from '../login-view/login-view';
-//importing registration-view into main-view
 import { RegistrationView } from '../registration-view/registration-view';
 
 
