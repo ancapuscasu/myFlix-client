@@ -127,7 +127,7 @@ export class MainView extends React.Component {
           }}
           />
 
-          <Route path="movies/:movieId" render={({ match }) => {
+          <Route path="movies/:movieId" render={({ match, history }) => {
             if (!user) return 
             <Row>
               <Col>
@@ -139,13 +139,13 @@ export class MainView extends React.Component {
 
             return (
               <Col md={8}>
-                <MovieView movie={movies.find(movie => movie._id === match.params.movieId)} />
+                <MovieView movie={movies.find(movie => movie._id === match.params.movieId)} onBackClick={() => history.goBack()} />
               </Col>
             );
           }} 
           />
 
-          <Route path="/movies/director/:name" render={({ match }) => {
+          <Route path="/movies/directors/:name" render={({ match, history }) => {
             if (!user) return 
             <Row>
               <Col>
@@ -157,12 +157,12 @@ export class MainView extends React.Component {
 
             return 
               <Col md={8}>
-                <DirectorView director={movies.find(movie => movie.Director.Name === match.params.name).Director} />
+                <DirectorView directors={movies.find(movie => movie.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()}/>
               </Col>
           }}
           />
 
-          <Route path="/genres/:name" render={({ match }) => {
+          <Route path="/genres/:name" render={({ match, history }) => {
             if (!user) return 
             <Row>
               <Col>
@@ -174,7 +174,7 @@ export class MainView extends React.Component {
 
             return 
               <Col md={8}>
-                <GenreView genre={movies.find(movie => movie.Genre.Name === match.params.name).Director} />
+                <GenreView genre={movies.find(movie => movie.Genre.Name === match.params.name).Director} onBackClick={() => history.goBack()}/>
               </Col>
           }}
           />
