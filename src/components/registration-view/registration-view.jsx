@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './registration-view.scss';
 import PropTypes from 'prop-types';
 import { Card, CardGroup, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 export function RegistrationView (props) {
 
@@ -12,10 +13,24 @@ export function RegistrationView (props) {
     const [ email, setEmail ] = useState('');
     const [ birthdate, setBirthdate ] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleRegister = (event) => {
         event.preventDefault();
-        console.log(username, password, email, birthdate);
-        props.onRegistration(username);
+        axios.post('https://ancas-myflixapi.herokuapp.com/users', {
+          FirstName: firstname,
+          LastName: lastname,
+          Email: email,
+          Username: username,
+          Password: password,
+          Birthdate: birthdate 
+        })
+        .then(response => {
+          const data = response.data;
+          console.log(data);
+          window.open("/", "_self"); //"_self" is needed so the page will open in the current tab
+        })
+        .catch(error => {
+          console.log("error registering the user")
+        });
     }
 
     return (
