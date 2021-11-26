@@ -1,13 +1,15 @@
 import React from "react";
-import './movie-card.scss';
 import PropTypes from "prop-types";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
+import { Button, Card } from "react-bootstrap";
 import TextTruncate from "react-text-truncate";
+
+import { Link } from "react-router-dom";
+
+import './movie-card.scss';
 
 export class MovieCard extends React.Component {
     render() {
-        const { movie, onMovieClick } = this.props;
+        const { movie } = this.props;
 
         return (
             <Card className="movie-card p-3">
@@ -23,7 +25,9 @@ export class MovieCard extends React.Component {
                         textTruncateChild={<a href="#">See More </a>}
                       />
                     </Card.Text>
-                    <Button onClick={() => onMovieClick(movie)} variant='link'>Open</Button>
+                    <Link to={`/movies/${movie._id}`}>
+                        <Button onClick={() => onMovieClick(movie)} variant='link'>Open</Button>
+                    </Link>
                 </Card.Body>
             </Card>
         );
