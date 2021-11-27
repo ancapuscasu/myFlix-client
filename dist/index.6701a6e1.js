@@ -39645,7 +39645,7 @@ function RegistrationView(props) {
                                             /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
                                                 variant: "primary",
                                                 type: "submit",
-                                                onClick: handleSubmit,
+                                                onClick: handleRegister,
                                                 __source: {
                                                     fileName: "src/components/registration-view/registration-view.jsx",
                                                     lineNumber: 111
@@ -39674,7 +39674,14 @@ function RegistrationView(props) {
 _s(RegistrationView, "5RdezBItcVFkct2J2g6SaLx19tc=");
 _c = RegistrationView;
 RegistrationView.propTypes = {
-    onRegistration: _propTypesDefault.default.func.isRequired
+    user: _propTypesDefault.default.shape({
+        firstname: _propTypesDefault.default.string.isRequired,
+        lastname: _propTypesDefault.default.string.isRequired,
+        email: _propTypesDefault.default.string.isRequired,
+        username: _propTypesDefault.default.string.isRequired,
+        password: _propTypesDefault.default.string.isRequired,
+        birthdate: _propTypesDefault.default.instanceOf(Date)
+    })
 };
 var _c;
 $RefreshReg$(_c, "RegistrationView");

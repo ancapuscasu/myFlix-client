@@ -111,7 +111,7 @@ export function RegistrationView (props) {
                     <Button 
                       variant="primary" 
                       type="submit"
-                      onClick={handleSubmit}>
+                      onClick={handleRegister}>
                         Sign Up
                     </Button>
 
@@ -128,5 +128,12 @@ export function RegistrationView (props) {
 
 
 RegistrationView.propTypes = {
-    onRegistration: PropTypes.func.isRequired
+    user: PropTypes.shape({
+      firstname: PropTypes.string.isRequired,
+      lastname: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
+      password: PropTypes.string.isRequired,
+      birthdate: PropTypes.instanceOf(Date)
+    })
 };
