@@ -22751,7 +22751,6 @@ parcelHelpers.export(exports, "MainView", ()=>MainView
 var _jsxRuntime = require("react/jsx-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
-//importing axios library to use HTTP requests
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _reactBootstrap = require("react-bootstrap");
@@ -22773,7 +22772,6 @@ class MainView extends _reactDefault.default.Component {
             user: null
         };
     }
-    //get movies from API using authorized user's token
     getMovies(token) {
         _axiosDefault.default.get('https://ancas-myflixapi.herokuapp.com/movies', {
             headers: {
@@ -22788,11 +22786,8 @@ class MainView extends _reactDefault.default.Component {
             console.log(error);
         });
     }
-    //Persist login data 
     componentDidMount() {
-        //get token from local storage
         let accessToken = localStorage.getItem('token');
-        //if token is not null, get user from local storage and set it 
         if (accessToken !== null) {
             this.setState({
                 user: localStorage.getItem('user')
@@ -22821,7 +22816,6 @@ class MainView extends _reactDefault.default.Component {
         //Storing user's username and token in local storage
         localStorage.setItem('token', authData.token);
         localStorage.setItem('user', authData.user.Username);
-        //get movies from API using authorized user's token 
         this.getMovies(authData.token);
     }
     onLoggedOut() {
@@ -22836,14 +22830,14 @@ class MainView extends _reactDefault.default.Component {
         return(/*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.BrowserRouter, {
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 104
+                lineNumber: 98
             },
             __self: this,
             children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
                 className: "main-view justify-content-center",
                 __source: {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 105
+                    lineNumber: 99
                 },
                 __self: this,
                 children: [
@@ -22872,7 +22866,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 107
+                            lineNumber: 101
                         },
                         __self: this
                     }),
@@ -22884,7 +22878,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 124
+                            lineNumber: 118
                         },
                         __self: this
                     }),
@@ -22913,7 +22907,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 130
+                            lineNumber: 124
                         },
                         __self: this
                     }),
@@ -22936,7 +22930,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 148
+                            lineNumber: 142
                         },
                         __self: this
                     }),
@@ -22959,7 +22953,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 165
+                            lineNumber: 159
                         },
                         __self: this
                     })
@@ -22974,7 +22968,7 @@ class MainView extends _reactDefault.default.Component {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","./main-view.scss":"jyMAr","axios":"iYoWk","react-bootstrap":"h2YVd","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","../login-view/login-view":"054li","../registration-view/registration-view":"aP2YV","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","react-router-dom":"cpyQW","../genre-view/genre-view":"8WCoL","../director-view/director-view":"ck15y","../profile-view/profile-view":"2E7Aw"}],"jyMAr":[function() {},{}],"iYoWk":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","axios":"iYoWk","react-bootstrap":"h2YVd","./main-view.scss":"jyMAr","react-router-dom":"cpyQW","../registration-view/registration-view":"aP2YV","../login-view/login-view":"054li","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","../genre-view/genre-view":"8WCoL","../director-view/director-view":"ck15y","../profile-view/profile-view":"2E7Aw","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ"}],"iYoWk":[function(require,module,exports) {
 module.exports = require('./lib/axios');
 
 },{"./lib/axios":"3QmO2"}],"3QmO2":[function(require,module,exports) {
@@ -37031,628 +37025,7 @@ Tooltip.defaultProps = defaultProps;
 Tooltip.displayName = 'Tooltip';
 exports.default = Tooltip;
 
-},{"classnames":"bOXOh","react":"6TuXu","./ThemeProvider":"eeqfi","./helpers":"S1Bw1","react/jsx-runtime":"8xIwr","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4"}],"6EiBJ":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$4249 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$4249.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "MovieCard", ()=>MovieCard
-);
-var _jsxRuntime = require("react/jsx-runtime");
-var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _propTypes = require("prop-types");
-var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
-var _reactBootstrap = require("react-bootstrap");
-var _reactTextTruncate = require("react-text-truncate");
-var _reactTextTruncateDefault = parcelHelpers.interopDefault(_reactTextTruncate);
-var _reactRouterDom = require("react-router-dom");
-var _movieCardScss = require("./movie-card.scss");
-class MovieCard extends _reactDefault.default.Component {
-    render() {
-        const { movie  } = this.props;
-        return(/*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card, {
-            className: "movie-card p-3",
-            __source: {
-                fileName: "src/components/movie-card/movie-card.jsx",
-                lineNumber: 15
-            },
-            __self: this,
-            children: [
-                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Img, {
-                    variant: "top",
-                    src: movie.ImagePath,
-                    crossOrigin: "*",
-                    __source: {
-                        fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 16
-                    },
-                    __self: this
-                }),
-                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
-                    className: "p-0",
-                    __source: {
-                        fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 17
-                    },
-                    __self: this,
-                    children: [
-                        /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Title, {
-                            className: "pt-3",
-                            __source: {
-                                fileName: "src/components/movie-card/movie-card.jsx",
-                                lineNumber: 18
-                            },
-                            __self: this,
-                            children: [
-                                " ",
-                                movie.Title,
-                                " "
-                            ]
-                        }),
-                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Text, {
-                            __source: {
-                                fileName: "src/components/movie-card/movie-card.jsx",
-                                lineNumber: 19
-                            },
-                            __self: this,
-                            children: /*#__PURE__*/ _jsxRuntime.jsx(_reactTextTruncateDefault.default, {
-                                line: 3,
-                                element: "span",
-                                truncateText: "...",
-                                text: movie.Description,
-                                textTruncateChild: /*#__PURE__*/ _jsxRuntime.jsx("a", {
-                                    href: "#",
-                                    children: "See More "
-                                }),
-                                __source: {
-                                    fileName: "src/components/movie-card/movie-card.jsx",
-                                    lineNumber: 20
-                                },
-                                __self: this
-                            })
-                        }),
-                        /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Link, {
-                            to: `/movies/${movie._id}`,
-                            __source: {
-                                fileName: "src/components/movie-card/movie-card.jsx",
-                                lineNumber: 28
-                            },
-                            __self: this,
-                            children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
-                                variant: "link",
-                                __source: {
-                                    fileName: "src/components/movie-card/movie-card.jsx",
-                                    lineNumber: 29
-                                },
-                                __self: this,
-                                children: "Open"
-                            })
-                        })
-                    ]
-                })
-            ]
-        }));
-    }
-}
-MovieCard.propTypes = {
-    movie: _propTypesDefault.default.shape({
-        Title: _propTypesDefault.default.string.isRequired,
-        Description: _propTypesDefault.default.string.isRequired,
-        Genre: _propTypesDefault.default.array.isRequired,
-        Director: _propTypesDefault.default.shape({
-            Name: _propTypesDefault.default.string.isRequired,
-            Bio: _propTypesDefault.default.string.isRequired
-        }).isRequired,
-        ImagePath: _propTypesDefault.default.string.isRequired,
-        Featured: _propTypesDefault.default.bool,
-        ReleaseYear: _propTypesDefault.default.number.isRequired
-    }).isRequired
-};
-
-  $parcel$ReactRefreshHelpers$4249.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","./movie-card.scss":"cF5gT","prop-types":"1tgq3","react-text-truncate":"adKVJ","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","react-bootstrap":"h2YVd","react-router-dom":"cpyQW"}],"cF5gT":[function() {},{}],"adKVJ":[function(require,module,exports) {
-"use strict";
-(function(global, factory) {
-    if (typeof define === "function" && define.amd) define([
-        "exports",
-        "react",
-        "prop-types"
-    ], factory);
-    else if (typeof exports !== "undefined") factory(exports, require("react"), require("prop-types"));
-    else {
-        var mod = {
-            exports: {
-            }
-        };
-        factory(mod.exports, global.React, global.propTypes);
-        global.undefined = mod.exports;
-    }
-})(void 0, function(exports, _react, _propTypes) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.default = undefined;
-    var _react2 = _interopRequireDefault(_react);
-    var _propTypes2 = _interopRequireDefault(_propTypes);
-    function _interopRequireDefault(obj) {
-        return obj && obj.__esModule ? obj : {
-            default: obj
-        };
-    }
-    function _typeof(obj) {
-        if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") _typeof = function _typeof1(obj1) {
-            return typeof obj1;
-        };
-        else _typeof = function _typeof2(obj1) {
-            return obj1 && typeof Symbol === "function" && obj1.constructor === Symbol && obj1 !== Symbol.prototype ? "symbol" : typeof obj1;
-        };
-        return _typeof(obj);
-    }
-    function _objectWithoutProperties(source, excluded) {
-        if (source == null) return {
-        };
-        var target = _objectWithoutPropertiesLoose(source, excluded);
-        var key, i;
-        if (Object.getOwnPropertySymbols) {
-            var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-            for(i = 0; i < sourceSymbolKeys.length; i++){
-                key = sourceSymbolKeys[i];
-                if (excluded.indexOf(key) >= 0) continue;
-                if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-                target[key] = source[key];
-            }
-        }
-        return target;
-    }
-    function _objectWithoutPropertiesLoose(source, excluded) {
-        if (source == null) return {
-        };
-        var target = {
-        };
-        var sourceKeys = Object.keys(source);
-        var key, i;
-        for(i = 0; i < sourceKeys.length; i++){
-            key = sourceKeys[i];
-            if (excluded.indexOf(key) >= 0) continue;
-            target[key] = source[key];
-        }
-        return target;
-    }
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-    }
-    function _defineProperties(target, props) {
-        for(var i = 0; i < props.length; i++){
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        return Constructor;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === "object" || typeof call === "function")) return call;
-        return _assertThisInitialized(self);
-    }
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf1(o1) {
-            return o1.__proto__ || Object.getPrototypeOf(o1);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _assertThisInitialized(self) {
-        if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        return self;
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                writable: true,
-                configurable: true
-            }
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf1(o1, p1) {
-            o1.__proto__ = p1;
-            return o1;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _defineProperty(obj, key, value) {
-        if (key in obj) Object.defineProperty(obj, key, {
-            value: value,
-            enumerable: true,
-            configurable: true,
-            writable: true
-        });
-        else obj[key] = value;
-        return obj;
-    }
-    var TextTruncate1 = function(_Component) {
-        _inherits(TextTruncate2, _Component);
-        function TextTruncate2() {
-            var _getPrototypeOf2;
-            var _this;
-            _classCallCheck(this, TextTruncate2);
-            for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-            _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(TextTruncate2)).call.apply(_getPrototypeOf2, [
-                this
-            ].concat(args)));
-            _defineProperty(_assertThisInitialized(_this), "onResize", function() {
-                if (_this.rafId) window.cancelAnimationFrame(_this.rafId);
-                _this.rafId = window.requestAnimationFrame(_this.update.bind(_assertThisInitialized(_this)));
-            });
-            _defineProperty(_assertThisInitialized(_this), "onToggled", function(truncated) {
-                typeof _this.props.onToggled === 'function' && setTimeout(function() {
-                    return _this.props.onToggled(truncated);
-                }, 0);
-            });
-            _defineProperty(_assertThisInitialized(_this), "onTruncated", function() {
-                typeof _this.props.onTruncated === 'function' && setTimeout(function() {
-                    return _this.props.onTruncated();
-                }, 0);
-            });
-            _defineProperty(_assertThisInitialized(_this), "onCalculated", function() {
-                typeof _this.props.onCalculated === 'function' && setTimeout(function() {
-                    return _this.props.onCalculated();
-                }, 0);
-            });
-            _defineProperty(_assertThisInitialized(_this), "update", function() {
-                var style = window.getComputedStyle(_this.scope);
-                var font = [
-                    style['font-weight'],
-                    style['font-style'],
-                    style['font-size'],
-                    style['font-family'],
-                    style['letter-spacing']
-                ].join(' ');
-                _this.canvas.font = font;
-                _this.forceUpdate();
-            });
-            return _this;
-        }
-        _createClass(TextTruncate2, [
-            {
-                key: "componentDidMount",
-                value: function componentDidMount() {
-                    var canvas = document.createElement('canvas');
-                    var docFragment = document.createDocumentFragment();
-                    var style = window.getComputedStyle(this.scope);
-                    var font = [
-                        style['font-weight'],
-                        style['font-style'],
-                        style['font-size'],
-                        style['font-family']
-                    ].join(' ');
-                    docFragment.appendChild(canvas);
-                    this.canvas = canvas.getContext('2d');
-                    this.canvas.font = font;
-                    this.forceUpdate();
-                    window.addEventListener('resize', this.onResize);
-                }
-            },
-            {
-                key: "componentWillUnmount",
-                value: function componentWillUnmount() {
-                    window.removeEventListener('resize', this.onResize);
-                    if (this.rafId) window.cancelAnimationFrame(this.rafId);
-                }
-            },
-            {
-                key: "measureWidth",
-                value: function measureWidth(text) {
-                    return Math.ceil(this.canvas.measureText(text).width);
-                }
-            },
-            {
-                key: "getRenderText",
-                value: function getRenderText() {
-                    var _this$props = this.props, containerClassName = _this$props.containerClassName, element = _this$props.element, line = _this$props.line, onCalculated = _this$props.onCalculated, onTruncated = _this$props.onTruncated, onToggled = _this$props.onToggled, text = _this$props.text, textElement = _this$props.textElement, textTruncateChild = _this$props.textTruncateChild, truncateText = _this$props.truncateText, maxCalculateTimes = _this$props.maxCalculateTimes, props = _objectWithoutProperties(_this$props, [
-                        "containerClassName",
-                        "element",
-                        "line",
-                        "onCalculated",
-                        "onTruncated",
-                        "onToggled",
-                        "text",
-                        "textElement",
-                        "textTruncateChild",
-                        "truncateText",
-                        "maxCalculateTimes"
-                    ]);
-                    var scopeWidth = this.scope.getBoundingClientRect().width; // return if display:none
-                    if (scopeWidth === 0) return null;
-                     // return if all of text can be displayed
-                    if (scopeWidth >= this.measureWidth(text)) {
-                        this.onToggled(false);
-                        return _react.createElement(textElement, props, text);
-                    }
-                    var childText = '';
-                    if (textTruncateChild && typeof textTruncateChild.type === 'string') {
-                        var type = textTruncateChild.type;
-                        if (type.indexOf('span') >= 0 || type.indexOf('a') >= 0) childText = textTruncateChild.props.children;
-                    }
-                    var currentPos = 1;
-                    var maxTextLength = text.length;
-                    var truncatedText = '';
-                    var splitPos = 0;
-                    var startPos = 0;
-                    var displayLine = line;
-                    var width = 0;
-                    var lastIsEng = false;
-                    var isPrevLineWithoutSpace = false;
-                    var lastPos = 0;
-                    var lastSpaceIndex = -1;
-                    var ext = '';
-                    var loopCnt = 0;
-                    while((displayLine--) > 0){
-                        ext = displayLine ? '' : truncateText + (childText ? ' ' + childText : '');
-                        while(currentPos <= maxTextLength){
-                            truncatedText = text.substr(startPos, currentPos);
-                            width = this.measureWidth(truncatedText + ext);
-                            if (width < scopeWidth) {
-                                splitPos = text.indexOf(' ', currentPos + 1);
-                                if (splitPos === -1) {
-                                    currentPos += 1;
-                                    lastIsEng = false;
-                                } else {
-                                    lastIsEng = true;
-                                    currentPos = splitPos;
-                                }
-                            } else {
-                                do {
-                                    if ((loopCnt++) >= maxCalculateTimes) break;
-                                    truncatedText = text.substr(startPos, currentPos);
-                                    if (!displayLine) currentPos--;
-                                    if (truncatedText[truncatedText.length - 1] === ' ') truncatedText = text.substr(startPos, currentPos - 1);
-                                    if (lastIsEng) {
-                                        lastSpaceIndex = truncatedText.lastIndexOf(' ');
-                                        if (lastSpaceIndex > -1) {
-                                            currentPos = lastSpaceIndex;
-                                            if (displayLine) currentPos++;
-                                            truncatedText = text.substr(startPos, currentPos);
-                                        } else {
-                                            currentPos--;
-                                            truncatedText = text.substr(startPos, currentPos);
-                                        }
-                                    } else {
-                                        currentPos--;
-                                        truncatedText = text.substr(startPos, currentPos);
-                                    }
-                                    width = this.measureWidth(truncatedText + ext);
-                                }while (width >= scopeWidth && truncatedText.length > 0)
-                                startPos += currentPos;
-                                break;
-                            }
-                        }
-                        if (currentPos >= maxTextLength) {
-                            startPos = maxTextLength;
-                            break;
-                        }
-                        if (lastIsEng && !isPrevLineWithoutSpace && text.substr(lastPos, currentPos).indexOf(' ') === -1) {
-                            isPrevLineWithoutSpace = text.substr(lastPos, currentPos).indexOf(' ') === -1;
-                            displayLine--;
-                        }
-                        lastPos = currentPos + 1;
-                    }
-                    if (startPos === maxTextLength) {
-                        this.onToggled(false);
-                        return _react.createElement(textElement, props, text);
-                    }
-                    this.onTruncated();
-                    this.onToggled(true);
-                    return _react2["default"].createElement("span", props, _react.createElement(textElement, props, text.substr(0, startPos) + truncateText + ' '), textTruncateChild);
-                }
-            },
-            {
-                key: "render",
-                value: function render() {
-                    var _this2 = this;
-                    var _this$props2 = this.props, element = _this$props2.element, text = _this$props2.text, _this$props2$style = _this$props2.style, style = _this$props2$style === void 0 ? {
-                    } : _this$props2$style, containerClassName = _this$props2.containerClassName, line = _this$props2.line, onCalculated = _this$props2.onCalculated, onTruncated = _this$props2.onTruncated, onToggled = _this$props2.onToggled, textElement = _this$props2.textElement, textTruncateChild = _this$props2.textTruncateChild, truncateText = _this$props2.truncateText, maxCalculateTimes = _this$props2.maxCalculateTimes, props = _objectWithoutProperties(_this$props2, [
-                        "element",
-                        "text",
-                        "style",
-                        "containerClassName",
-                        "line",
-                        "onCalculated",
-                        "onTruncated",
-                        "onToggled",
-                        "textElement",
-                        "textTruncateChild",
-                        "truncateText",
-                        "maxCalculateTimes"
-                    ]);
-                    var fontWeight = style.fontWeight, fontStyle = style.fontStyle, fontSize = style.fontSize, fontFamily = style.fontFamily;
-                    var renderText = this.scope && line ? this.getRenderText() : _react.createElement(textElement, props, text);
-                    var rootProps = {
-                        ref: function ref(el) {
-                            _this2.scope = el;
-                        },
-                        className: containerClassName,
-                        style: {
-                            overflow: 'hidden',
-                            fontWeight: fontWeight,
-                            fontStyle: fontStyle,
-                            fontSize: fontSize,
-                            fontFamily: fontFamily
-                        }
-                    };
-                    this.scope && this.onCalculated();
-                    return _react.createElement(element, rootProps, renderText);
-                }
-            }
-        ]);
-        return TextTruncate2;
-    }(_react.Component);
-    _defineProperty(TextTruncate1, "propTypes", {
-        containerClassName: _propTypes2["default"].string,
-        element: _propTypes2["default"].string,
-        line: _propTypes2["default"].oneOfType([
-            _propTypes2["default"].number,
-            _propTypes2["default"].bool
-        ]),
-        onCalculated: _propTypes2["default"].func,
-        onTruncated: _propTypes2["default"].func,
-        onToggled: _propTypes2["default"].func,
-        text: _propTypes2["default"].string,
-        textElement: _propTypes2["default"].node,
-        textTruncateChild: _propTypes2["default"].node,
-        truncateText: _propTypes2["default"].string,
-        maxCalculateTimes: _propTypes2["default"].number
-    });
-    _defineProperty(TextTruncate1, "defaultProps", {
-        element: 'div',
-        line: 1,
-        text: '',
-        textElement: 'span',
-        truncateText: '…',
-        maxCalculateTimes: 10
-    });
-    exports.default = TextTruncate1;
-    module.exports = exports.default;
-});
-
-},{"react":"6TuXu","prop-types":"1tgq3"}],"lpaPZ":[function(require,module,exports) {
-"use strict";
-var Refresh = require('react-refresh/runtime');
-function debounce(func, delay) {
-    var args;
-    var timeout = undefined;
-    return function(args1) {
-        clearTimeout(timeout);
-        timeout = setTimeout(function() {
-            timeout = undefined;
-            func.call(null, args1);
-        }, delay);
-    };
-}
-var enqueueUpdate = debounce(function() {
-    Refresh.performReactRefresh();
-}, 30); // Everthing below is either adapted or copied from
-// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
-// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
-module.exports.prelude = function(module) {
-    window.$RefreshReg$ = function(type, id) {
-        Refresh.register(type, module.id + ' ' + id);
-    };
-    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
-};
-module.exports.postlude = function(module) {
-    if (isReactRefreshBoundary(module.exports)) {
-        registerExportsForReactRefresh(module);
-        if (module.hot) {
-            module.hot.dispose(function(data) {
-                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
-                data.prevExports = module.exports;
-            });
-            module.hot.accept(function(getParents) {
-                var prevExports = module.hot.data.prevExports;
-                var nextExports = module.exports; // Since we just executed the code for it, it's possible
-                // that the new exports make it ineligible for being a boundary.
-                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
-                // with the previous exports.
-                // For example, if you add/remove/change exports, we'll want
-                // to re-execute the importing modules, and force those components
-                // to re-render. Similarly, if you convert a class component
-                // to a function, we want to invalidate the boundary.
-                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
-                if (isNoLongerABoundary || didInvalidate) {
-                    // We'll be conservative. The only case in which we won't do a full
-                    // reload is if all parent modules are also refresh boundaries.
-                    // In that case we'll add them to the current queue.
-                    var parents = getParents();
-                    if (parents.length === 0) {
-                        // Looks like we bubbled to the root. Can't recover from that.
-                        window.location.reload();
-                        return;
-                    }
-                    return parents;
-                }
-                enqueueUpdate();
-            });
-        }
-    }
-};
-function isReactRefreshBoundary(exports) {
-    if (Refresh.isLikelyComponentType(exports)) return true;
-    if (exports == null || typeof exports !== 'object') // Exit if we can't iterate over exports.
-    return false;
-    var hasExports = false;
-    var areAllExportsComponents = true;
-    let isESM = '__esModule' in exports;
-    for(var key in exports){
-        hasExports = true;
-        if (key === '__esModule') continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
-        return false;
-        var exportValue = exports[key];
-        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
-    }
-    return hasExports && areAllExportsComponents;
-}
-function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
-    var prevSignature = getRefreshBoundarySignature(prevExports);
-    var nextSignature = getRefreshBoundarySignature(nextExports);
-    if (prevSignature.length !== nextSignature.length) return true;
-    for(var i = 0; i < nextSignature.length; i++){
-        if (prevSignature[i] !== nextSignature[i]) return true;
-    }
-    return false;
-} // When this signature changes, it's unsafe to stop at this refresh boundary.
-function getRefreshBoundarySignature(exports) {
-    var signature = [];
-    signature.push(Refresh.getFamilyByType(exports));
-    if (exports == null || typeof exports !== 'object') // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return signature;
-    let isESM = '__esModule' in exports;
-    for(var key in exports){
-        if (key === '__esModule') continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        signature.push(key);
-        signature.push(Refresh.getFamilyByType(exportValue));
-    }
-    return signature;
-}
-function registerExportsForReactRefresh(module) {
-    var exports = module.exports, id = module.id;
-    Refresh.register(exports, id + ' %exports%');
-    if (exports == null || typeof exports !== 'object') // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return;
-    let isESM = '__esModule' in exports;
-    for(var key in exports){
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        Refresh.register(exportValue, id + ' %exports% ' + key);
-    }
-}
-
-},{"react-refresh/runtime":"eqMEG"}],"cpyQW":[function(require,module,exports) {
+},{"classnames":"bOXOh","react":"6TuXu","./ThemeProvider":"eeqfi","./helpers":"S1Bw1","react/jsx-runtime":"8xIwr","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4"}],"jyMAr":[function() {},{}],"cpyQW":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "MemoryRouter", ()=>_reactRouter.MemoryRouter
@@ -39947,396 +39320,7 @@ function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
 }
 module.exports = hoistNonReactStatics;
 
-},{"react-is":"5wFcP"}],"ikZdr":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$3741 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$3741.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "MovieView", ()=>MovieView
-);
-var _jsxRuntime = require("react/jsx-runtime");
-var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _propTypes = require("prop-types");
-var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
-var _reactBootstrap = require("react-bootstrap");
-var _movieViewScss = require("./movie-view.scss");
-var _reactRouterDom = require("react-router-dom");
-class MovieView extends _reactDefault.default.Component {
-    render() {
-        const { movie , onBackClick  } = this.props;
-        return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Container, {
-            __source: {
-                fileName: "src/components/movie-view/movie-view.jsx",
-                lineNumber: 16
-            },
-            __self: this,
-            children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
-                __source: {
-                    fileName: "src/components/movie-view/movie-view.jsx",
-                    lineNumber: 17
-                },
-                __self: this,
-                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
-                    __source: {
-                        fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 18
-                    },
-                    __self: this,
-                    children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card, {
-                        className: "movie-view p-3",
-                        __source: {
-                            fileName: "src/components/movie-view/movie-view.jsx",
-                            lineNumber: 19
-                        },
-                        __self: this,
-                        children: [
-                            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Img, {
-                                className: "movie-poster",
-                                variant: "top",
-                                src: movie.ImagePath,
-                                crossOrigin: "*",
-                                __source: {
-                                    fileName: "src/components/movie-view/movie-view.jsx",
-                                    lineNumber: 20
-                                },
-                                __self: this
-                            }),
-                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
-                                __source: {
-                                    fileName: "src/components/movie-view/movie-view.jsx",
-                                    lineNumber: 25
-                                },
-                                __self: this,
-                                children: [
-                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Title, {
-                                        __source: {
-                                            fileName: "src/components/movie-view/movie-view.jsx",
-                                            lineNumber: 26
-                                        },
-                                        __self: this,
-                                        children: movie.Title
-                                    }),
-                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Text, {
-                                        __source: {
-                                            fileName: "src/components/movie-view/movie-view.jsx",
-                                            lineNumber: 27
-                                        },
-                                        __self: this,
-                                        children: movie.Description
-                                    }),
-                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Text, {
-                                        __source: {
-                                            fileName: "src/components/movie-view/movie-view.jsx",
-                                            lineNumber: 28
-                                        },
-                                        __self: this,
-                                        children: [
-                                            "Released ",
-                                            movie.ReleaseYear
-                                        ]
-                                    }),
-                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Text, {
-                                        __source: {
-                                            fileName: "src/components/movie-view/movie-view.jsx",
-                                            lineNumber: 29
-                                        },
-                                        __self: this,
-                                        children: [
-                                            /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Link, {
-                                                to: `/movies/directors/${movie.Director.Name}`,
-                                                __source: {
-                                                    fileName: "src/components/movie-view/movie-view.jsx",
-                                                    lineNumber: 30
-                                                },
-                                                __self: this,
-                                                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
-                                                    variant: "link",
-                                                    __source: {
-                                                        fileName: "src/components/movie-view/movie-view.jsx",
-                                                        lineNumber: 31
-                                                    },
-                                                    __self: this,
-                                                    children: "Director"
-                                                })
-                                            }),
-                                            /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Link, {
-                                                to: `/genres/${movie.Genre.Name}`,
-                                                __source: {
-                                                    fileName: "src/components/movie-view/movie-view.jsx",
-                                                    lineNumber: 33
-                                                },
-                                                __self: this,
-                                                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
-                                                    variant: "link",
-                                                    __source: {
-                                                        fileName: "src/components/movie-view/movie-view.jsx",
-                                                        lineNumber: 34
-                                                    },
-                                                    __self: this,
-                                                    children: "Genre"
-                                                })
-                                            })
-                                        ]
-                                    })
-                                ]
-                            }),
-                            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
-                                onClick: ()=>{
-                                    onBackClick(null);
-                                },
-                                __source: {
-                                    fileName: "src/components/movie-view/movie-view.jsx",
-                                    lineNumber: 38
-                                },
-                                __self: this,
-                                children: "Back"
-                            })
-                        ]
-                    })
-                })
-            })
-        }));
-    }
-}
-MovieView.propTypes = {
-    movie: _propTypesDefault.default.shape({
-        Title: _propTypesDefault.default.string.isRequired,
-        Description: _propTypesDefault.default.string.isRequired,
-        Genre: _propTypesDefault.default.array.isRequired,
-        Director: _propTypesDefault.default.shape({
-            Name: _propTypesDefault.default.string.isRequired,
-            Bio: _propTypesDefault.default.string.isRequired
-        }).isRequired,
-        ImagePath: _propTypesDefault.default.string.isRequired,
-        Featured: _propTypesDefault.default.bool,
-        ReleaseYear: _propTypesDefault.default.number.isRequired
-    }).isRequired,
-    onBackClick: _propTypesDefault.default.func.isRequired
-};
-
-  $parcel$ReactRefreshHelpers$3741.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","./movie-view.scss":"kvL93","prop-types":"1tgq3","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","react-router-dom":"cpyQW"}],"kvL93":[function() {},{}],"054li":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$02dd = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$02dd.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "LoginView", ()=>LoginView
-);
-var _jsxRuntime = require("react/jsx-runtime");
-var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _loginViewScss = require("./login-view.scss");
-var _propTypes = require("prop-types");
-var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
-var _reactBootstrap = require("react-bootstrap");
-var _axios = require("axios");
-var _axiosDefault = parcelHelpers.interopDefault(_axios);
-var _s = $RefreshSig$();
-function LoginView(props) {
-    _s();
-    const [username, setUsername] = _react.useState('');
-    const [password, setPassword] = _react.useState('');
-    //When user clicks "Log In" button - POST request is made to /login
-    const handleSubmit = (e)=>{
-        e.preventDefault();
-        /* Send a request to the server for authentication */ _axiosDefault.default.post('https://ancas-myflixapi.herokuapp.com/login', {
-            Username: username,
-            Password: password
-        })//After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
-        .then((response)=>{
-            const data = response.data;
-            props.onLoggedIn(data);
-        })//Error handling
-        .catch((e1)=>{
-            console.log('no user found');
-        });
-    };
-    return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Container, {
-        __source: {
-            fileName: "src/components/login-view/login-view.jsx",
-            lineNumber: 33
-        },
-        __self: this,
-        children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
-            __source: {
-                fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 34
-            },
-            __self: this,
-            children: [
-                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
-                    __source: {
-                        fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 35
-                    },
-                    __self: this
-                }),
-                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
-                    xs: 8,
-                    md: 6,
-                    className: "mt-5",
-                    __source: {
-                        fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 36
-                    },
-                    __self: this,
-                    children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.CardGroup, {
-                        __source: {
-                            fileName: "src/components/login-view/login-view.jsx",
-                            lineNumber: 37
-                        },
-                        __self: this,
-                        children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card, {
-                            __source: {
-                                fileName: "src/components/login-view/login-view.jsx",
-                                lineNumber: 38
-                            },
-                            __self: this,
-                            children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
-                                __source: {
-                                    fileName: "src/components/login-view/login-view.jsx",
-                                    lineNumber: 39
-                                },
-                                __self: this,
-                                children: [
-                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Title, {
-                                        className: "mb-3",
-                                        __source: {
-                                            fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 40
-                                        },
-                                        __self: this,
-                                        children: "Log In"
-                                    }),
-                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form, {
-                                        __source: {
-                                            fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 41
-                                        },
-                                        __self: this,
-                                        children: [
-                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
-                                                className: "mb-2 login__formUsername",
-                                                controlId: "formUsername",
-                                                __source: {
-                                                    fileName: "src/components/login-view/login-view.jsx",
-                                                    lineNumber: 42
-                                                },
-                                                __self: this,
-                                                children: [
-                                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
-                                                        __source: {
-                                                            fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 43
-                                                        },
-                                                        __self: this,
-                                                        children: "Username: "
-                                                    }),
-                                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
-                                                        type: "text",
-                                                        required: true,
-                                                        minLength: "5",
-                                                        onChange: (event)=>setUsername(event.target.value)
-                                                        ,
-                                                        __source: {
-                                                            fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 44
-                                                        },
-                                                        __self: this
-                                                    })
-                                                ]
-                                            }),
-                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
-                                                className: "mb-2",
-                                                controlId: "formPassword",
-                                                __source: {
-                                                    fileName: "src/components/login-view/login-view.jsx",
-                                                    lineNumber: 51
-                                                },
-                                                __self: this,
-                                                children: [
-                                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
-                                                        __source: {
-                                                            fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 52
-                                                        },
-                                                        __self: this,
-                                                        children: "Password: "
-                                                    }),
-                                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
-                                                        type: "password",
-                                                        required: true,
-                                                        minLength: "8",
-                                                        onChange: (event)=>setPassword(event.target.value)
-                                                        ,
-                                                        __source: {
-                                                            fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 53
-                                                        },
-                                                        __self: this
-                                                    })
-                                                ]
-                                            }),
-                                            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
-                                                variant: "primary",
-                                                type: "submit",
-                                                onClick: handleSubmit,
-                                                __source: {
-                                                    fileName: "src/components/login-view/login-view.jsx",
-                                                    lineNumber: 60
-                                                },
-                                                __self: this,
-                                                children: "Log In"
-                                            })
-                                        ]
-                                    })
-                                ]
-                            })
-                        })
-                    })
-                }),
-                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
-                    __source: {
-                        fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 66
-                    },
-                    __self: this
-                })
-            ]
-        })
-    }));
-}
-_s(LoginView, "9FY2cPL9VBDmuhjwpF2ik6flsHs=");
-_c = LoginView;
-LoginView.propTypes = {
-    user: _propTypesDefault.default.shape({
-        username: _propTypesDefault.default.string.isRequired,
-        password: _propTypesDefault.default.string.isRequired
-    }),
-    onLoggedIn: _propTypesDefault.default.func.isRequired
-};
-var _c;
-$RefreshReg$(_c, "LoginView");
-
-  $parcel$ReactRefreshHelpers$02dd.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","./login-view.scss":"lS4BK","prop-types":"1tgq3","react-bootstrap":"h2YVd","axios":"iYoWk","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ"}],"lS4BK":[function() {},{}],"aP2YV":[function(require,module,exports) {
+},{"react-is":"5wFcP"}],"aP2YV":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$8dd4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -40700,7 +39684,1017 @@ $RefreshReg$(_c, "RegistrationView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","./registration-view.scss":"fr9ZP","prop-types":"1tgq3","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","axios":"iYoWk"}],"fr9ZP":[function() {},{}],"8WCoL":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","./registration-view.scss":"fr9ZP","prop-types":"1tgq3","react-bootstrap":"h2YVd","axios":"iYoWk","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ"}],"fr9ZP":[function() {},{}],"lpaPZ":[function(require,module,exports) {
+"use strict";
+var Refresh = require('react-refresh/runtime');
+function debounce(func, delay) {
+    var args;
+    var timeout = undefined;
+    return function(args1) {
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            timeout = undefined;
+            func.call(null, args1);
+        }, delay);
+    };
+}
+var enqueueUpdate = debounce(function() {
+    Refresh.performReactRefresh();
+}, 30); // Everthing below is either adapted or copied from
+// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
+// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
+module.exports.prelude = function(module) {
+    window.$RefreshReg$ = function(type, id) {
+        Refresh.register(type, module.id + ' ' + id);
+    };
+    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
+};
+module.exports.postlude = function(module) {
+    if (isReactRefreshBoundary(module.exports)) {
+        registerExportsForReactRefresh(module);
+        if (module.hot) {
+            module.hot.dispose(function(data) {
+                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
+                data.prevExports = module.exports;
+            });
+            module.hot.accept(function(getParents) {
+                var prevExports = module.hot.data.prevExports;
+                var nextExports = module.exports; // Since we just executed the code for it, it's possible
+                // that the new exports make it ineligible for being a boundary.
+                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
+                // with the previous exports.
+                // For example, if you add/remove/change exports, we'll want
+                // to re-execute the importing modules, and force those components
+                // to re-render. Similarly, if you convert a class component
+                // to a function, we want to invalidate the boundary.
+                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
+                if (isNoLongerABoundary || didInvalidate) {
+                    // We'll be conservative. The only case in which we won't do a full
+                    // reload is if all parent modules are also refresh boundaries.
+                    // In that case we'll add them to the current queue.
+                    var parents = getParents();
+                    if (parents.length === 0) {
+                        // Looks like we bubbled to the root. Can't recover from that.
+                        window.location.reload();
+                        return;
+                    }
+                    return parents;
+                }
+                enqueueUpdate();
+            });
+        }
+    }
+};
+function isReactRefreshBoundary(exports) {
+    if (Refresh.isLikelyComponentType(exports)) return true;
+    if (exports == null || typeof exports !== 'object') // Exit if we can't iterate over exports.
+    return false;
+    var hasExports = false;
+    var areAllExportsComponents = true;
+    let isESM = '__esModule' in exports;
+    for(var key in exports){
+        hasExports = true;
+        if (key === '__esModule') continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
+        return false;
+        var exportValue = exports[key];
+        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
+    }
+    return hasExports && areAllExportsComponents;
+}
+function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
+    var prevSignature = getRefreshBoundarySignature(prevExports);
+    var nextSignature = getRefreshBoundarySignature(nextExports);
+    if (prevSignature.length !== nextSignature.length) return true;
+    for(var i = 0; i < nextSignature.length; i++){
+        if (prevSignature[i] !== nextSignature[i]) return true;
+    }
+    return false;
+} // When this signature changes, it's unsafe to stop at this refresh boundary.
+function getRefreshBoundarySignature(exports) {
+    var signature = [];
+    signature.push(Refresh.getFamilyByType(exports));
+    if (exports == null || typeof exports !== 'object') // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return signature;
+    let isESM = '__esModule' in exports;
+    for(var key in exports){
+        if (key === '__esModule') continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        signature.push(key);
+        signature.push(Refresh.getFamilyByType(exportValue));
+    }
+    return signature;
+}
+function registerExportsForReactRefresh(module) {
+    var exports = module.exports, id = module.id;
+    Refresh.register(exports, id + ' %exports%');
+    if (exports == null || typeof exports !== 'object') // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return;
+    let isESM = '__esModule' in exports;
+    for(var key in exports){
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        Refresh.register(exportValue, id + ' %exports% ' + key);
+    }
+}
+
+},{"react-refresh/runtime":"eqMEG"}],"054li":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$02dd = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$02dd.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "LoginView", ()=>LoginView
+);
+var _jsxRuntime = require("react/jsx-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _loginViewScss = require("./login-view.scss");
+var _propTypes = require("prop-types");
+var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
+var _reactBootstrap = require("react-bootstrap");
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _s = $RefreshSig$();
+function LoginView(props) {
+    _s();
+    const [username, setUsername] = _react.useState('');
+    const [password, setPassword] = _react.useState('');
+    //When user clicks "Log In" button - POST request is made to /login
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+        /* Send a request to the server for authentication */ _axiosDefault.default.post('https://ancas-myflixapi.herokuapp.com/login', {
+            Username: username,
+            Password: password
+        })//After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
+        .then((response)=>{
+            const data = response.data;
+            props.onLoggedIn(data);
+        })//Error handling
+        .catch((e1)=>{
+            console.log('no user found');
+        });
+    };
+    return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Container, {
+        __source: {
+            fileName: "src/components/login-view/login-view.jsx",
+            lineNumber: 33
+        },
+        __self: this,
+        children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+            __source: {
+                fileName: "src/components/login-view/login-view.jsx",
+                lineNumber: 34
+            },
+            __self: this,
+            children: [
+                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
+                    __source: {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 35
+                    },
+                    __self: this
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
+                    xs: 8,
+                    md: 6,
+                    className: "mt-5",
+                    __source: {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 36
+                    },
+                    __self: this,
+                    children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.CardGroup, {
+                        __source: {
+                            fileName: "src/components/login-view/login-view.jsx",
+                            lineNumber: 37
+                        },
+                        __self: this,
+                        children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card, {
+                            __source: {
+                                fileName: "src/components/login-view/login-view.jsx",
+                                lineNumber: 38
+                            },
+                            __self: this,
+                            children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
+                                __source: {
+                                    fileName: "src/components/login-view/login-view.jsx",
+                                    lineNumber: 39
+                                },
+                                __self: this,
+                                children: [
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Title, {
+                                        className: "mb-3",
+                                        __source: {
+                                            fileName: "src/components/login-view/login-view.jsx",
+                                            lineNumber: 40
+                                        },
+                                        __self: this,
+                                        children: "Log In"
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form, {
+                                        __source: {
+                                            fileName: "src/components/login-view/login-view.jsx",
+                                            lineNumber: 41
+                                        },
+                                        __self: this,
+                                        children: [
+                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
+                                                className: "mb-2 login__formUsername",
+                                                controlId: "formUsername",
+                                                __source: {
+                                                    fileName: "src/components/login-view/login-view.jsx",
+                                                    lineNumber: 42
+                                                },
+                                                __self: this,
+                                                children: [
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
+                                                        __source: {
+                                                            fileName: "src/components/login-view/login-view.jsx",
+                                                            lineNumber: 43
+                                                        },
+                                                        __self: this,
+                                                        children: "Username: "
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
+                                                        type: "text",
+                                                        required: true,
+                                                        minLength: "5",
+                                                        onChange: (event)=>setUsername(event.target.value)
+                                                        ,
+                                                        __source: {
+                                                            fileName: "src/components/login-view/login-view.jsx",
+                                                            lineNumber: 44
+                                                        },
+                                                        __self: this
+                                                    })
+                                                ]
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
+                                                className: "mb-2",
+                                                controlId: "formPassword",
+                                                __source: {
+                                                    fileName: "src/components/login-view/login-view.jsx",
+                                                    lineNumber: 51
+                                                },
+                                                __self: this,
+                                                children: [
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
+                                                        __source: {
+                                                            fileName: "src/components/login-view/login-view.jsx",
+                                                            lineNumber: 52
+                                                        },
+                                                        __self: this,
+                                                        children: "Password: "
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
+                                                        type: "password",
+                                                        required: true,
+                                                        minLength: "8",
+                                                        onChange: (event)=>setPassword(event.target.value)
+                                                        ,
+                                                        __source: {
+                                                            fileName: "src/components/login-view/login-view.jsx",
+                                                            lineNumber: 53
+                                                        },
+                                                        __self: this
+                                                    })
+                                                ]
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
+                                                variant: "primary",
+                                                type: "submit",
+                                                onClick: handleSubmit,
+                                                __source: {
+                                                    fileName: "src/components/login-view/login-view.jsx",
+                                                    lineNumber: 60
+                                                },
+                                                __self: this,
+                                                children: "Log In"
+                                            })
+                                        ]
+                                    })
+                                ]
+                            })
+                        })
+                    })
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
+                    __source: {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 66
+                    },
+                    __self: this
+                })
+            ]
+        })
+    }));
+}
+_s(LoginView, "9FY2cPL9VBDmuhjwpF2ik6flsHs=");
+_c = LoginView;
+LoginView.propTypes = {
+    user: _propTypesDefault.default.shape({
+        username: _propTypesDefault.default.string.isRequired,
+        password: _propTypesDefault.default.string.isRequired
+    }),
+    onLoggedIn: _propTypesDefault.default.func.isRequired
+};
+var _c;
+$RefreshReg$(_c, "LoginView");
+
+  $parcel$ReactRefreshHelpers$02dd.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","./login-view.scss":"lS4BK","prop-types":"1tgq3","react-bootstrap":"h2YVd","axios":"iYoWk","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ"}],"lS4BK":[function() {},{}],"6EiBJ":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$4249 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$4249.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "MovieCard", ()=>MovieCard
+);
+var _jsxRuntime = require("react/jsx-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _propTypes = require("prop-types");
+var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
+var _reactBootstrap = require("react-bootstrap");
+var _reactTextTruncate = require("react-text-truncate");
+var _reactTextTruncateDefault = parcelHelpers.interopDefault(_reactTextTruncate);
+var _reactRouterDom = require("react-router-dom");
+var _movieCardScss = require("./movie-card.scss");
+class MovieCard extends _reactDefault.default.Component {
+    render() {
+        const { movie  } = this.props;
+        return(/*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card, {
+            className: "movie-card p-3",
+            __source: {
+                fileName: "src/components/movie-card/movie-card.jsx",
+                lineNumber: 15
+            },
+            __self: this,
+            children: [
+                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Img, {
+                    variant: "top",
+                    src: movie.ImagePath,
+                    crossOrigin: "*",
+                    __source: {
+                        fileName: "src/components/movie-card/movie-card.jsx",
+                        lineNumber: 16
+                    },
+                    __self: this
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
+                    className: "p-0",
+                    __source: {
+                        fileName: "src/components/movie-card/movie-card.jsx",
+                        lineNumber: 17
+                    },
+                    __self: this,
+                    children: [
+                        /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Title, {
+                            className: "pt-3",
+                            __source: {
+                                fileName: "src/components/movie-card/movie-card.jsx",
+                                lineNumber: 18
+                            },
+                            __self: this,
+                            children: [
+                                " ",
+                                movie.Title,
+                                " "
+                            ]
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Text, {
+                            __source: {
+                                fileName: "src/components/movie-card/movie-card.jsx",
+                                lineNumber: 19
+                            },
+                            __self: this,
+                            children: /*#__PURE__*/ _jsxRuntime.jsx(_reactTextTruncateDefault.default, {
+                                line: 3,
+                                element: "span",
+                                truncateText: "...",
+                                text: movie.Description,
+                                textTruncateChild: /*#__PURE__*/ _jsxRuntime.jsx("a", {
+                                    href: "#",
+                                    children: "See More "
+                                }),
+                                __source: {
+                                    fileName: "src/components/movie-card/movie-card.jsx",
+                                    lineNumber: 20
+                                },
+                                __self: this
+                            })
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Link, {
+                            to: `/movies/${movie._id}`,
+                            __source: {
+                                fileName: "src/components/movie-card/movie-card.jsx",
+                                lineNumber: 28
+                            },
+                            __self: this,
+                            children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
+                                variant: "link",
+                                __source: {
+                                    fileName: "src/components/movie-card/movie-card.jsx",
+                                    lineNumber: 29
+                                },
+                                __self: this,
+                                children: "Open"
+                            })
+                        })
+                    ]
+                })
+            ]
+        }));
+    }
+}
+MovieCard.propTypes = {
+    movie: _propTypesDefault.default.shape({
+        Title: _propTypesDefault.default.string.isRequired,
+        Description: _propTypesDefault.default.string.isRequired,
+        Genre: _propTypesDefault.default.array.isRequired,
+        Director: _propTypesDefault.default.shape({
+            Name: _propTypesDefault.default.string.isRequired,
+            Bio: _propTypesDefault.default.string.isRequired
+        }).isRequired,
+        ImagePath: _propTypesDefault.default.string.isRequired,
+        Featured: _propTypesDefault.default.bool,
+        ReleaseYear: _propTypesDefault.default.number.isRequired
+    }).isRequired
+};
+
+  $parcel$ReactRefreshHelpers$4249.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","prop-types":"1tgq3","react-bootstrap":"h2YVd","react-text-truncate":"adKVJ","react-router-dom":"cpyQW","./movie-card.scss":"cF5gT","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ"}],"adKVJ":[function(require,module,exports) {
+"use strict";
+(function(global, factory) {
+    if (typeof define === "function" && define.amd) define([
+        "exports",
+        "react",
+        "prop-types"
+    ], factory);
+    else if (typeof exports !== "undefined") factory(exports, require("react"), require("prop-types"));
+    else {
+        var mod = {
+            exports: {
+            }
+        };
+        factory(mod.exports, global.React, global.propTypes);
+        global.undefined = mod.exports;
+    }
+})(void 0, function(exports, _react, _propTypes) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = undefined;
+    var _react2 = _interopRequireDefault(_react);
+    var _propTypes2 = _interopRequireDefault(_propTypes);
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+    function _typeof(obj) {
+        if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") _typeof = function _typeof1(obj1) {
+            return typeof obj1;
+        };
+        else _typeof = function _typeof2(obj1) {
+            return obj1 && typeof Symbol === "function" && obj1.constructor === Symbol && obj1 !== Symbol.prototype ? "symbol" : typeof obj1;
+        };
+        return _typeof(obj);
+    }
+    function _objectWithoutProperties(source, excluded) {
+        if (source == null) return {
+        };
+        var target = _objectWithoutPropertiesLoose(source, excluded);
+        var key, i;
+        if (Object.getOwnPropertySymbols) {
+            var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+            for(i = 0; i < sourceSymbolKeys.length; i++){
+                key = sourceSymbolKeys[i];
+                if (excluded.indexOf(key) >= 0) continue;
+                if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+                target[key] = source[key];
+            }
+        }
+        return target;
+    }
+    function _objectWithoutPropertiesLoose(source, excluded) {
+        if (source == null) return {
+        };
+        var target = {
+        };
+        var sourceKeys = Object.keys(source);
+        var key, i;
+        for(i = 0; i < sourceKeys.length; i++){
+            key = sourceKeys[i];
+            if (excluded.indexOf(key) >= 0) continue;
+            target[key] = source[key];
+        }
+        return target;
+    }
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+    }
+    function _defineProperties(target, props) {
+        for(var i = 0; i < props.length; i++){
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        return Constructor;
+    }
+    function _possibleConstructorReturn(self, call) {
+        if (call && (_typeof(call) === "object" || typeof call === "function")) return call;
+        return _assertThisInitialized(self);
+    }
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf1(o1) {
+            return o1.__proto__ || Object.getPrototypeOf(o1);
+        };
+        return _getPrototypeOf(o);
+    }
+    function _assertThisInitialized(self) {
+        if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+        return self;
+    }
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                writable: true,
+                configurable: true
+            }
+        });
+        if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf1(o1, p1) {
+            o1.__proto__ = p1;
+            return o1;
+        };
+        return _setPrototypeOf(o, p);
+    }
+    function _defineProperty(obj, key, value) {
+        if (key in obj) Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+        else obj[key] = value;
+        return obj;
+    }
+    var TextTruncate1 = function(_Component) {
+        _inherits(TextTruncate2, _Component);
+        function TextTruncate2() {
+            var _getPrototypeOf2;
+            var _this;
+            _classCallCheck(this, TextTruncate2);
+            for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+            _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(TextTruncate2)).call.apply(_getPrototypeOf2, [
+                this
+            ].concat(args)));
+            _defineProperty(_assertThisInitialized(_this), "onResize", function() {
+                if (_this.rafId) window.cancelAnimationFrame(_this.rafId);
+                _this.rafId = window.requestAnimationFrame(_this.update.bind(_assertThisInitialized(_this)));
+            });
+            _defineProperty(_assertThisInitialized(_this), "onToggled", function(truncated) {
+                typeof _this.props.onToggled === 'function' && setTimeout(function() {
+                    return _this.props.onToggled(truncated);
+                }, 0);
+            });
+            _defineProperty(_assertThisInitialized(_this), "onTruncated", function() {
+                typeof _this.props.onTruncated === 'function' && setTimeout(function() {
+                    return _this.props.onTruncated();
+                }, 0);
+            });
+            _defineProperty(_assertThisInitialized(_this), "onCalculated", function() {
+                typeof _this.props.onCalculated === 'function' && setTimeout(function() {
+                    return _this.props.onCalculated();
+                }, 0);
+            });
+            _defineProperty(_assertThisInitialized(_this), "update", function() {
+                var style = window.getComputedStyle(_this.scope);
+                var font = [
+                    style['font-weight'],
+                    style['font-style'],
+                    style['font-size'],
+                    style['font-family'],
+                    style['letter-spacing']
+                ].join(' ');
+                _this.canvas.font = font;
+                _this.forceUpdate();
+            });
+            return _this;
+        }
+        _createClass(TextTruncate2, [
+            {
+                key: "componentDidMount",
+                value: function componentDidMount() {
+                    var canvas = document.createElement('canvas');
+                    var docFragment = document.createDocumentFragment();
+                    var style = window.getComputedStyle(this.scope);
+                    var font = [
+                        style['font-weight'],
+                        style['font-style'],
+                        style['font-size'],
+                        style['font-family']
+                    ].join(' ');
+                    docFragment.appendChild(canvas);
+                    this.canvas = canvas.getContext('2d');
+                    this.canvas.font = font;
+                    this.forceUpdate();
+                    window.addEventListener('resize', this.onResize);
+                }
+            },
+            {
+                key: "componentWillUnmount",
+                value: function componentWillUnmount() {
+                    window.removeEventListener('resize', this.onResize);
+                    if (this.rafId) window.cancelAnimationFrame(this.rafId);
+                }
+            },
+            {
+                key: "measureWidth",
+                value: function measureWidth(text) {
+                    return Math.ceil(this.canvas.measureText(text).width);
+                }
+            },
+            {
+                key: "getRenderText",
+                value: function getRenderText() {
+                    var _this$props = this.props, containerClassName = _this$props.containerClassName, element = _this$props.element, line = _this$props.line, onCalculated = _this$props.onCalculated, onTruncated = _this$props.onTruncated, onToggled = _this$props.onToggled, text = _this$props.text, textElement = _this$props.textElement, textTruncateChild = _this$props.textTruncateChild, truncateText = _this$props.truncateText, maxCalculateTimes = _this$props.maxCalculateTimes, props = _objectWithoutProperties(_this$props, [
+                        "containerClassName",
+                        "element",
+                        "line",
+                        "onCalculated",
+                        "onTruncated",
+                        "onToggled",
+                        "text",
+                        "textElement",
+                        "textTruncateChild",
+                        "truncateText",
+                        "maxCalculateTimes"
+                    ]);
+                    var scopeWidth = this.scope.getBoundingClientRect().width; // return if display:none
+                    if (scopeWidth === 0) return null;
+                     // return if all of text can be displayed
+                    if (scopeWidth >= this.measureWidth(text)) {
+                        this.onToggled(false);
+                        return _react.createElement(textElement, props, text);
+                    }
+                    var childText = '';
+                    if (textTruncateChild && typeof textTruncateChild.type === 'string') {
+                        var type = textTruncateChild.type;
+                        if (type.indexOf('span') >= 0 || type.indexOf('a') >= 0) childText = textTruncateChild.props.children;
+                    }
+                    var currentPos = 1;
+                    var maxTextLength = text.length;
+                    var truncatedText = '';
+                    var splitPos = 0;
+                    var startPos = 0;
+                    var displayLine = line;
+                    var width = 0;
+                    var lastIsEng = false;
+                    var isPrevLineWithoutSpace = false;
+                    var lastPos = 0;
+                    var lastSpaceIndex = -1;
+                    var ext = '';
+                    var loopCnt = 0;
+                    while((displayLine--) > 0){
+                        ext = displayLine ? '' : truncateText + (childText ? ' ' + childText : '');
+                        while(currentPos <= maxTextLength){
+                            truncatedText = text.substr(startPos, currentPos);
+                            width = this.measureWidth(truncatedText + ext);
+                            if (width < scopeWidth) {
+                                splitPos = text.indexOf(' ', currentPos + 1);
+                                if (splitPos === -1) {
+                                    currentPos += 1;
+                                    lastIsEng = false;
+                                } else {
+                                    lastIsEng = true;
+                                    currentPos = splitPos;
+                                }
+                            } else {
+                                do {
+                                    if ((loopCnt++) >= maxCalculateTimes) break;
+                                    truncatedText = text.substr(startPos, currentPos);
+                                    if (!displayLine) currentPos--;
+                                    if (truncatedText[truncatedText.length - 1] === ' ') truncatedText = text.substr(startPos, currentPos - 1);
+                                    if (lastIsEng) {
+                                        lastSpaceIndex = truncatedText.lastIndexOf(' ');
+                                        if (lastSpaceIndex > -1) {
+                                            currentPos = lastSpaceIndex;
+                                            if (displayLine) currentPos++;
+                                            truncatedText = text.substr(startPos, currentPos);
+                                        } else {
+                                            currentPos--;
+                                            truncatedText = text.substr(startPos, currentPos);
+                                        }
+                                    } else {
+                                        currentPos--;
+                                        truncatedText = text.substr(startPos, currentPos);
+                                    }
+                                    width = this.measureWidth(truncatedText + ext);
+                                }while (width >= scopeWidth && truncatedText.length > 0)
+                                startPos += currentPos;
+                                break;
+                            }
+                        }
+                        if (currentPos >= maxTextLength) {
+                            startPos = maxTextLength;
+                            break;
+                        }
+                        if (lastIsEng && !isPrevLineWithoutSpace && text.substr(lastPos, currentPos).indexOf(' ') === -1) {
+                            isPrevLineWithoutSpace = text.substr(lastPos, currentPos).indexOf(' ') === -1;
+                            displayLine--;
+                        }
+                        lastPos = currentPos + 1;
+                    }
+                    if (startPos === maxTextLength) {
+                        this.onToggled(false);
+                        return _react.createElement(textElement, props, text);
+                    }
+                    this.onTruncated();
+                    this.onToggled(true);
+                    return _react2["default"].createElement("span", props, _react.createElement(textElement, props, text.substr(0, startPos) + truncateText + ' '), textTruncateChild);
+                }
+            },
+            {
+                key: "render",
+                value: function render() {
+                    var _this2 = this;
+                    var _this$props2 = this.props, element = _this$props2.element, text = _this$props2.text, _this$props2$style = _this$props2.style, style = _this$props2$style === void 0 ? {
+                    } : _this$props2$style, containerClassName = _this$props2.containerClassName, line = _this$props2.line, onCalculated = _this$props2.onCalculated, onTruncated = _this$props2.onTruncated, onToggled = _this$props2.onToggled, textElement = _this$props2.textElement, textTruncateChild = _this$props2.textTruncateChild, truncateText = _this$props2.truncateText, maxCalculateTimes = _this$props2.maxCalculateTimes, props = _objectWithoutProperties(_this$props2, [
+                        "element",
+                        "text",
+                        "style",
+                        "containerClassName",
+                        "line",
+                        "onCalculated",
+                        "onTruncated",
+                        "onToggled",
+                        "textElement",
+                        "textTruncateChild",
+                        "truncateText",
+                        "maxCalculateTimes"
+                    ]);
+                    var fontWeight = style.fontWeight, fontStyle = style.fontStyle, fontSize = style.fontSize, fontFamily = style.fontFamily;
+                    var renderText = this.scope && line ? this.getRenderText() : _react.createElement(textElement, props, text);
+                    var rootProps = {
+                        ref: function ref(el) {
+                            _this2.scope = el;
+                        },
+                        className: containerClassName,
+                        style: {
+                            overflow: 'hidden',
+                            fontWeight: fontWeight,
+                            fontStyle: fontStyle,
+                            fontSize: fontSize,
+                            fontFamily: fontFamily
+                        }
+                    };
+                    this.scope && this.onCalculated();
+                    return _react.createElement(element, rootProps, renderText);
+                }
+            }
+        ]);
+        return TextTruncate2;
+    }(_react.Component);
+    _defineProperty(TextTruncate1, "propTypes", {
+        containerClassName: _propTypes2["default"].string,
+        element: _propTypes2["default"].string,
+        line: _propTypes2["default"].oneOfType([
+            _propTypes2["default"].number,
+            _propTypes2["default"].bool
+        ]),
+        onCalculated: _propTypes2["default"].func,
+        onTruncated: _propTypes2["default"].func,
+        onToggled: _propTypes2["default"].func,
+        text: _propTypes2["default"].string,
+        textElement: _propTypes2["default"].node,
+        textTruncateChild: _propTypes2["default"].node,
+        truncateText: _propTypes2["default"].string,
+        maxCalculateTimes: _propTypes2["default"].number
+    });
+    _defineProperty(TextTruncate1, "defaultProps", {
+        element: 'div',
+        line: 1,
+        text: '',
+        textElement: 'span',
+        truncateText: '…',
+        maxCalculateTimes: 10
+    });
+    exports.default = TextTruncate1;
+    module.exports = exports.default;
+});
+
+},{"react":"6TuXu","prop-types":"1tgq3"}],"cF5gT":[function() {},{}],"ikZdr":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$3741 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$3741.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "MovieView", ()=>MovieView
+);
+var _jsxRuntime = require("react/jsx-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _propTypes = require("prop-types");
+var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
+var _reactBootstrap = require("react-bootstrap");
+var _movieViewScss = require("./movie-view.scss");
+var _reactRouterDom = require("react-router-dom");
+class MovieView extends _reactDefault.default.Component {
+    render() {
+        const { movie , onBackClick  } = this.props;
+        return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Container, {
+            __source: {
+                fileName: "src/components/movie-view/movie-view.jsx",
+                lineNumber: 16
+            },
+            __self: this,
+            children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
+                __source: {
+                    fileName: "src/components/movie-view/movie-view.jsx",
+                    lineNumber: 17
+                },
+                __self: this,
+                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
+                    __source: {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 18
+                    },
+                    __self: this,
+                    children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card, {
+                        className: "movie-view p-3",
+                        __source: {
+                            fileName: "src/components/movie-view/movie-view.jsx",
+                            lineNumber: 19
+                        },
+                        __self: this,
+                        children: [
+                            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Img, {
+                                className: "movie-poster",
+                                variant: "top",
+                                src: movie.ImagePath,
+                                crossOrigin: "*",
+                                __source: {
+                                    fileName: "src/components/movie-view/movie-view.jsx",
+                                    lineNumber: 20
+                                },
+                                __self: this
+                            }),
+                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
+                                __source: {
+                                    fileName: "src/components/movie-view/movie-view.jsx",
+                                    lineNumber: 25
+                                },
+                                __self: this,
+                                children: [
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Title, {
+                                        __source: {
+                                            fileName: "src/components/movie-view/movie-view.jsx",
+                                            lineNumber: 26
+                                        },
+                                        __self: this,
+                                        children: movie.Title
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Text, {
+                                        __source: {
+                                            fileName: "src/components/movie-view/movie-view.jsx",
+                                            lineNumber: 27
+                                        },
+                                        __self: this,
+                                        children: movie.Description
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Text, {
+                                        __source: {
+                                            fileName: "src/components/movie-view/movie-view.jsx",
+                                            lineNumber: 28
+                                        },
+                                        __self: this,
+                                        children: [
+                                            "Released ",
+                                            movie.ReleaseYear
+                                        ]
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Text, {
+                                        __source: {
+                                            fileName: "src/components/movie-view/movie-view.jsx",
+                                            lineNumber: 29
+                                        },
+                                        __self: this,
+                                        children: [
+                                            /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Link, {
+                                                to: `/movies/directors/${movie.Director.Name}`,
+                                                __source: {
+                                                    fileName: "src/components/movie-view/movie-view.jsx",
+                                                    lineNumber: 30
+                                                },
+                                                __self: this,
+                                                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
+                                                    variant: "link",
+                                                    __source: {
+                                                        fileName: "src/components/movie-view/movie-view.jsx",
+                                                        lineNumber: 31
+                                                    },
+                                                    __self: this,
+                                                    children: "Director"
+                                                })
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Link, {
+                                                to: `/genres/${movie.Genre.Name}`,
+                                                __source: {
+                                                    fileName: "src/components/movie-view/movie-view.jsx",
+                                                    lineNumber: 33
+                                                },
+                                                __self: this,
+                                                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
+                                                    variant: "link",
+                                                    __source: {
+                                                        fileName: "src/components/movie-view/movie-view.jsx",
+                                                        lineNumber: 34
+                                                    },
+                                                    __self: this,
+                                                    children: "Genre"
+                                                })
+                                            })
+                                        ]
+                                    })
+                                ]
+                            }),
+                            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
+                                onClick: ()=>{
+                                    onBackClick(null);
+                                },
+                                __source: {
+                                    fileName: "src/components/movie-view/movie-view.jsx",
+                                    lineNumber: 38
+                                },
+                                __self: this,
+                                children: "Back"
+                            })
+                        ]
+                    })
+                })
+            })
+        }));
+    }
+}
+MovieView.propTypes = {
+    movie: _propTypesDefault.default.shape({
+        Title: _propTypesDefault.default.string.isRequired,
+        Description: _propTypesDefault.default.string.isRequired,
+        Genre: _propTypesDefault.default.array.isRequired,
+        Director: _propTypesDefault.default.shape({
+            Name: _propTypesDefault.default.string.isRequired,
+            Bio: _propTypesDefault.default.string.isRequired
+        }).isRequired,
+        ImagePath: _propTypesDefault.default.string.isRequired,
+        Featured: _propTypesDefault.default.bool,
+        ReleaseYear: _propTypesDefault.default.number.isRequired
+    }).isRequired,
+    onBackClick: _propTypesDefault.default.func.isRequired
+};
+
+  $parcel$ReactRefreshHelpers$3741.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","prop-types":"1tgq3","react-bootstrap":"h2YVd","./movie-view.scss":"kvL93","react-router-dom":"cpyQW","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ"}],"kvL93":[function() {},{}],"8WCoL":[function(require,module,exports) {
 
 },{}],"ck15y":[function(require,module,exports) {
 

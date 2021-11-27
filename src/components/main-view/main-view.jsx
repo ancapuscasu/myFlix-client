@@ -1,5 +1,4 @@
 import React from 'react';
-//importing axios library to use HTTP requests
 import axios from 'axios';
 import { Row, Col } from 'react-bootstrap';
 
@@ -29,7 +28,6 @@ export class MainView extends React.Component {
     };
   }
 
-  //get movies from API using authorized user's token
   getMovies(token) {
     axios.get('https://ancas-myflixapi.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}`}
@@ -45,11 +43,8 @@ export class MainView extends React.Component {
     });
   }
 
-  //Persist login data 
   componentDidMount() {
-    //get token from local storage
     let accessToken = localStorage.getItem('token');
-    //if token is not null, get user from local storage and set it 
     if (accessToken !== null) {
       this.setState({
         user: localStorage.getItem('user')
@@ -83,7 +78,6 @@ export class MainView extends React.Component {
     //Storing user's username and token in local storage
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
-    //get movies from API using authorized user's token 
     this.getMovies(authData.token);
   }
 
