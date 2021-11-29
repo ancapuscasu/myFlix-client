@@ -22988,7 +22988,7 @@ class MainView extends _reactDefault.default.Component {
                                         })
                                     })
                                 });
-                                if (genres.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
+                                if (movies.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
                                     className: "main-view"
                                 }));
                                 var genre;
@@ -41073,7 +41073,7 @@ const NavbarView = ()=>{
                                 children: "Home"
                             }),
                             /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Nav.Link, {
-                                href: "/my-list",
+                                href: "/users/:username/my-list",
                                 __source: {
                                     fileName: "src/components/navbar-view/navbar-view.jsx",
                                     lineNumber: 16
@@ -41091,36 +41091,22 @@ const NavbarView = ()=>{
                                 __self: undefined,
                                 children: [
                                     /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.NavDropdown.Item, {
+                                        href: "/users/:username/my-account",
                                         __source: {
                                             fileName: "src/components/navbar-view/navbar-view.jsx",
                                             lineNumber: 18
                                         },
                                         __self: undefined,
-                                        children: /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Link, {
-                                            to: "/users/:username/my-account",
-                                            __source: {
-                                                fileName: "src/components/navbar-view/navbar-view.jsx",
-                                                lineNumber: 19
-                                            },
-                                            __self: undefined,
-                                            children: "My Account"
-                                        })
+                                        children: "My Account"
                                     }),
                                     /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.NavDropdown.Item, {
+                                        href: "/",
                                         __source: {
                                             fileName: "src/components/navbar-view/navbar-view.jsx",
-                                            lineNumber: 21
+                                            lineNumber: 19
                                         },
                                         __self: undefined,
-                                        children: /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Link, {
-                                            to: "/",
-                                            __source: {
-                                                fileName: "src/components/navbar-view/navbar-view.jsx",
-                                                lineNumber: 22
-                                            },
-                                            __self: undefined,
-                                            children: "Logout"
-                                        })
+                                        children: "Logout"
                                     })
                                 ]
                             })
