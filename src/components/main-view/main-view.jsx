@@ -99,12 +99,13 @@ export class MainView extends React.Component {
         <Row className="main-view justify-content-center">
 
           <Route exact path="/" render={() => {
-            if (!user) return 
+            if (!user) return (
             <Row>
               <Col>
                 <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
               </Col>
             </Row>
+            );
 
             if (movies.length === 0) return <div className = "main-view"/> ;
 
@@ -116,18 +117,20 @@ export class MainView extends React.Component {
           }} />
 
           <Route exact path="/register" render={() => {
-            return
+            return (
               <RegistrationView />
+            );
           }}
           />
 
-          <Route path="movies/:movieId" render={({ match, history }) => {
-            if (!user) return 
+          <Route path="/movies/:movieId" render={({ match, history }) => {
+            if (!user) return (
             <Row>
               <Col>
                 <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
               </Col>
             </Row>
+            );
 
             if (movies.length === 0) return <div className = "main-view"/> ;
 
@@ -139,20 +142,25 @@ export class MainView extends React.Component {
           }} 
           />
 
+
           <Route path="/movies/directors/:name" render={({ match, history }) => {
-            if (!user) return 
+            if (!user) return (
             <Row>
               <Col>
                 <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
               </Col>
             </Row>
+            );
 
             if (movies.length === 0 ) return <div className="main-view" />;
+            
+            // let movie=movies.find(movie => movie.Director.Name === match.params.name);
 
-            return 
+            return ( 
               <Col md={8}>
-                <DirectorView directors={movies.find(movie => movie.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()}/>
+                <DirectorView movies={movies}  director={movies.find(movie => movie.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()}/>
               </Col>
+            );
           }}
           />
 
@@ -168,7 +176,7 @@ export class MainView extends React.Component {
 
             return 
               <Col md={8}>
-                <GenreView genre={movies.find(movie => movie.Genre.Name === match.params.name).Director} onBackClick={() => history.goBack()}/>
+                <GenreView genre={movies.find(movie => movie.Genre.Name === match.params.name).Genre} movie={movie} onBackClick={() => history.goBack()}/>
               </Col>
           }}
           />
