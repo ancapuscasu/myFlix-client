@@ -1,13 +1,11 @@
 import React from 'react';
 import { Card, Container, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
-export class DirectorView extends React.Component {
-  
-  render () {
-    const { director, movie, onBackClick } = this.props;
+import React from 'react'
 
-    return (
+export const DirectorView = ({director, onBackClick}) => {
+  return (
+    <div>
       <Container className="director-view">
         <Card>
           <Card.Body>
@@ -18,7 +16,6 @@ export class DirectorView extends React.Component {
           </Card.Body>
         </Card>
       </Container>
-    )
-  }
+    </div>
+  )
 }
-
