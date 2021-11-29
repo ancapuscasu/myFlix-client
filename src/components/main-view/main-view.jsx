@@ -13,6 +13,7 @@ import { MovieView } from "../movie-view/movie-view";
 import { GenreView } from "../genre-view/genre-view";
 import { DirectorView } from "../director-view/director-view";
 import { ProfileView } from "../profile-view/profile-view";
+import { NavbarView } from '../navbar-view/navbar-view';
 
 
 
@@ -23,6 +24,7 @@ export class MainView extends React.Component {
     super();
     this.state = {
       movies: [],
+      genres: [],
       selectedMovie: null,
       user: null
     };
@@ -43,6 +45,20 @@ export class MainView extends React.Component {
     });
   }
 
+  // getGenres() {
+  //   axios.get('https://ancas-myflixapi.herokuapp.com/genres')
+  //   .then(response => {
+  //     this.setState({
+  //       genres: response.data
+  //     });
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
+  // }
+
+
+
   componentDidMount() {
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
@@ -53,6 +69,20 @@ export class MainView extends React.Component {
     }
   }
 
+  getUser(token) {
+    const username = localStorage.getItem('user');
+    axios.get(`https://ancas-myflixapi.herokuapp.com/users/${username}`, {
+      headers: { Authorization: `Bearer ${token}`}
+    })
+    .then((response) => {
+      this.setState({
+        user: response.data
+      });
+    })
+    .catch(function(error) {
+      console.log(error);
+    })
+  }
 
   //when movie is clicked, state of selectedMovie updates to newSelectedMovie
   setSelectedMovie(newSelectedMovie) {
@@ -91,11 +121,15 @@ export class MainView extends React.Component {
 
 
   render() {
-    const { movies, selectedMovie, user, registeredUser } = this.state;
+    const { movies, user } = this.state;
 
     
     return (
       <Router>
+
+        <NavbarView />
+
+
         <Row className="main-view justify-content-center">
 
           <Route exact path="/" render={() => {
@@ -116,6 +150,8 @@ export class MainView extends React.Component {
             ))
           }} />
 
+
+
           <Route exact path="/register" render={() => {
             return (
               <RegistrationView />
@@ -123,7 +159,9 @@ export class MainView extends React.Component {
           }}
           />
 
-          <Route path="/movies/:movieId" render={({ match, history }) => {
+
+
+          <Route exact path="/movies/:movieId" render={({ match, history }) => {
             if (!user) return (
             <Row>
               <Col>
@@ -143,7 +181,8 @@ export class MainView extends React.Component {
           />
 
 
-          <Route path="/movies/directors/:name" render={({ match, history }) => {
+
+          <Route exact path="/directors/:name" render={({ match, history }) => {
             if (!user) return (
             <Row>
               <Col>
@@ -153,8 +192,6 @@ export class MainView extends React.Component {
             );
 
             if (movies.length === 0 ) return <div className="main-view" />;
-            
-            // let movie=movies.find(movie => movie.Director.Name === match.params.name);
 
             return ( 
               <Col md={8}>
@@ -164,7 +201,9 @@ export class MainView extends React.Component {
           }}
           />
 
-          <Route path="/genres/:name" render={({ match, history }) => {
+
+
+          <Route exact path="/genres/:name" render={({ match, history }) => {
             if (!user) return 
             <Row>
               <Col>
@@ -172,13 +211,33 @@ export class MainView extends React.Component {
               </Col>
             </Row>
 
-            if (movies.length === 0 ) return <div className="main-view" />;     
+            if (genres.length === 0 ) return <div className="main-view" />;     
+
 
             return 
               <Col md={8}>
-                <GenreView genre={movies.find(movie => movie.Genre.Name === match.params.name).Genre} movie={movie} onBackClick={() => history.goBack()}/>
+                <GenreView genres={genres} genre={genres.find(genre => genre.Name === match.params.name)} onBackClick={() => history.goBack()}/>
               </Col>
           }}
+          />
+
+
+
+          <Route exact path="/users/:username"
+            render={({ match, history }) => {
+              if (!user) return 
+                <Row>
+                  <Col>
+                    <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
+                  </Col>
+                </Row>
+
+              if (movies.length === 0 ) return <div className="main-view" />;
+
+              return (
+              <ProfileView user={userInfo} onBackClick={() => history.goBack()}/>
+              );
+            }}
           />
         </Row>
       </Router>

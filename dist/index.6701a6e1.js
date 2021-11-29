@@ -22771,7 +22771,7 @@ class MainView extends _reactDefault.default.Component {
             movies: [],
             genres: [],
             selectedMovie: null,
-            userInfo: null
+            user: null
         };
     }
     getMovies(token) {
@@ -22816,7 +22816,7 @@ class MainView extends _reactDefault.default.Component {
             }
         }).then((response)=>{
             this.setState({
-                userInfo: response.data
+                user: response.data
             });
         }).catch(function(error) {
             console.log(error);
