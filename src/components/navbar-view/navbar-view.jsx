@@ -13,14 +13,10 @@ export const NavbarView = () => {
         <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/my-list">My List</Nav.Link>
+          <Nav.Link href="/users/:username/my-list">My List</Nav.Link>
           <NavDropdown title="Profile" id="profile-options">
-            <NavDropdown.Item>
-              <Link to="/users/:username/my-account">My Account</Link>
-            </NavDropdown.Item>
-            <NavDropdown.Item>
-              <Link to="/">Logout</Link>
-            </NavDropdown.Item>
+            <NavDropdown.Item href="/users/:username/my-account">My Account</NavDropdown.Item>
+            <NavDropdown.Item href="/">Logout</NavDropdown.Item>
           </NavDropdown>
         </Nav>
         </Navbar.Collapse>

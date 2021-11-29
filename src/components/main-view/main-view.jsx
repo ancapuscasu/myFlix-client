@@ -211,7 +211,7 @@ export class MainView extends React.Component {
               </Col>
             </Row>
 
-            if (genres.length === 0 ) return <div className="main-view" />;     
+            if (movies.length === 0 ) return <div className="main-view" />;     
 
 
             return 
