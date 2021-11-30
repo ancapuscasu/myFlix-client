@@ -25,7 +25,6 @@ export class MainView extends React.Component {
     this.state = {
       movies: [],
       genres: [],
-      selectedMovie: null,
       user: null
     };
   }
@@ -45,17 +44,19 @@ export class MainView extends React.Component {
     });
   }
 
-  // getGenres() {
-  //   axios.get('https://ancas-myflixapi.herokuapp.com/genres')
-  //   .then(response => {
-  //     this.setState({
-  //       genres: response.data
-  //     });
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
-  // }
+  getGenres(token) {
+    axios.get('https://ancas-myflixapi.herokuapp.com/genres', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(response => {
+      this.setState({
+        genres: response.data
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
 
 
 
@@ -66,6 +67,7 @@ export class MainView extends React.Component {
         user: localStorage.getItem('user')
       });
       this.getMovies(accessToken);
+      this.getUser(accessToken);
     }
   }
 
@@ -76,7 +78,7 @@ export class MainView extends React.Component {
     })
     .then((response) => {
       this.setState({
-        user: response.data
+        userInfo: response.data
       });
     })
     .catch(function(error) {
@@ -102,13 +104,14 @@ export class MainView extends React.Component {
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
-      user: authData.user.Username
+      user: authData.user
     });
 
     //Storing user's username and token in local storage
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
+    this.getGenres(authData.token);
   }
 
   onLoggedOut() {
@@ -121,7 +124,7 @@ export class MainView extends React.Component {
 
 
   render() {
-    const { movies, user } = this.state;
+    const { movies, user, userInfo, genres } = this.state;
 
     
     return (
@@ -216,7 +219,7 @@ export class MainView extends React.Component {
 
             return 
               <Col md={8}>
-                <GenreView genres={genres} genre={genres.find(genre => genre.Name === match.params.name)} onBackClick={() => history.goBack()}/>
+                <GenreView genre={genres.find(genre => genre.name === match.params.name).genre} onBackClick={() => history.goBack()} />
               </Col>
           }}
           />
