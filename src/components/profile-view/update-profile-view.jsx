@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import "./profile-view.scss";
 
 export function UpdateProfileView (user) {
-  const [firstname, setFirstname] = useState(`{user}.FirstName`);
+  const [firstname, setFirstname] = useState({user}.FirstName);
   const [lastname, setLastname] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

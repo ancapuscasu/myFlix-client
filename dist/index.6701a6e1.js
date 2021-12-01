@@ -41133,7 +41133,9 @@ var _profileViewScss = require("./profile-view.scss");
 var _s = $RefreshSig$();
 function UpdateProfileView(user) {
     _s();
-    const [firstname, setFirstname] = _react.useState(`{user}.FirstName`);
+    const [firstname, setFirstname] = _react.useState({
+        user
+    }.FirstName);
     const [lastname, setLastname] = _react.useState('');
     const [username, setUsername] = _react.useState('');
     const [password, setPassword] = _react.useState('');
@@ -41421,7 +41423,7 @@ function UpdateProfileView(user) {
         })
     }));
 }
-_s(UpdateProfileView, "3g38cXseuC+vmDDv1yYKTAGCNqc=");
+_s(UpdateProfileView, "a25zEMDtEYzko8Kycvz+GKA9eIQ=");
 _c = UpdateProfileView;
 var _c;
 $RefreshReg$(_c, "UpdateProfileView");
