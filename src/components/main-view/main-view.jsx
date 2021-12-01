@@ -12,7 +12,7 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from "../movie-view/movie-view";
 import { GenreView } from "../genre-view/genre-view";
 import { DirectorView } from "../director-view/director-view";
-import { ProfileView } from "../profile-view/profile-view";
+import { UpdateProfileView } from "../profile-view/update-profile-view";
 import { NavbarView } from '../navbar-view/navbar-view';
 
 
@@ -67,24 +67,25 @@ export class MainView extends React.Component {
         user: localStorage.getItem('user')
       });
       this.getMovies(accessToken);
-      this.getUser(accessToken);
+      this.getUsers(accessToken);
+      this.getGenres(accessToken);
     }
   }
 
-  getUser(token) {
-    const username = localStorage.getItem('user');
-    axios.get(`https://ancas-myflixapi.herokuapp.com/users/${username}`, {
+  getUsers(token) {
+    axios.get(`https://ancas-myflixapi.herokuapp.com/users/`, {
       headers: { Authorization: `Bearer ${token}`}
     })
     .then((response) => {
       this.setState({
-        userInfo: response.data
+        users: response.data
       });
     })
     .catch(function(error) {
       console.log(error);
     })
   }
+  
 
   //when movie is clicked, state of selectedMovie updates to newSelectedMovie
   setSelectedMovie(newSelectedMovie) {
@@ -112,6 +113,7 @@ export class MainView extends React.Component {
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
     this.getGenres(authData.token);
+    this.getUsers(authData.token);
   }
 
   onLoggedOut() {
@@ -124,13 +126,13 @@ export class MainView extends React.Component {
 
 
   render() {
-    const { movies, user, userInfo, genres } = this.state;
+    const { movies, users, user, genres } = this.state;
 
     
     return (
       <Router>
 
-        <NavbarView />
+        <NavbarView onLoggedOut = { user => this.onLoggedOut(user)}/>
 
 
         <Row className="main-view justify-content-center">
@@ -174,10 +176,12 @@ export class MainView extends React.Component {
             );
 
             if (movies.length === 0) return <div className = "main-view"/> ;
-
+            
+            const movieById=movies.find(movie => movie._id === match.params.movieId);
+         
             return (
               <Col md={8}>
-                <MovieView movie={movies.find(movie => movie._id === match.params.movieId)} onBackClick={() => history.goBack()} />
+                <MovieView genre={genres.find(genre => genre._id.$oid === movieById.Genre[0].$oid)} movie={movieById} onBackClick={() => history.goBack()} />
               </Col>
             );
           }} 
@@ -217,16 +221,17 @@ export class MainView extends React.Component {
             if (movies.length === 0 ) return <div className="main-view" />;     
 
 
-            return 
+            return (
               <Col md={8}>
-                <GenreView genre={genres.find(genre => genre.name === match.params.name).genre} onBackClick={() => history.goBack()} />
+                <GenreView genre={genres.find(genre => genre.Name === match.params.name)} onBackClick={() => history.goBack()} />
               </Col>
+            );
           }}
           />
 
 
 
-          <Route exact path="/users/:username"
+          <Route exact path="/users/:username/my-account"
             render={({ match, history }) => {
               if (!user) return 
                 <Row>
@@ -237,11 +242,15 @@ export class MainView extends React.Component {
 
               if (movies.length === 0 ) return <div className="main-view" />;
 
+
+              const userByUsername=users.find(user => user.Username === match.params.username);
+
               return (
-              <ProfileView user={userInfo} onBackClick={() => history.goBack()}/>
+              <UpdateProfileView user={userByUsername} onBackClick={() => history.goBack()}/>
               );
             }}
           />
+  
         </Row>
       </Router>
 

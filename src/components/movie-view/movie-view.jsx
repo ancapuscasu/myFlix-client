@@ -9,7 +9,9 @@ import { Link } from "react-router-dom";
 export class MovieView extends React.Component {
 
   render() {
-    const { movie, onBackClick } = this.props;
+    const { movie, genre, onBackClick } = this.props;
+    console.log(genre);
+    console.log(movie);
 
       return (
         <Container>
@@ -29,7 +31,7 @@ export class MovieView extends React.Component {
                       <Link to={`/directors/${movie.Director.Name}`}>
                         <Button variant="link">Director</Button>
                       </Link>
-                      <Link to={`/genres/${genres.Name}`}>
+                      <Link to={`/genres/${genre.Name}`}>
                         <Button variant="link">Genre</Button>
                       </Link>
                     </Card.Text>

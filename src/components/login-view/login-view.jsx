@@ -7,27 +7,27 @@ import axios from 'axios';
 
 
 export function LoginView (props) {
-    const [ username, setUsername ] = useState('');
-    const [ password, setPassword ] = useState('');
+  const [ username, setUsername ] = useState('');
+  const [ password, setPassword ] = useState('');
 
-    //When user clicks "Log In" button - POST request is made to /login
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        /* Send a request to the server for authentication */
-        axios.post('https://ancas-myflixapi.herokuapp.com/login', {
-          Username: username,
-          Password: password
-        })
-        //After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
-        .then(response => {
-          const data = response.data;
-          props.onLoggedIn(data);
-        })
-        //Error handling
-        .catch(e => {
-          console.log('no user found')
-        });
-    };
+  //When user clicks "Log In" button - POST request is made to /login
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    /* Send a request to the server for authentication */
+    axios.post('https://ancas-myflixapi.herokuapp.com/login', {
+      Username: username,
+      Password: password
+    })
+    //After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
+    .then(response => {
+      const data = response.data;
+      props.onLoggedIn(data);
+    })
+    //Error handling
+    .catch(e => {
+      console.log('no user found')
+    });
+  };
 
     return (
       <Container>

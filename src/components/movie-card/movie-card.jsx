@@ -10,7 +10,7 @@ import './movie-card.scss';
 export class MovieCard extends React.Component {
     render() {
         const { movie } = this.props;
-
+        
         return (
             <Card className="movie-card p-3">
                 <Card.Img  variant='top' src= { movie.ImagePath } crossOrigin = '*'/>

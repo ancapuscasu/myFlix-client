@@ -2,7 +2,7 @@ import React from 'react';
 import { Nav, Navbar,  NavDropdown, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-export const NavbarView = () => {
+export const NavbarView = ({onLoggedOut}) => {
   return (
     <Navbar bg="light" expand="sm">
       <Container>
@@ -16,7 +16,7 @@ export const NavbarView = () => {
           <Nav.Link href="/users/:username/my-list">My List</Nav.Link>
           <NavDropdown title="Profile" id="profile-options">
             <NavDropdown.Item href="/users/:username/my-account">My Account</NavDropdown.Item>
-            <NavDropdown.Item href="/">Logout</NavDropdown.Item>
+            <NavDropdown.Item onClick={onLoggedOut} href="/">Logout</NavDropdown.Item>
           </NavDropdown>
         </Nav>
         </Navbar.Collapse>
