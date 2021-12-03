@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
-import TextTruncate from "react-text-truncate";
 
 import { Link } from "react-router-dom";
 
@@ -16,15 +15,6 @@ export class MovieCard extends React.Component {
                 <Card.Img  variant='top' src= { movie.ImagePath } crossOrigin = '*'/>
                 <Card.Body className="p-0">
                     <Card.Title className="pt-3"> { movie.Title } </Card.Title>
-                    <Card.Text> 
-                    <TextTruncate
-                        line={3}
-                        element="span"
-                        truncateText="..."
-                        text={movie.Description}
-                        textTruncateChild={<a href="#">See More </a>}
-                      />
-                    </Card.Text>
                     <Link to={`/movies/${movie._id}`}>
                         <Button variant='link'>Open</Button>
                     </Link>

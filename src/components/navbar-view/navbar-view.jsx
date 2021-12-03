@@ -3,6 +3,8 @@ import { Nav, Navbar,  NavDropdown, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 export const NavbarView = ({onLoggedOut}) => {
+  user = localStorage.getItem("user")
+
   return (
     <Navbar bg="light" expand="sm">
       <Container>
@@ -13,9 +15,9 @@ export const NavbarView = ({onLoggedOut}) => {
         <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/users/:username/my-list">My List</Nav.Link>
+          <Nav.Link as={Link} to={`/users/${user}/my-list`}>My List</Nav.Link>
           <NavDropdown title="Profile" id="profile-options">
-            <NavDropdown.Item href="/users/:username/my-account">My Account</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to={`/users/${user}`}>My Account</NavDropdown.Item>
             <NavDropdown.Item onClick={onLoggedOut} href="/">Logout</NavDropdown.Item>
           </NavDropdown>
         </Nav>

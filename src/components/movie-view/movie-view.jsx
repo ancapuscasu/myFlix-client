@@ -1,17 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
 
 import './movie-view.scss';
 
 import { Link } from "react-router-dom";
 
-export class MovieView extends React.Component {
 
-  render() {
-    const { movie, genre, onBackClick } = this.props;
-    console.log(genre);
-    console.log(movie);
+export function MovieView (props) {
+  const movie=props.movie;
+  const genre=props.genre;
+
+  const [favouritemovie, setFavouriteMovie] = useState('');
+
+  addFavoriteMovie = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('user');
+
+    axios.post(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`, {
+      FavouriteMovies: favouritemovie
+    },
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then (response => {
+      const data = response.data;
+      console.log("successfully added: " + data);
+    })
+    .catch(function (error) {
+        console.log(error + "unable to add favourite movie");
+      });
+  };
 
       return (
         <Container>
@@ -34,6 +55,7 @@ export class MovieView extends React.Component {
                       <Link to={`/genres/${genre.Name}`}>
                         <Button variant="link">Genre</Button>
                       </Link>
+                      <Button variant="outline-danger" type="submit" value={movie._id} onClick={addFavoriteMovie}>Add to Favorites</Button>
                     </Card.Text>
                 </Card.Body>
                 <Button onClick={() => { onBackClick(null); }}>Back</Button>
@@ -42,7 +64,6 @@ export class MovieView extends React.Component {
           </Row>
         </Container>
       );
-  }
 }
 
 MovieView.propTypes = {

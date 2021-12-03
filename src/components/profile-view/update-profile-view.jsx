@@ -7,15 +7,35 @@ import { Link } from "react-router-dom";
 
 import "./profile-view.scss";
 
-export function UpdateProfileView (user) {
-  const [firstname, setFirstname] = useState({user}.FirstName);
-  const [lastname, setLastname] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [birthdate, setBirthdate] = useState('');
+export function UpdateProfileView (props) {
+  const user = props.user;
+  console.log(props.user);
 
-  console.log(user);
+  if (props.user === undefined) {
+    props.user={
+      FirstName: "Chloe",
+      LastName: "Cat",
+      Username: "chloecat",
+      Password: "123456789",
+      Email: "chloe@gmail.com",
+      Birthdate: "2021-09-13T00:00:00.000+00:00"
+    };
+    console.log(props.user);
+  }
+
+  const [firstname, setFirstname] = useState(props.user.FirstName);
+  const [lastname, setLastname] = useState(user.LastName);
+  const [username, setUsername] = useState(user.Username);
+  const [password, setPassword] = useState(user.Password);
+  const [email, setEmail] = useState(user.Email);
+  const [birthdate, setBirthdate] = useState(user.Birthdate);
+  console.log(firstname);
+
+  // const userBirthdate = props.user.Birthdate;
+  // const userBirthYear = userBirthdate.getUTCFullYear();
+  // const userBirthMonth = userBirthdate.getUTCMonth();
+  // const userBirthDay = userBirthdate.getUTCDate();
+  // const birthdate = userBirthYear + "/"
 
   const handleEdit = (event) => {
     event.preventDefault();
@@ -34,14 +54,15 @@ export function UpdateProfileView (user) {
           headers: { Authorization: `Bearer ${token}` },
         }
       )
-        .then((response) => {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    };
-  
+      .then(response => {
+        const user=response.data;
+        setUser(user.Username)
+      })
+      .catch(e => {
+        console.log("Profile update NOT sucessful")
+      });      
+  };
+
 
   return (
     <Container className="profile-view">
@@ -57,8 +78,7 @@ export function UpdateProfileView (user) {
                     <Form.Control 
                       type="text" 
                       placeholder="First name"
-                      value = {firstname}
-                      onChange = {event => setFirstname(event.target.value)}
+                      onChange = {e => setFirstname(e.target.value)}
                       required />
                   </Form.Group>
 
@@ -67,8 +87,7 @@ export function UpdateProfileView (user) {
                     <Form.Control 
                       type="text" 
                       placeholder="Last name"
-                      value={lastname}
-                      onChange = {event => setLastname(event.target.value)}
+                      onChange = {e => setLastname(e.target.value)}
                       required />
                   </Form.Group>
                 </Row>
@@ -100,6 +119,7 @@ export function UpdateProfileView (user) {
                       type="email"
                       name="Email"
                       placeholder="Enter Email"
+                      value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
                     />
@@ -110,6 +130,7 @@ export function UpdateProfileView (user) {
                     <Form.Control
                       type="date"
                       name="Birthday"
+                      value={birthdate}
                       onChange={(e) => setBirthdate(e.target.value)}
                     />
                   </Form.Group>
