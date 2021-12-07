@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 export function MovieView (props) {
   const movie=props.movie;
   const genre=props.genre;
+  const onBackClick=props.onBackClick;
+  console.log(genre);
 
   const [favouritemovie, setFavouriteMovie] = useState('');
 
