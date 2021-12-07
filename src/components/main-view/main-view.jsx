@@ -153,7 +153,7 @@ export class MainView extends React.Component {
                 <Col md={3} key={movie._id}>
                   <MovieCard movie={movie} />
                 </Col>
-            ))
+            ));
           }} />
 
 
@@ -182,7 +182,7 @@ export class MainView extends React.Component {
          
             return (
               <>
-                <Col md={8}>
+                <Col md={8} >
                   <MovieView movie={movieById} genre={genres.find(genre => genre._id.$oid === movieById.Genre[0].$oid)} onBackClick={() => history.goBack()} />
                 </Col>
               </>

@@ -32,8 +32,7 @@ export function LoginView (props) {
     return (
       <Container>
         <Row>
-          <Col></Col>
-          <Col xs={8} md={6} className="mt-5">
+          <Col xs={12} className="mt-5">
             <CardGroup>
               <Card>
                 <Card.Body>
@@ -63,7 +62,6 @@ export function LoginView (props) {
               </Card>
             </CardGroup>
           </Col>
-          <Col></Col>
         </Row>
       </Container>
     )

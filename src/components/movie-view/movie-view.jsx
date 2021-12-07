@@ -19,15 +19,13 @@ export function MovieView (props) {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('user');
 
-    axios.post(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`, {
-      FavouriteMovies: favouritemovie
-    },
+    axios.post(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`, {}, 
     {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then (response => {
-      const data = response.data;
-      console.log("successfully added: " + data);
+      alert("Successfully added to your list!");
+      console.log(response);
     })
     .catch(function (error) {
         console.log(error + "unable to add favourite movie");
@@ -55,7 +53,7 @@ export function MovieView (props) {
                       <Link to={`/genres/${genre.Name}`}>
                         <Button variant="link">Genre</Button>
                       </Link>
-                      <Button variant="outline-danger" type="submit" value={movie._id} onClick={addFavoriteMovie}>Add to Favorites</Button>
+                      <Button variant="outline-danger" type="submit" value={movie._id} onClick={addFavoriteMovie}>Add to My List</Button>
                     </Card.Text>
                 </Card.Body>
                 <Button onClick={() => { onBackClick(null); }}>Back</Button>

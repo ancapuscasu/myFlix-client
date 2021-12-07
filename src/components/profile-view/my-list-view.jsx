@@ -39,23 +39,7 @@ export class MyListView extends React.Component {
      };
 
      
-    deleteFavorite = (movie) => {
-      
-      const token = localStorage.getItem('token');
-      const Username = localStorage.getItem('user');
-  
-          axios
-            .delete(`https://ancas-myflixapi.herokuapp.com/${Username}/movies/${movie._id}`, {
-            headers: { Authorization: `Bearer ${token}` }
-           })
-            .then((response) => {
-              alert('Movie removed from favorites');
-              this.getUser(token);
-            })
-            .catch(function (error) {
-              console.log(error);
-           })
-    };
+    
  
 
   render () {
@@ -68,7 +52,7 @@ export class MyListView extends React.Component {
   <div className='FaveMovie'>
     <Row>
     
-    <Card style={{ width: '20rem', marginTop: '0.5rem', marginBottom: '1rem', height: 'auto', alignItems: 'center'}} xs={2}>
+    <Card >
          
             
             <Row>
@@ -91,7 +75,7 @@ export class MyListView extends React.Component {
                           return (
                             <div key={movie._id}>
                               <Row >
-                                  <Card style={{ width: '15rem', marginTop: 'o.5rem', marginBottom: '1rem', height: 'auto', alignItems: 'center', padding: '1rem'}} xs={2}>
+                                  <Card>
                                     <Card.Header>{movie.Title}</Card.Header>
                                     <Card.Img className='movie-card' variant='top' src={movie.ImagePath} />
                                     <Card.Body>

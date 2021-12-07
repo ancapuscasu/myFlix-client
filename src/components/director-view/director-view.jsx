@@ -4,6 +4,14 @@ import { Card, Container, Button } from 'react-bootstrap';
 import React from 'react'
 
 export const DirectorView = ({director, onBackClick}) => {
+
+  // const birthday=director.Birthdate.getDate();
+  // console.log(birthday);
+
+  // const birthmonth=director.Birthdate.getMonth();
+  // const birthyear=director.Birthdate.getFullYear(); 
+
+  // const birthdate=`${birthmonth} - ${birthday} - ${birthyear}`;
   return (
     <div>
       <Container className="director-view">

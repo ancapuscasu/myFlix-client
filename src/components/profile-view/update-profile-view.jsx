@@ -23,7 +23,9 @@ export function UpdateProfileView (props) {
     console.log(props.user);
   }
 
-  const [firstname, setFirstname] = useState(props.user.FirstName);
+  const [firstname, setFirstname] = useState(user.FirstName);
+  console.log(firstname);
+  
   const [lastname, setLastname] = useState(user.LastName);
   const [username, setUsername] = useState(user.Username);
   const [password, setPassword] = useState(user.Password);
@@ -67,7 +69,8 @@ export function UpdateProfileView (props) {
   return (
     <Container className="profile-view">
       <Row>
-        <Col>
+        <Col></Col>
+        <Col xs={10} sm={9} md={8} lg={6}>
           <Card className="update-profile">
             <Card.Body>
               <Card.Title>Update Profile</Card.Title>
@@ -119,7 +122,6 @@ export function UpdateProfileView (props) {
                       type="email"
                       name="Email"
                       placeholder="Enter Email"
-                      value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
                     />
@@ -130,7 +132,6 @@ export function UpdateProfileView (props) {
                     <Form.Control
                       type="date"
                       name="Birthday"
-                      value={birthdate}
                       onChange={(e) => setBirthdate(e.target.value)}
                     />
                   </Form.Group>
@@ -146,6 +147,7 @@ export function UpdateProfileView (props) {
             </Card.Body>
           </Card>
         </Col>
+        <Col></Col>
       </Row>
 
 
