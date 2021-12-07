@@ -179,11 +179,15 @@ export class MainView extends React.Component {
             if (movies.length === 0) return <div className = "main-view"/> ;
             
             const movieById=movies.find(movie => movie._id === match.params.movieId);
+            const genreById=genres.find(genre => genre._id.$oid === movieById.Genre[0].$oid);
+
+            console.log(movieById);
          
+
             return (
               <>
                 <Col md={8} >
-                  <MovieView movie={movieById} genre={genres.find(genre => genre._id.$oid === movieById.Genre[0].$oid)} onBackClick={() => history.goBack()} />
+                  <MovieView movie={movieById} genre={genreById} onBackClick={() => history.goBack()} />
                 </Col>
               </>
             );
