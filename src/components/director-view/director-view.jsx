@@ -1,9 +1,16 @@
 import React from 'react';
 import { Card, Container, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
 
-import React from 'react'
+import './director-view.scss';
 
-export const DirectorView = ({director, onBackClick}) => {
+export function DirectorView (props) {
+  const director = props.director;
+  const onBackClick = props.onBackClick;
+
+  let formattedDate=moment.utc(director.Birthdate).format('MMMM Do YYYY');
 
   // const birthday=director.Birthdate.getDate();
   // console.log(birthday);
@@ -13,17 +20,15 @@ export const DirectorView = ({director, onBackClick}) => {
 
   // const birthdate=`${birthmonth} - ${birthday} - ${birthyear}`;
   return (
-    <div>
       <Container className="director-view">
         <Card>
           <Card.Body>
             <Card.Title>{director.Name}</Card.Title>
             <Card.Text>{director.Bio}</Card.Text>
-            <Card.Text>Born: {director.Birthdate}</Card.Text>
+            <Card.Text>Born: {formattedDate}</Card.Text>
             <Button onClick={() => { onBackClick(null); }}>Back</Button>
           </Card.Body>
         </Card>
       </Container>
-    </div>
   )
 }

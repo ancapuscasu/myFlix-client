@@ -2,10 +2,11 @@ import React from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 
 
-export const GenreView = ({genre, onBackClick}) => {
-  console.log(genre);
+export function GenreView (props) {
+  const genre = props.genre;
+  const onBackClick = props.onBackClick;
+  
   return (
-    <>
       <Row>
         <Col>
           <Card>
@@ -17,6 +18,5 @@ export const GenreView = ({genre, onBackClick}) => {
           </Card>
         </Col>
       </Row>
-    </>
   )
 }

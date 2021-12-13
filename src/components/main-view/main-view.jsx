@@ -4,7 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 
 import './main-view.scss';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 import { RegistrationView } from '../registration-view/registration-view';
 import { LoginView } from '../login-view/login-view';
@@ -30,6 +30,18 @@ export class MainView extends React.Component {
       user: null,
       users:[]
     };
+  }
+
+  componentDidMount() {
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem('user')
+      });
+      this.getMovies(accessToken);
+      this.getUsers(accessToken);
+      this.getGenres(accessToken);
+    }
   }
 
   getMovies(token) {
@@ -62,19 +74,6 @@ export class MainView extends React.Component {
   }
 
 
-
-  componentDidMount() {
-    let accessToken = localStorage.getItem('token');
-    if (accessToken !== null) {
-      this.setState({
-        user: localStorage.getItem('user')
-      });
-      this.getMovies(accessToken);
-      this.getUsers(accessToken);
-      this.getGenres(accessToken);
-    }
-  }
-
   getUsers(token) {
     axios.get(`https://ancas-myflixapi.herokuapp.com/users/`, {
       headers: { Authorization: `Bearer ${token}`}
@@ -90,25 +89,11 @@ export class MainView extends React.Component {
   }
   
 
-  //when movie is clicked, state of selectedMovie updates to newSelectedMovie
-  setSelectedMovie(newSelectedMovie) {
-    this.setState({
-      selectedMovie: newSelectedMovie
-    });
-  }
-
-  // //Successful user registration
-  // onRegistration(registeredUser) {
-  //   this.setState({
-  //     registeredUser
-  //   });
-  // }
-
   //After logging in, authorized user's username state is updated 
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
-      user: authData.user
+      user: authData.user.Username
     });
 
     //Storing user's username and token in local storage
@@ -119,13 +104,6 @@ export class MainView extends React.Component {
     this.getUsers(authData.token);
   }
 
-  onLoggedOut() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    this.setState({
-      user:null
-    });
-  }
 
   
 
@@ -135,30 +113,41 @@ export class MainView extends React.Component {
     
     return (
       <Router>
-        <NavbarView user={user} onLoggedOut = { user => this.onLoggedOut(user)}/>
-        <Row className="main-view justify-content-center">
+        <div className="main-view">
 
           <Route exact path="/" render={() => {
             if (!user) return (
-            <Row>
-              <Col>
-                <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
-              </Col>
-            </Row>
+              <Row className="justify-content-center">
+                <Col xs={8} sm={8} md={6} lg={4}>
+                  <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
+                </Col>
+              </Row>
             );
 
             if (movies.length === 0) return <div className = "main-view"/> ;
 
-            return movies.map(movie => (
-                <Col md={3} key={movie._id}>
-                  <MovieCard movie={movie} />
-                </Col>
-            ));
-          }} />
+            return (
+              <>
+                <Row className="mb-3 navigation-main"> 
+                  <Col sm={12}>
+                    <NavbarView user={user}/>
+                  </Col>
+                </Row>
+                <Row>
+                  {movies.map(movie => (
+                    <Col xs={12} sm={6} md={3} key={movie._id} className="d-grid justify-content-center">
+                      <MovieCard movie={movie} />
+                    </Col>
+                  ))}
+                </Row>
+              </>
+            )
+           }} />
 
 
 
           <Route exact path="/register" render={() => {
+            if (user) return <Redirect to="/" />
             return (
               <RegistrationView />
             );
@@ -167,28 +156,28 @@ export class MainView extends React.Component {
 
 
 
-          <Route exact path="/movies/:movieId" render={({ match, history }) => {
-            if (!user) return (
-            <Row>
-              <Col>
-                <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
-              </Col>
-            </Row>
-            );
-
+          <Route exact path="/movies/:Title" render={({ match, history }) => {
+            if (!user) return <Redirect to="/" />
             if (movies.length === 0) return <div className = "main-view"/> ;
             
-            const movieById=movies.find(movie => movie._id === match.params.movieId);
-            const genreById=genres.find(genre => genre._id.$oid === movieById.Genre[0].$oid);
+            const movieByTitle=movies.find(movie => movie.Title === match.params.Title);
+            const genreById=genres.find(genre => genre._id=== movieByTitle.Genre[0]);
 
-            console.log(movieById);
+            console.log(movieByTitle);
          
 
             return (
               <>
-                <Col md={8} >
-                  <MovieView movie={movieById} genre={genreById} onBackClick={() => history.goBack()} />
-                </Col>
+                <Row className="mb-3 navigation-main"> 
+                  <Col sm={12}>
+                    <NavbarView user={user}/>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={8} >
+                    <MovieView movie={movieByTitle} genre={genreById} onBackClick={() => history.goBack()} />
+                  </Col>
+                </Row>
               </>
             );
           }} 
@@ -197,21 +186,21 @@ export class MainView extends React.Component {
 
 
           <Route exact path="/directors/:name" render={({ match, history }) => {
-            if (!user) return (
-            <Row>
-              <Col>
-                <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
-              </Col>
-            </Row>
-            );
-
+            if (!user) return <Redirect to="/" />
             if (movies.length === 0 ) return <div className="main-view" />;
 
             return ( 
               <>
-                <Col md={8}>
-                  <DirectorView movies={movies}  director={movies.find(movie => movie.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()}/>
-                </Col>
+                <Row className="mb-3 navigation-main"> 
+                  <Col sm={12}>
+                    <NavbarView user={user}/>
+                  </Col>
+                </Row>
+                <Row className="justify-content-center">
+                  <Col xs={10} md={8} lg={6}>
+                    <DirectorView director={movies.find(movie => movie.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()}/>
+                  </Col>
+                </Row>
               </>
             );
           }}
@@ -220,21 +209,22 @@ export class MainView extends React.Component {
 
 
           <Route exact path="/genres/:name" render={({ match, history }) => {
-            if (!user) return 
-            <Row>
-              <Col>
-                <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
-              </Col>
-            </Row>
-
+            if (!user) return <Redirect to="/" />
             if (movies.length === 0 ) return <div className="main-view" />;     
 
 
             return (
               <>
-                <Col md={8}>
-                  <GenreView genre={genres.find(genre => genre.Name === match.params.name)} onBackClick={() => history.goBack()} />
-                </Col>
+                <Row className="mb-3 navigation-main"> 
+                  <Col sm={12}>
+                    <NavbarView user={user}/>
+                  </Col>
+                </Row>
+                <Row className="justify-content-center">
+                  <Col xs={10} md={8} lg={6}>
+                    <GenreView genre={genres.find(genre => genre.Name === match.params.name)} onBackClick={() => history.goBack()} />
+                  </Col>
+                </Row>
               </>
             );
           }}
@@ -244,13 +234,7 @@ export class MainView extends React.Component {
 
           <Route exact path="/users/:username"
             render={({ match }) => {
-              if (!user) return 
-                <Row>
-                  <Col>
-                    <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
-                  </Col>
-                </Row>
-
+              if (!user) return <Redirect to="/" />
               if (movies.length === 0 ) return <div className="main-view" />;
 
             
@@ -259,8 +243,14 @@ export class MainView extends React.Component {
 
               return (
                 <>
-                  <UpdateProfileView user={userByUsername} key= {user._id}  />
-                  {/* <UpdateProfileView user={localStorage.getItem("user")} /> */}
+                  <Row className="mb-3 navigation-main"> 
+                    <Col sm={12}>
+                      <NavbarView user={user}/>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <UpdateProfileView user={userByUsername}  />
+                  </Row>
                 </>
               );
             }}
@@ -268,26 +258,26 @@ export class MainView extends React.Component {
 
           <Route exact path="/users/:username/my-list"
             render={({ match }) => {
-              if (!user) return 
-                <Row>
-                  <Col>
-                    <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
-                  </Col>
-                </Row>
-
+              if (!user) return <Redirect to="/" />
               if (movies.length === 0 ) return <div className="main-view" />;
 
               const userByUsername=users.find(user=> user.Username === match.params.username);
 
               return (
                 <>
-                  <MyListView user={userByUsername} />
-                  {/* <UpdateProfileView user={localStorage.getItem("user")} /> */}
+                  <Row className="mb-3 navigation-main"> 
+                    <Col sm={12}>
+                      <NavbarView user={user}/>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <MyListView user={userByUsername} movies={movies}/>
+                  </Row>
                 </>
               );
             }}
             />
-        </Row>
+        </div>
       </Router>
 
     );

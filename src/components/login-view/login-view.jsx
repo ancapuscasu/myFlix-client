@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import './login-view.scss';
 import PropTypes from 'prop-types';
 import {Form, Container, Row, Col, Card, CardGroup, Button} from 'react-bootstrap';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+
+import './login-view.scss';
 
 
 
 export function LoginView (props) {
+  const onLoggedIn = props.onLoggedIn;
+
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
 
@@ -21,7 +26,7 @@ export function LoginView (props) {
     //After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
     .then(response => {
       const data = response.data;
-      props.onLoggedIn(data);
+      onLoggedIn(data);
     })
     //Error handling
     .catch(e => {
@@ -31,14 +36,13 @@ export function LoginView (props) {
 
     return (
       <Container>
-        <Row>
-          <Col xs={12} className="mt-5">
+          <Col className="mt-5">
             <CardGroup>
               <Card>
                 <Card.Body>
                   <Card.Title className="mb-3">Log In</Card.Title>
                     <Form>   
-                      <Form.Group className="mb-2 login__formUsername" controlId="formUsername"> 
+                      <Form.Group className="mb-2" controlId="formUsername"> 
                         <Form.Label>Username: </Form.Label>
                         <Form.Control 
                           type="text" 
@@ -55,14 +59,17 @@ export function LoginView (props) {
                           minLength="8"
                           onChange = {event => setPassword(event.target.value)} />
                       </Form.Group>
-
-                      <Button variant="primary" type="submit" onClick = {handleSubmit}>Log In</Button>
+                      <Row className="d-grid gap-2 justify-content-center mb-4">
+                        <Button variant="primary" type="submit" onClick = {handleSubmit}>Log In</Button>
+                      </Row>
+                      <Row className="justify-content-center ">
+                        <Button as={Link} to="/register" className="ml-2" variant="secondary" size="sm" > Register here</Button>
+                      </Row>
                     </Form>
                 </Card.Body>
               </Card>
             </CardGroup>
           </Col>
-        </Row>
       </Container>
     )
 }

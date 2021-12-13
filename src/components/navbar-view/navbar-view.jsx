@@ -2,8 +2,16 @@ import React from 'react';
 import { Nav, Navbar,  NavDropdown, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-export const NavbarView = ({onLoggedOut}) => {
+export const NavbarView = () => {
   user = localStorage.getItem("user")
+
+  const onLoggedOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.setState({
+      user:null
+    });
+  }
 
   return (
     <Navbar bg="light" expand="sm">

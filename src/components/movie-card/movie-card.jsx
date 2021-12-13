@@ -11,12 +11,12 @@ export class MovieCard extends React.Component {
         const { movie } = this.props;
         
         return (
-            <Card className="movie-card p-3">
+            <Card className="movie-card p-3 ">
                 <Card.Img  variant='top' src= { movie.ImagePath } crossOrigin = '*'/>
                 <Card.Body className="p-0">
                     <Card.Title className="pt-3"> { movie.Title } </Card.Title>
-                    <Link to={`/movies/${movie._id}`}>
-                        <Button variant='link'>Open</Button>
+                    <Link to={`/movies/${movie.Title}`}>
+                        <Button variant='link'>View</Button>
                     </Link>
                 </Card.Body>
             </Card>
@@ -37,5 +37,4 @@ MovieCard.propTypes = {
         Featured: PropTypes.bool,
         ReleaseYear: PropTypes.number.isRequired
     }).isRequired,
-    // onMovieClick: PropTypes.func.isRequired
 };

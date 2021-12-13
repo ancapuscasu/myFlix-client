@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './registration-view.scss';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { Card, CardGroup, Container, Row, Col, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -103,9 +104,9 @@ export function RegistrationView (props) {
                       <Form.Label>Birthday</Form.Label>
                       <Form.Control 
                         type="date" 
-                        value={birthdate}
                         onChange = {event => setBirthdate(event.target.value)}
-                        required />
+                        required>
+                      </Form.Control>
                     </Form.Group>
 
                     <Button 

@@ -12,25 +12,42 @@ export function MovieView (props) {
   const movie=props.movie;
   const genre=props.genre;
   const onBackClick=props.onBackClick;
-  console.log(genre);
 
-  const [favouritemovie, setFavouriteMovie] = useState('');
+  const token = localStorage.getItem('token');
+  const username = localStorage.getItem('user');
 
-  addFavoriteMovie = (e) => {
+  const handleAddFavouriteMovie = (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    const username = localStorage.getItem('user');
-
     axios.post(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`, {}, 
     {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then (response => {
-      alert("Successfully added to your list!");
-      console.log(response);
+      const data = response.data;
+      console.log(data);
+      alert(`${movie.Title} was successfully added to your favourites list!`);
     })
     .catch(function (error) {
-        console.log(error + "unable to add favourite movie");
+      alert(`${movie.Title} was NOT added to your favourites list!`);
+        console.log(error + " :unable to add to favourites list");
+      });
+  };
+
+  const handleRemoveFavouriteMovie = (e) => {
+    e.preventDefault();
+
+    axios.delete(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`,
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then (response => {
+      const data = response.data;
+      console.log(data);
+      alert (`${movie.Title} was successfully removed from your favourites list!`);
+    })
+    .catch(e => {
+      alert(`${movie.Title} was NOT removed to your favourites list!`);
+        console.log(e + " :unable to remove from favourites list");
       });
   };
 
@@ -55,8 +72,15 @@ export function MovieView (props) {
                       <Link to={`/genres/${genre.Name}`}>
                         <Button variant="link">Genre</Button>
                       </Link>
-                      <Button variant="outline-danger" type="submit" value={movie._id} onClick={addFavoriteMovie}>Add to My List</Button>
                     </Card.Text>
+                    <Row>
+                      <Link to={`/movies/${movie.Title}`}>
+                        <Button variant="outline-success" type="submit" onClick={handleAddFavouriteMovie}>Add to My List</Button>
+                      </Link>
+                      <Link to={`/movies/${movie.Title}`}>
+                        <Button variant="outline-danger" type="submit" onClick={handleRemoveFavouriteMovie}>Remove from My List</Button>
+                      </Link>
+                    </Row>
                 </Card.Body>
                 <Button onClick={() => { onBackClick(null); }}>Back</Button>
               </Card>

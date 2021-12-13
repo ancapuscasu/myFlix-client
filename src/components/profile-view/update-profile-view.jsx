@@ -1,148 +1,156 @@
 import React, { useState } from "react";
 import axios from "axios";
-import PropTypes from "prop-types";
 
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Redirect } from 'react-router-dom';
 
 import "./profile-view.scss";
 
 export function UpdateProfileView (props) {
   const user = props.user;
-  console.log(props.user);
-
-  if (props.user === undefined) {
-    props.user={
-      FirstName: "Chloe",
-      LastName: "Cat",
-      Username: "chloecat",
-      Password: "123456789",
-      Email: "chloe@gmail.com",
-      Birthdate: "2021-09-13T00:00:00.000+00:00"
-    };
-    console.log(props.user);
-  }
 
   const [firstname, setFirstname] = useState(user.FirstName);
-  console.log(firstname);
-  
   const [lastname, setLastname] = useState(user.LastName);
   const [username, setUsername] = useState(user.Username);
-  const [password, setPassword] = useState(user.Password);
   const [email, setEmail] = useState(user.Email);
-  const [birthdate, setBirthdate] = useState(user.Birthdate);
-  console.log(firstname);
 
-  // const userBirthdate = props.user.Birthdate;
-  // const userBirthYear = userBirthdate.getUTCFullYear();
-  // const userBirthMonth = userBirthdate.getUTCMonth();
-  // const userBirthDay = userBirthdate.getUTCDate();
-  // const birthdate = userBirthYear + "/"
+
+  const Username = localStorage.getItem("user");
+  const token = localStorage.getItem("token");
+
 
   const handleEdit = (event) => {
     event.preventDefault();
-      const Username = localStorage.getItem("user");
-      const token = localStorage.getItem("token");
 
-      axios.put(`https://ancas-myflixapi.herokuapp.com/users/${Username}`, {
-        FirstName: firstname,
-        LastName: lastname,
-        Username: username,
-        Password: password,
-        Email: email,
-        Birthdate: birthdate
-      },
-        { 
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then(response => {
-        const user=response.data;
-        setUser(user.Username)
-      })
-      .catch(e => {
-        console.log("Profile update NOT sucessful")
-      });      
+    axios.put(`https://ancas-myflixapi.herokuapp.com/users/${Username}`, {
+      FirstName: firstname,
+      LastName: lastname,
+      Email: email,
+    },
+      { headers: { Authorization: `Bearer ${token}` }}
+    )
+    .then(response => {
+      const data=response.data;
+      console.log(data);
+      alert (user + " has been updated.");
+      window.open(`{/users/${Username}}`, '_self');
+    })
+    .catch(e => {
+      console.log("Profile update NOT sucessful")
+    });      
   };
+
+  const handleDeleteAccount = () => {
+    const answer = window.confirm("This cannot be undone, are you sure?");
+    if (answer) {
+      axios.delete(`https://ancas-myflixapi.herokuapp.com/users/${Username}`, 
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => {
+        alert(Username + " has been deleted.");
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        window.location.pathname = "/";
+        // onChange=() => SetUsername(null); --> maybe change back to this
+      })
+      .catch(function(error) {
+        console.log(error + " unable to delete user");
+      });
+    } else {
+      console.log("That was close!");
+    }
+  }
 
 
   return (
     <Container className="profile-view">
       <Row>
+        <Col>
+        <h3> Hello {user.FirstName}</h3>
+        </Col>
+      </Row>
+      <Row>
         <Col></Col>
         <Col xs={10} sm={9} md={8} lg={6}>
           <Card className="update-profile">
             <Card.Body>
-              <Card.Title>Update Profile</Card.Title>
+              <Card.Title className="mb-3">Update Profile</Card.Title>
               <Form>
-                <Row className="mb-2">
-                  <Form.Group as={Col} controlId="form FirstName">
-                    <Form.Label>First name</Form.Label>
-                    <Form.Control 
-                      type="text" 
-                      placeholder="First name"
-                      onChange = {e => setFirstname(e.target.value)}
-                      required />
+                <Form.Group as={Row} className="mb-3" controlId="formFirstName">
+                  <Form.Label column sm={4}>First name</Form.Label>
+                    <Col sm={8}>
+                      <Form.Control 
+                        type="text" 
+                        placeholder="First name"
+                        value={firstname}
+                        onChange = {e => setFirstname(e.target.value)}
+                        required />
+                    </Col>
                   </Form.Group>
 
-                  <Form.Group as={Col} controlId="formLastName">
-                    <Form.Label>Last name</Form.Label>
-                    <Form.Control 
-                      type="text" 
-                      placeholder="Last name"
-                      onChange = {e => setLastname(e.target.value)}
-                      required />
-                  </Form.Group>
-                </Row>
-                  <Form.Group>
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
+                  <Form.Group as={Row} className="mb-3" controlId="formLastName">
+                    <Form.Label column sm={4}>Last name</Form.Label>
+                      <Col sm={8}>
+                        <Form.Control 
+                          type="text" 
+                          placeholder="Last name"
+                          value={lastname}
+                          onChange = {e => setLastname(e.target.value)}
+                          required />
+                      </Col>
+                </Form.Group>
+
+                <Form.Group as={Row} className="mb-3" controlId="formUsername">
+                  <Form.Label column sm={4}>Username</Form.Label>
+                  <Col sm={8}>
+                  <Form.Control
                       type="text"
                       name="Username"
                       placeholder="New Username"
+                      value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       required
                     />
-                  </Form.Group>
+                  </Col>
+                </Form.Group>
 
-                  <Form.Group>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      name="Password"
-                      placeholder="New Password"
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </Form.Group>
-
-                  <Form.Group>
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
+                <Form.Group as={Row} className="mb-3" controlId="formEmail">
+                  <Form.Label column sm={4}>Email</Form.Label>
+                  <Col sm={8}>
+                  <Form.Control
                       type="email"
                       name="Email"
                       placeholder="Enter Email"
+                      value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
                     />
-                  </Form.Group>
+                  </Col>
+                </Form.Group>
 
-                  <Form.Group>
-                    <Form.Label>Birthday</Form.Label>
-                    <Form.Control
-                      type="date"
-                      name="Birthday"
-                      onChange={(e) => setBirthdate(e.target.value)}
-                    />
-                  </Form.Group>
+                <Row>
+                  <Col>
                     <Button
-                      variant="warning"
-                      type="submit"
-                      onClick={handleEdit}
+                    variant="outline-warning"
+                    type="submit"
+                    onClick={handleEdit}
+                  >
+                    Update User
+                  </Button>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Button
+                    variant="outline-danger"
+                    type="submit"
+                    onClick={handleDeleteAccount}
                     >
-                      Update User
+                      Delete Account
                     </Button>
-      
+                  </Col>
+                </Row>
               </Form>
             </Card.Body>
           </Card>
