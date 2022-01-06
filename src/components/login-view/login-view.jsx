@@ -1,83 +1,128 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {Form, Container, Row, Col, Card, CardGroup, Button} from 'react-bootstrap';
+import {Container, Row, Col, Card, CardGroup, Button, InputGroup, Navbar} from 'react-bootstrap';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
-
+import Logo from "../../media/logo.png"
 import './login-view.scss';
 
 
 
 export function LoginView (props) {
+
+  console.log(props);
   const onLoggedIn = props.onLoggedIn;
 
-  const [ username, setUsername ] = useState('');
-  const [ password, setPassword ] = useState('');
+  const initialValues = {
+    Username: '',
+    Password: '',
+  }
 
-  //When user clicks "Log In" button - POST request is made to /login
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    /* Send a request to the server for authentication */
-    axios.post('https://ancas-myflixapi.herokuapp.com/login', {
-      Username: username,
-      Password: password
+  const validationSchema = Yup.object({
+    Username: Yup.string()
+      .required('Please enter a valid username.')
+      .min(5, 'Your username must contain between 5 and 15 characters.')
+      .max(15,'Your username must contain between 5 and 15 characters.'),
+    Password: Yup.string()
+      .required('Please enter your password.')
+      .min(8, 'Your password must contain between 8 and 50 characters.')
+      .max(50, 'Your password must contain between 8 and 50 characters.'),
     })
-    //After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
-    .then(response => {
+  
+  
+  // When user clicks "Log In" button - POST request is made to /login
+  const onSubmit = values => {
+    console.log(values);
+  // Send a request to the server for authentication 
+    axios.post('https://ancas-myflixapi.herokuapp.com/login', values)
+  // After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
+    .then (response => {
       const data = response.data;
+      console.log(data);
       onLoggedIn(data);
     })
-    //Error handling
-    .catch(e => {
-      console.log('no user found')
+    .catch (error => {
+      console.log("Error logging user in / no user found")
     });
   };
 
     return (
-      <Container>
-          <Col className="mt-5">
+      <div className='login-view-container'>
+        <Navbar.Brand href="#home" className="m-3 logo">
+          <img
+            src={Logo}
+            crossOrigin="*"
+            width='150px'
+            alt="myFlix logo"
+          />
+        </Navbar.Brand>
+        <Row className='login'>
+          <Col xs={10}  sm={7} md={6} lg={5} xl={4} className="m-3">
             <CardGroup>
-              <Card>
+              <Card className="login-card">
                 <Card.Body>
-                  <Card.Title className="mb-3">Log In</Card.Title>
-                    <Form>   
-                      <Form.Group className="mb-2" controlId="formUsername"> 
-                        <Form.Label>Username: </Form.Label>
-                        <Form.Control 
-                          type="text" 
-                          required
-                          minLength="5"
-                          onChange = {event => setUsername(event.target.value)} />
-                      </Form.Group>
+                  <Card.Title className="m-4">Sign In</Card.Title>
+                    <Formik
+                      initialValues={initialValues}
+                      validationSchema={validationSchema}
+                      onSubmit={onSubmit}
+                    >
+                      <Form> 
+                        <Row className="m-4 login-input-group"> 
+                          <Field
+                            className="login-input"
+                            name="Username"
+                            type="text" 
+                            required
+                            // placeholder="Username"
+                          />
+                          <label className="login-input-label" htmlFor="Username">Username:</label>
+                          <ErrorMessage
+                            name="Username"
+                            component="div"
+                            className="input-error"
+                          />
+                        </Row>
 
-                      <Form.Group className="mb-2" controlId="formPassword"> 
-                        <Form.Label>Password: </Form.Label>
-                        <Form.Control 
-                          type="password" 
-                          required
-                          minLength="8"
-                          onChange = {event => setPassword(event.target.value)} />
-                      </Form.Group>
-                      <Row className="d-grid gap-2 justify-content-center mb-4">
-                        <Button variant="primary" type="submit" onClick = {handleSubmit}>Log In</Button>
-                      </Row>
-                      <Row className="justify-content-center ">
-                        <Button as={Link} to="/register" className="ml-2" variant="secondary" size="sm" > Register here</Button>
-                      </Row>
-                    </Form>
+                        <Row className="m-4 login-input-group">
+                          <Field
+                            className="login-input"
+                            name="Password"
+                            type="password" 
+                            required
+                            // placeholder="Password"
+                          />
+                          <label className="login-input-label" htmlFor="Password">Password:</label>
+                          <ErrorMessage
+                            name="Password"
+                            component="div"
+                            className="input-error"
+                          />
+                        </Row>
+
+                        <Row className=" mt-4 mx-4 justify-content-center">
+                          <button className="login-signin" type="submit">Log In</button>
+                        </Row>
+
+                        <Row className="justify-content-start ml-4">
+                          <p className='login-register'>New to MyFlix? 
+                            <a href='/register' className='ml-1 login-register-button'> Sign up here</a>
+                          </p>
+                        </Row>
+
+                      </Form>
+                    </Formik>
                 </Card.Body>
               </Card>
             </CardGroup>
           </Col>
-      </Container>
+        </Row>
+      </div>
     )
 }
 
 LoginView.propTypes = {
-    user: PropTypes.shape({
-        username: PropTypes.string.isRequired,
-        password: PropTypes.string.isRequired
-    }),
     onLoggedIn: PropTypes.func.isRequired
 };
