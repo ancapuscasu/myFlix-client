@@ -14,9 +14,7 @@ import { GenreView } from "../genre-view/genre-view";
 import { DirectorView } from "../director-view/director-view";
 import { UpdateProfileView } from "../profile-view/update-profile-view";
 import { NavbarView } from '../navbar-view/navbar-view';
-import { ProfileView } from '../profile-view/profile-view';
-import { MyListView } from '../profile-view/my-list-view';
-
+import { FavouritesListView } from '../profile-view/my-list-view';
 
 
 
@@ -117,11 +115,7 @@ export class MainView extends React.Component {
 
           <Route exact path="/" render={() => {
             if (!user) return (
-              <Row className="justify-content-center">
-                <Col xs={8} sm={8} md={6} lg={4}>
-                  <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
-                </Col>
-              </Row>
+              <LoginView onLoggedIn = { user => this.onLoggedIn(user)} /> 
             );
 
             if (movies.length === 0) return <div className = "main-view"/> ;
@@ -129,7 +123,7 @@ export class MainView extends React.Component {
             return (
               <>
                 <Row className="mb-3 navigation-main"> 
-                  <Col sm={12}>
+                  <Col className="p-0">
                     <NavbarView user={user}/>
                   </Col>
                 </Row>
@@ -157,11 +151,31 @@ export class MainView extends React.Component {
 
 
           <Route exact path="/movies/:Title" render={({ match, history }) => {
-            if (!user) return <Redirect to="/" />
+            if (!user) return (
+                  <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
+            );
+
             if (movies.length === 0) return <div className = "main-view"/> ;
             
-            const movieByTitle=movies.find(movie => movie.Title === match.params.Title);
-            const genreById=genres.find(genre => genre._id=== movieByTitle.Genre[0]);
+            let movieByTitle=movies.find(movie => movie.Title === match.params.Title);
+            if (!movieByTitle) {
+              movieByTitle = {
+                Title: '',
+                Description: '',
+                Genre: [],
+                Director:{},
+                ImagePath: '',
+                Featured: true,
+                ReleaseYear: 0,
+              }
+            }
+            let genreById=genres.find(genre => genre._id=== movieByTitle.Genre[0]);
+            if (!genreById) {
+              genreById = {
+                Name: '',
+                Description: '',
+              }
+            }
 
             console.log(movieByTitle);
          
@@ -169,7 +183,7 @@ export class MainView extends React.Component {
             return (
               <>
                 <Row className="mb-3 navigation-main"> 
-                  <Col sm={12}>
+                  <Col className="p-0">
                     <NavbarView user={user}/>
                   </Col>
                 </Row>
@@ -186,13 +200,16 @@ export class MainView extends React.Component {
 
 
           <Route exact path="/directors/:name" render={({ match, history }) => {
-            if (!user) return <Redirect to="/" />
+            if (!user) return (
+              <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
+            );
+
             if (movies.length === 0 ) return <div className="main-view" />;
 
             return ( 
               <>
                 <Row className="mb-3 navigation-main"> 
-                  <Col sm={12}>
+                  <Col className="p-0">
                     <NavbarView user={user}/>
                   </Col>
                 </Row>
@@ -209,14 +226,17 @@ export class MainView extends React.Component {
 
 
           <Route exact path="/genres/:name" render={({ match, history }) => {
-            if (!user) return <Redirect to="/" />
+            if (!user) return (
+              <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
+            );
+
             if (movies.length === 0 ) return <div className="main-view" />;     
 
 
             return (
               <>
                 <Row className="mb-3 navigation-main"> 
-                  <Col sm={12}>
+                  <Col className="p-0">
                     <NavbarView user={user}/>
                   </Col>
                 </Row>
@@ -227,56 +247,68 @@ export class MainView extends React.Component {
                 </Row>
               </>
             );
-          }}
-          />
+          }}/>
           
 
 
-          <Route exact path="/users/:username"
-            render={({ match }) => {
-              if (!user) return <Redirect to="/" />
-              if (movies.length === 0 ) return <div className="main-view" />;
+          <Route exact path="/users/:username" render={({ match }) => {
+            if (!user) return (
+              <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
+            );
+
+            if (movies.length === 0 ) return <div className="main-view" />;
 
             
-              const userByUsername=users.find(user=> user.Username === match.params.username);
-              console.log(userByUsername);
+            let  userByUsername=users.find(user=> user.Username === match.params.username);
+            if(!userByUsername) {
+              userByUsername = { 
+                FirstName: "", 
+                LastName: "", 
+                Username: "", 
+                Email: "", 
+                Password: "", 
+                Birthdate: "",
+              };
+            }
 
-              return (
-                <>
-                  <Row className="mb-3 navigation-main"> 
-                    <Col sm={12}>
-                      <NavbarView user={user}/>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <UpdateProfileView user={userByUsername}  />
-                  </Row>
-                </>
-              );
-            }}
-          />
+            console.log(userByUsername);
 
-          <Route exact path="/users/:username/my-list"
-            render={({ match }) => {
-              if (!user) return <Redirect to="/" />
-              if (movies.length === 0 ) return <div className="main-view" />;
+            return (
+              <>
+                <Row className="mb-3 navigation-main"> 
+                  <Col className="p-0">
+                    <NavbarView user={user}/>
+                  </Col>
+                </Row>
+                <Row>
+                  <UpdateProfileView user={userByUsername}  />
+                </Row>
+              </>
+            );
+          }}/>
 
-              const userByUsername=users.find(user=> user.Username === match.params.username);
+          <Route exact path="/users/:username/my-list" render={({ match }) => {
+            if (!user) return (
+              <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
+            );
 
-              return (
-                <>
-                  <Row className="mb-3 navigation-main"> 
-                    <Col sm={12}>
-                      <NavbarView user={user}/>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <MyListView user={userByUsername} movies={movies}/>
-                  </Row>
-                </>
-              );
-            }}
-            />
+            if (movies.length === 0 ) return <div className="main-view" />;
+
+            const userByUsername=users.find(user=> user.Username === match.params.username);
+
+            return (
+              <>
+                <Row className="mb-3 navigation-main"> 
+                  <Col className="p-0">
+                    <NavbarView user={user}/>
+                  </Col>
+                </Row>
+                <Row>
+                  <FavouritesListView user={userByUsername} movies={movies}/>
+                </Row>
+              </>
+            );
+          }}/>
         </div>
       </Router>
 
