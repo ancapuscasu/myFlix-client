@@ -1,0 +1,124 @@
+$white: #fff;
+$black: #000;
+$grey: #b3b3b3;
+$darkgrey: #333;
+$orange: #ff8400;
+$red: #e50914;
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    border: 1px solid $darkgrey;
+    -webkit-text-fill-color: $grey;
+    -webkit-box-shadow: 0 0 0px 1000px $darkgrey inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.login-view-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(../../media/popcorn.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.25);
+    background-blend-mode: multiply;
+    min-height: 700px;
+}
+
+.logo {
+    position: absolute;
+    align-self: flex-start;
+    left: 10px;
+    width: 100vw;
+    opacity: 1;
+}
+
+.login {
+    width:100vw;
+    justify-content: center;
+}
+
+
+.card.login-card {
+    background-color: rgba(0, 0, 0, 0.70);
+    min-width: 240px;
+    max-width: 350px;
+}
+.card-title.h5 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: $white;
+    opacity: 1;
+}
+
+.login-input-group {
+    position: relative;
+    z-index: 10;
+    display: flex;
+}
+
+label.login-input-label {
+    position: absolute;
+    z-index: 150;
+    color: $grey;
+    font-size: 1rem;
+    top: 20px;
+    left: 18px;
+    transition: all 300ms ease-in;
+}
+
+input.login-input {
+    width: 100%;
+    position: relative;
+    z-index: 100;
+    background: $darkgrey;
+    border-radius: 3px;
+    border: none;
+    opacity: 1;
+    font-size: 1rem;
+    color: $white;
+    line-height: 50px;
+    padding: 12px 18px 0;
+}
+
+input.login-input:focus + label.login-input-label {
+    top: 5px;
+    font-size: 0.7rem;
+}
+
+input.login-input:valid + label.login-input-label {
+    top: 5px;
+    font-size: 0.7rem;
+}
+
+.input-error {
+    color: $orange;
+    border-top: 1px solid $orange;
+    font-size: 0.8rem;
+}
+
+.login-signin {
+    margin: 24px 0 12px;
+    width: 100%;
+    padding: 16px;
+    color: $white;
+    background: $red;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-register {
+    color: $white;
+    font-size: 0.8rem;
+}
+
