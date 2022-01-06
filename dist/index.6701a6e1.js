@@ -22766,7 +22766,6 @@ var _directorView = require("../director-view/director-view");
 var _updateProfileView = require("../profile-view/update-profile-view");
 var _navbarView = require("../navbar-view/navbar-view");
 var _myListView = require("../profile-view/my-list-view");
-var _navbarLoggedout = require("../navbar-view/navbar-loggedout");
 class MainView extends _reactDefault.default.Component {
     constructor(){
         super();
@@ -22846,14 +22845,14 @@ class MainView extends _reactDefault.default.Component {
         return(/*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.BrowserRouter, {
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 115
+                lineNumber: 113
             },
             __self: this,
             children: /*#__PURE__*/ _jsxRuntime.jsxs("div", {
                 className: "main-view",
                 __source: {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 116
+                    lineNumber: 114
                 },
                 __self: this,
                 children: [
@@ -22895,7 +22894,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 118
+                            lineNumber: 116
                         },
                         __self: this
                     }),
@@ -22911,7 +22910,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 145
+                            lineNumber: 143
                         },
                         __self: this
                     }),
@@ -22970,7 +22969,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 155
+                            lineNumber: 153
                         },
                         __self: this
                     }),
@@ -23013,7 +23012,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 204
+                            lineNumber: 202
                         },
                         __self: this
                     }),
@@ -23056,7 +23055,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 230
+                            lineNumber: 228
                         },
                         __self: this
                     }),
@@ -23102,7 +23101,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 256
+                            lineNumber: 254
                         },
                         __self: this
                     }),
@@ -23140,7 +23139,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 292
+                            lineNumber: 290
                         },
                         __self: this
                     })
@@ -23155,7 +23154,7 @@ class MainView extends _reactDefault.default.Component {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","axios":"iYoWk","react-bootstrap":"h2YVd","./main-view.scss":"jyMAr","react-router-dom":"cpyQW","../registration-view/registration-view":"aP2YV","../login-view/login-view":"054li","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","../genre-view/genre-view":"8WCoL","../director-view/director-view":"ck15y","../profile-view/update-profile-view":"h1oMH","../navbar-view/navbar-view":"j0Dt2","../profile-view/my-list-view":"7ccSJ","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","../navbar-view/navbar-loggedout":"IvQbi"}],"iYoWk":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","axios":"iYoWk","react-bootstrap":"h2YVd","./main-view.scss":"jyMAr","react-router-dom":"cpyQW","../registration-view/registration-view":"aP2YV","../login-view/login-view":"054li","../movie-card/movie-card":"6EiBJ","../movie-view/movie-view":"ikZdr","../genre-view/genre-view":"8WCoL","../director-view/director-view":"ck15y","../profile-view/update-profile-view":"h1oMH","../navbar-view/navbar-view":"j0Dt2","../profile-view/my-list-view":"7ccSJ","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ"}],"iYoWk":[function(require,module,exports) {
 module.exports = require('./lib/axios');
 
 },{"./lib/axios":"3QmO2"}],"3QmO2":[function(require,module,exports) {
@@ -55632,67 +55631,6 @@ $RefreshReg$(_c, "FavouritesListView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"6TuXu","react-bootstrap":"h2YVd","axios":"iYoWk","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","react/jsx-runtime":"8xIwr","react-router-dom":"cpyQW"}],"IvQbi":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$7070 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$7070.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "NavbarLoggedOutView", ()=>NavbarLoggedOutView
-);
-var _jsxRuntime = require("react/jsx-runtime");
-var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _reactBootstrap = require("react-bootstrap");
-var _reactRouterDom = require("react-router-dom");
-var _logoPng = require("../../media/logo.png");
-const NavbarLoggedOutView = ()=>{
-    return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Navbar, {
-        bg: "dark",
-        __source: {
-            fileName: "src/components/navbar-view/navbar-loggedout.jsx",
-            lineNumber: 9
-        },
-        __self: undefined,
-        children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Navbar.Brand, {
-            __source: {
-                fileName: "src/components/navbar-view/navbar-loggedout.jsx",
-                lineNumber: 10
-            },
-            __self: undefined,
-            children: /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Link, {
-                to: "/",
-                __source: {
-                    fileName: "src/components/navbar-view/navbar-loggedout.jsx",
-                    lineNumber: 11
-                },
-                __self: undefined,
-                children: /*#__PURE__*/ _jsxRuntime.jsx("img", {
-                    src: _logoPng.Logo,
-                    crossOrigin: "*",
-                    width: "100",
-                    __source: {
-                        fileName: "src/components/navbar-view/navbar-loggedout.jsx",
-                        lineNumber: 12
-                    },
-                    __self: undefined
-                })
-            })
-        })
-    }));
-};
-_c = NavbarLoggedOutView;
-var _c;
-$RefreshReg$(_c, "NavbarLoggedOutView");
-
-  $parcel$ReactRefreshHelpers$7070.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-bootstrap":"h2YVd","react-router-dom":"cpyQW","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","../../media/logo.png":"1G4Pf"}],"jUTZ8":[function() {},{}]},["9NtYk","k2XMz","dLPEP"], "dLPEP", "parcelRequireaec4")
+},{"react":"6TuXu","react-bootstrap":"h2YVd","axios":"iYoWk","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","react/jsx-runtime":"8xIwr","react-router-dom":"cpyQW"}],"jUTZ8":[function() {},{}]},["9NtYk","k2XMz","dLPEP"], "dLPEP", "parcelRequireaec4")
 
 //# sourceMappingURL=index.6701a6e1.js.map
