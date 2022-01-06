@@ -26,6 +26,7 @@ export function MovieView (props) {
       const data = response.data;
       console.log(data);
       alert(`${movie.Title} was successfully added to your favourites list!`);
+      location.reload();
     })
     .catch(function (error) {
       alert(`${movie.Title} was NOT added to your favourites list!`);
@@ -44,6 +45,7 @@ export function MovieView (props) {
       const data = response.data;
       console.log(data);
       alert (`${movie.Title} was successfully removed from your favourites list!`);
+      location.reload();
     })
     .catch(e => {
       alert(`${movie.Title} was NOT removed to your favourites list!`);
