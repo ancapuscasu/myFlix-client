@@ -1,74 +1,97 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
-
-import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
-import { Redirect } from 'react-router-dom';
-
+import PropTypes from "prop-types";
 import "./profile-view.scss";
 
+import { Button, Card, Container, Row, Col } from "react-bootstrap";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { Redirect } from 'react-router-dom';
+
+
+
 export function UpdateProfileView (props) {
+  console.log(props);
   const user = props.user;
 
-  const [firstname, setFirstname] = useState(user.FirstName);
-  const [lastname, setLastname] = useState(user.LastName);
-  const [username, setUsername] = useState(user.Username);
-  const [email, setEmail] = useState(user.Email);
-
-
-  const Username = localStorage.getItem("user");
+  let Username = localStorage.getItem("user");
   const token = localStorage.getItem("token");
 
 
-  const handleEdit = (event) => {
-    event.preventDefault();
+  let initialValues = { 
+    FirstName: (user.FirstName), 
+    LastName: (user.LastName), 
+    Username: (user.Username), 
+    Email: (user.Email), 
+    Password: (user.Password), 
+    Birthdate: (user.Birthdate),
+  }
 
-    axios.put(`https://ancas-myflixapi.herokuapp.com/users/${Username}`, {
-      FirstName: firstname,
-      LastName: lastname,
-      Email: email,
-    },
+  const validationSchema = Yup.object({
+    FirstName: Yup.string(),
+    LastName: Yup.string(),
+    Email: Yup.string()
+      .email('Must be a valid e-mail')
+      .max(255),
+    Username: Yup.string()
+      .min(5, 'Username must be between 5 and 10 characters.')
+      .max(15,'Username must be between 5 and 10 characters.'),
+    // ConfirmPassword: Yup.string()
+    //   .oneOf([Yup.ref('Password'), null], 'Passwords must match')
+    //   .required("Required"),
+  });
+
+  const onSubmit = values => {
+    console.log(values);
+
+    axios.put(`https://ancas-myflixapi.herokuapp.com/users/${Username}`, values, 
       { headers: { Authorization: `Bearer ${token}` }}
     )
-    .then(response => {
-      const data=response.data;
+    .then (response => {
+      const data = response.data;
       console.log(data);
-      alert (user + " has been updated.");
-      window.open(`{/users/${Username}}`, '_self');
+      alert (Username + " has been updated.");
+      localStorage.setItem('user', data.Username);
+      Username = data.Username;
+      window.location.pathname = `/users/${Username}`;
     })
-    .catch(e => {
+    .catch (error => {
       console.log("Profile update NOT sucessful")
-    });      
+      console.log(error);
+    });
   };
 
-  const handleDeleteAccount = () => {
+  const handleDeleteAccount = (e) => {
+    e.preventDefault();
+
     const answer = window.confirm("This cannot be undone, are you sure?");
     if (answer) {
       axios.delete(`https://ancas-myflixapi.herokuapp.com/users/${Username}`, 
       {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then(() => {
+      .then(response => {
+        const data=response.data;
+        console.log(data);
         alert(Username + " has been deleted.");
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-        window.location.pathname = "/";
-        // onChange=() => SetUsername(null); --> maybe change back to this
+        location.reload();
       })
       .catch(function(error) {
         console.log(error + " unable to delete user");
+        console.log(error);
       });
     } else {
       console.log("That was close!");
     }
   }
 
-
+  console.log("initial value:", initialValues);
   return (
     <Container className="profile-view">
-      <Row>
-        <Col>
+      <Row className="p-3 justify-content-around">
         <h3> Hello {user.FirstName}</h3>
-        </Col>
       </Row>
       <Row>
         <Col></Col>
@@ -76,82 +99,76 @@ export function UpdateProfileView (props) {
           <Card className="update-profile">
             <Card.Body>
               <Card.Title className="mb-3">Update Profile</Card.Title>
-              <Form>
-                <Form.Group as={Row} className="mb-3" controlId="formFirstName">
-                  <Form.Label column sm={4}>First name</Form.Label>
-                    <Col sm={8}>
-                      <Form.Control 
-                        type="text" 
-                        placeholder="First name"
-                        value={firstname}
-                        onChange = {e => setFirstname(e.target.value)}
-                        required />
-                    </Col>
-                  </Form.Group>
+              <Formik
+                enableReinitialize
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+              >
+                <Form>
+                  <Row className="mb-3">
+                    <label htmlFor="FirstName">First Name</label>
+                    <Field 
+                      name="FirstName"
+                      type="text" 
+                      placeholder="First name"
+                    />
+                    <ErrorMessage 
+                      name="FirstName"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </Row>
 
-                  <Form.Group as={Row} className="mb-3" controlId="formLastName">
-                    <Form.Label column sm={4}>Last name</Form.Label>
-                      <Col sm={8}>
-                        <Form.Control 
-                          type="text" 
-                          placeholder="Last name"
-                          value={lastname}
-                          onChange = {e => setLastname(e.target.value)}
-                          required />
-                      </Col>
-                </Form.Group>
+                  <Row className="mb-3">
+                    <label htmlFor="LastName">Last name</label>
+                    <Field
+                      name="LastName"
+                      type="text" 
+                      placeholder="Last name"
+                    />
+                    <ErrorMessage 
+                      name="LastName"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </Row>
 
-                <Form.Group as={Row} className="mb-3" controlId="formUsername">
-                  <Form.Label column sm={4}>Username</Form.Label>
-                  <Col sm={8}>
-                  <Form.Control
-                      type="text"
+                  <Row className="mb-3">
+                    <label htmlFor="Username">Username</label>
+                    <Field  
                       name="Username"
-                      placeholder="New Username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      required
+                      type="text" 
+                      placeholder="Username"
                     />
-                  </Col>
-                </Form.Group>
+                    <ErrorMessage
+                      name="Username"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </Row>
 
-                <Form.Group as={Row} className="mb-3" controlId="formEmail">
-                  <Form.Label column sm={4}>Email</Form.Label>
-                  <Col sm={8}>
-                  <Form.Control
-                      type="email"
+                  <Row className="mb-3">
+                    <label htmlFor="Email">Email</label>
+                    <Field
+                      name="Email" 
+                      type="email" 
+                      placeholder="Email address"
+                    />
+                    <ErrorMessage 
                       name="Email"
-                      placeholder="Enter Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
+                      component="div"
+                      className="text-danger"
                     />
-                  </Col>
-                </Form.Group>
+                  </Row>
 
-                <Row>
-                  <Col>
-                    <Button
-                    variant="outline-warning"
-                    type="submit"
-                    onClick={handleEdit}
-                  >
-                    Update User
-                  </Button>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Button
-                    variant="outline-danger"
-                    type="submit"
-                    onClick={handleDeleteAccount}
-                    >
-                      Delete Account
-                    </Button>
-                  </Col>
-                </Row>
-              </Form>
+                  <Row className="justify-content-around">
+                    <Button variant="outline-warning" type="submit">Update User</Button>
+                    <Button variant="outline-danger" type="submit" onClick={handleDeleteAccount}>Delete Account</Button>
+                  </Row>
+
+                </Form>
+              </Formik>
             </Card.Body>
           </Card>
         </Col>
@@ -163,3 +180,12 @@ export function UpdateProfileView (props) {
   );
 }
 
+
+UpdateProfileView.propTypes = {
+  user: PropTypes.shape({
+    FirstName: PropTypes.string.isRequired,
+    LastName: PropTypes.string.isRequired,
+    Email: PropTypes.string.isRequired,
+    Username: PropTypes.string.isRequired,
+  })
+};
