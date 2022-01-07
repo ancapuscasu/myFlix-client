@@ -39525,6 +39525,7 @@ var _formik = require("formik");
 var _yup = require("yup");
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _navbarViewRegistration = require("../navbar-view/navbar-view-registration");
 var _registrationViewScss = require("./registration-view.scss");
 function RegistrationView() {
     const initialValues = {
@@ -39533,18 +39534,23 @@ function RegistrationView() {
         Username: '',
         Email: '',
         Password: '',
+        ConfirmPassword: '',
         Birthdate: ''
     };
     const validationSchema = _yup.object({
-        FirstName: _yup.string().required('Required'),
-        LastName: _yup.string().required('Required'),
-        Email: _yup.string().required('Required').email('Must be a valid e-mail').max(255),
-        Username: _yup.string().required('Required').min(5, 'Username must be between 5 and 10 characters.').max(15, 'Username must be between 5 and 10 characters.'),
-        Password: _yup.string().required('Required').min(8, 'Password must be at least 8 characters.').max(50, 'Password is too long.'),
-        // ConfirmPassword: Yup.string()
-        //   .oneOf([Yup.ref('Password'), null], 'Passwords must match')
-        //   .required("Required"),
-        Birthdate: _yup.date().required('Required')
+        FirstName: _yup.string().required('Please enter your first name.'),
+        LastName: _yup.string().required('Please enter your last name.'),
+        Email: _yup.string().required('Please enter your email address.').email('Please enter a valid email address.').max(255, 'Your email address is too long.'),
+        Username: _yup.string().required('Please enter a username.').min(5, 'Your username must contain between 5 and 15 characters.').max(15, 'Your username must contain between 5 and 15 characters.').matches(/^[a-z0-9]+$/, "Your username cannot contain any special characters (it can only contain numbers and letters)."),
+        Password: _yup.string().required('Please enter a password.').min(8, 'Your password must contain between 8 and 50 characters.').max(50, 'Your password must contain between 8 and 50 characters.'),
+        ConfirmPassword: _yup.string().when("Password", {
+            is: (val)=>val && val.length > 0 ? true : false
+            ,
+            then: _yup.string().oneOf([
+                _yup.ref("Password")
+            ], "Your passwords must match.")
+        }),
+        Birthdate: _yup.date().required('Please enter your birthdate.')
     });
     const onSubmit = (values)=>{
         console.log(values);
@@ -39553,358 +39559,425 @@ function RegistrationView() {
             console.log(data);
             window.open("/", "_self"); //"_self" is needed so the page will open in the current tab
         }).catch((error)=>{
-            console.log("Error registering user");
+            console.log(error, "Error registering user");
         });
     };
-    return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Container, {
-        className: "container",
+    return(/*#__PURE__*/ _jsxRuntime.jsxs("div", {
+        className: "registration-view-container",
         __source: {
             fileName: "src/components/registration-view/registration-view.jsx",
-            lineNumber: 60
+            lineNumber: 71
         },
         __self: this,
-        children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
-            __source: {
-                fileName: "src/components/registration-view/registration-view.jsx",
-                lineNumber: 61
-            },
-            __self: this,
-            children: [
-                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
+        children: [
+            /*#__PURE__*/ _jsxRuntime.jsx(_navbarViewRegistration.NavbarViewRegistration, {
+                __source: {
+                    fileName: "src/components/registration-view/registration-view.jsx",
+                    lineNumber: 72
+                },
+                __self: this
+            }),
+            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
+                className: "registration",
+                __source: {
+                    fileName: "src/components/registration-view/registration-view.jsx",
+                    lineNumber: 73
+                },
+                __self: this,
+                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
+                    xs: 12,
+                    sm: 12,
+                    md: 10,
+                    lg: 8,
+                    xl: 6,
+                    className: "m-3",
                     __source: {
                         fileName: "src/components/registration-view/registration-view.jsx",
-                        lineNumber: 62
-                    },
-                    __self: this
-                }),
-                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
-                    xs: 8,
-                    md: 6,
-                    className: "mt-5",
-                    __source: {
-                        fileName: "src/components/registration-view/registration-view.jsx",
-                        lineNumber: 63
+                        lineNumber: 74
                     },
                     __self: this,
-                    children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.CardGroup, {
+                    children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card, {
+                        className: "registration-card",
                         __source: {
                             fileName: "src/components/registration-view/registration-view.jsx",
-                            lineNumber: 64
+                            lineNumber: 75
                         },
                         __self: this,
-                        children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card, {
+                        children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
                             __source: {
                                 fileName: "src/components/registration-view/registration-view.jsx",
-                                lineNumber: 65
+                                lineNumber: 76
                             },
                             __self: this,
-                            children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
-                                __source: {
-                                    fileName: "src/components/registration-view/registration-view.jsx",
-                                    lineNumber: 66
-                                },
-                                __self: this,
-                                children: [
-                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Title, {
-                                        className: "mb-3 mt-3",
+                            children: [
+                                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Title, {
+                                    className: "registration-card-title",
+                                    __source: {
+                                        fileName: "src/components/registration-view/registration-view.jsx",
+                                        lineNumber: 77
+                                    },
+                                    __self: this,
+                                    children: "Sign Up"
+                                }),
+                                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Subtitle, {
+                                    className: "mb-5 text-muted",
+                                    __source: {
+                                        fileName: "src/components/registration-view/registration-view.jsx",
+                                        lineNumber: 78
+                                    },
+                                    __self: this,
+                                    children: "it's quick and easy "
+                                }),
+                                /*#__PURE__*/ _jsxRuntime.jsx(_formik.Formik, {
+                                    initialValues: initialValues,
+                                    validationSchema: validationSchema,
+                                    onSubmit: onSubmit,
+                                    __source: {
+                                        fileName: "src/components/registration-view/registration-view.jsx",
+                                        lineNumber: 79
+                                    },
+                                    __self: this,
+                                    children: /*#__PURE__*/ _jsxRuntime.jsxs(_formik.Form, {
                                         __source: {
                                             fileName: "src/components/registration-view/registration-view.jsx",
-                                            lineNumber: 67
+                                            lineNumber: 84
                                         },
                                         __self: this,
-                                        children: "Sign Up"
-                                    }),
-                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Subtitle, {
-                                        className: "mb-5 text-muted",
-                                        __source: {
-                                            fileName: "src/components/registration-view/registration-view.jsx",
-                                            lineNumber: 68
-                                        },
-                                        __self: this,
-                                        children: "it's quick and easy "
-                                    }),
-                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.Formik, {
-                                        initialValues: initialValues,
-                                        validationSchema: validationSchema,
-                                        onSubmit: onSubmit,
-                                        __source: {
-                                            fileName: "src/components/registration-view/registration-view.jsx",
-                                            lineNumber: 69
-                                        },
-                                        __self: this,
-                                        children: /*#__PURE__*/ _jsxRuntime.jsxs(_formik.Form, {
-                                            __source: {
-                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                lineNumber: 74
-                                            },
-                                            __self: this,
-                                            children: [
-                                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
-                                                    className: "mb-2",
-                                                    __source: {
-                                                        fileName: "src/components/registration-view/registration-view.jsx",
-                                                        lineNumber: 75
-                                                    },
-                                                    __self: this,
-                                                    children: [
-                                                        /*#__PURE__*/ _jsxRuntime.jsxs("div", {
-                                                            className: "form-group",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 76
-                                                            },
-                                                            __self: this,
-                                                            children: [
-                                                                /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                                    htmlFor: "FirstName",
-                                                                    __source: {
-                                                                        fileName: "src/components/registration-view/registration-view.jsx",
-                                                                        lineNumber: 77
-                                                                    },
-                                                                    __self: this,
-                                                                    children: "First Name"
-                                                                }),
-                                                                /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                                    name: "FirstName",
-                                                                    type: "text",
-                                                                    placeholder: "First name",
-                                                                    __source: {
-                                                                        fileName: "src/components/registration-view/registration-view.jsx",
-                                                                        lineNumber: 78
-                                                                    },
-                                                                    __self: this
-                                                                }),
-                                                                /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                                    name: "FirstName",
-                                                                    component: "div",
-                                                                    className: "text-danger",
-                                                                    __source: {
-                                                                        fileName: "src/components/registration-view/registration-view.jsx",
-                                                                        lineNumber: 83
-                                                                    },
-                                                                    __self: this
-                                                                })
-                                                            ]
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsxs("div", {
-                                                            className: "form-group",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 91
-                                                            },
-                                                            __self: this,
-                                                            children: [
-                                                                /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                                    htmlFor: "LastName",
-                                                                    __source: {
-                                                                        fileName: "src/components/registration-view/registration-view.jsx",
-                                                                        lineNumber: 92
-                                                                    },
-                                                                    __self: this,
-                                                                    children: "Last name"
-                                                                }),
-                                                                /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                                    name: "LastName",
-                                                                    type: "text",
-                                                                    placeholder: "Last name",
-                                                                    __source: {
-                                                                        fileName: "src/components/registration-view/registration-view.jsx",
-                                                                        lineNumber: 93
-                                                                    },
-                                                                    __self: this
-                                                                }),
-                                                                /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                                    name: "LastName",
-                                                                    component: "div",
-                                                                    className: "text-danger",
-                                                                    __source: {
-                                                                        fileName: "src/components/registration-view/registration-view.jsx",
-                                                                        lineNumber: 98
-                                                                    },
-                                                                    __self: this
-                                                                })
-                                                            ]
-                                                        })
-                                                    ]
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
-                                                    className: "form-group",
-                                                    __source: {
-                                                        fileName: "src/components/registration-view/registration-view.jsx",
-                                                        lineNumber: 107
-                                                    },
-                                                    __self: this,
-                                                    children: [
-                                                        /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                            htmlFor: "Email",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 108
-                                                            },
-                                                            __self: this,
-                                                            children: "Email address"
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                            name: "Email",
-                                                            type: "email",
-                                                            placeholder: "Email address",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 109
-                                                            },
-                                                            __self: this
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                            name: "Email",
-                                                            component: "div",
-                                                            className: "text-danger",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 114
-                                                            },
-                                                            __self: this
-                                                        })
-                                                    ]
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
-                                                    className: "form-group",
-                                                    __source: {
-                                                        fileName: "src/components/registration-view/registration-view.jsx",
-                                                        lineNumber: 122
-                                                    },
-                                                    __self: this,
-                                                    children: [
-                                                        /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                            htmlFor: "Username",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 123
-                                                            },
-                                                            __self: this,
-                                                            children: "Username"
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                            name: "Username",
-                                                            type: "text",
-                                                            placeholder: "Username",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 124
-                                                            },
-                                                            __self: this
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                            name: "Username",
-                                                            component: "div",
-                                                            className: "text-danger",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 129
-                                                            },
-                                                            __self: this
-                                                        })
-                                                    ]
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
-                                                    className: "form-group",
-                                                    __source: {
-                                                        fileName: "src/components/registration-view/registration-view.jsx",
-                                                        lineNumber: 137
-                                                    },
-                                                    __self: this,
-                                                    children: [
-                                                        /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                            htmlFor: "Password",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 138
-                                                            },
-                                                            __self: this,
-                                                            children: "Password"
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                            name: "Password",
-                                                            type: "password",
-                                                            placeholder: "Password",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 139
-                                                            },
-                                                            __self: this
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                            name: "Password",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 144
-                                                            },
-                                                            __self: this
-                                                        })
-                                                    ]
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsxs("div", {
-                                                    className: "form-group",
-                                                    __source: {
-                                                        fileName: "src/components/registration-view/registration-view.jsx",
-                                                        lineNumber: 147
-                                                    },
-                                                    __self: this,
-                                                    children: [
-                                                        /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                            htmlFor: "Birthdate",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 148
-                                                            },
-                                                            __self: this,
-                                                            children: "Birthday"
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                            name: "Birthdate",
-                                                            type: "date",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 149
-                                                            },
-                                                            __self: this
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                            name: "Birthdate",
-                                                            __source: {
-                                                                fileName: "src/components/registration-view/registration-view.jsx",
-                                                                lineNumber: 153
-                                                            },
-                                                            __self: this
-                                                        })
-                                                    ]
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
-                                                    variant: "primary",
+                                        children: [
+                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+                                                className: "registration-input-group horizontal-group mb-2",
+                                                __source: {
+                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                    lineNumber: 86
+                                                },
+                                                __self: this,
+                                                children: [
+                                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
+                                                        className: "horizontal-input left",
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 87
+                                                        },
+                                                        __self: this,
+                                                        children: [
+                                                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                                className: "registration-input",
+                                                                name: "FirstName",
+                                                                type: "text",
+                                                                required: true,
+                                                                __source: {
+                                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                                    lineNumber: 88
+                                                                },
+                                                                __self: this
+                                                            }),
+                                                            /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                                className: "registration-input-label",
+                                                                htmlFor: "FirstName",
+                                                                __source: {
+                                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                                    lineNumber: 95
+                                                                },
+                                                                __self: this,
+                                                                children: "First Name"
+                                                            }),
+                                                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                                name: "FirstName",
+                                                                component: "div",
+                                                                className: "input-error",
+                                                                __source: {
+                                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                                    lineNumber: 96
+                                                                },
+                                                                __self: this
+                                                            })
+                                                        ]
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
+                                                        className: "horizontal-input right",
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 103
+                                                        },
+                                                        __self: this,
+                                                        children: [
+                                                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                                className: "registration-input",
+                                                                name: "LastName",
+                                                                type: "text",
+                                                                required: true,
+                                                                __source: {
+                                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                                    lineNumber: 104
+                                                                },
+                                                                __self: this
+                                                            }),
+                                                            /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                                className: "registration-input-label",
+                                                                htmlFor: "LastName",
+                                                                __source: {
+                                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                                    lineNumber: 111
+                                                                },
+                                                                __self: this,
+                                                                children: "Last name"
+                                                            }),
+                                                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                                name: "LastName",
+                                                                component: "div",
+                                                                className: "input-error",
+                                                                __source: {
+                                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                                    lineNumber: 112
+                                                                },
+                                                                __self: this
+                                                            })
+                                                        ]
+                                                    })
+                                                ]
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+                                                className: "registration-input-group mb-2",
+                                                __source: {
+                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                    lineNumber: 120
+                                                },
+                                                __self: this,
+                                                children: [
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                        className: "registration-input",
+                                                        name: "Email",
+                                                        type: "text",
+                                                        required: true,
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 121
+                                                        },
+                                                        __self: this
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                        className: "registration-input-label",
+                                                        htmlFor: "Email",
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 128
+                                                        },
+                                                        __self: this,
+                                                        children: "Email address"
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                        name: "Email",
+                                                        component: "div",
+                                                        className: "input-error",
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 129
+                                                        },
+                                                        __self: this
+                                                    })
+                                                ]
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+                                                className: "registration-input-group mb-2",
+                                                __source: {
+                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                    lineNumber: 136
+                                                },
+                                                __self: this,
+                                                children: [
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                        className: "registration-input",
+                                                        name: "Username",
+                                                        type: "text",
+                                                        required: true,
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 137
+                                                        },
+                                                        __self: this
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                        className: "registration-input-label",
+                                                        htmlFor: "Username",
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 144
+                                                        },
+                                                        __self: this,
+                                                        children: "Username"
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                        name: "Username",
+                                                        component: "div",
+                                                        className: "input-error",
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 145
+                                                        },
+                                                        __self: this
+                                                    })
+                                                ]
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+                                                className: "registration-input-group  horizontal-group mb-2",
+                                                __source: {
+                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                    lineNumber: 152
+                                                },
+                                                __self: this,
+                                                children: [
+                                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
+                                                        className: "horizontal-input left",
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 153
+                                                        },
+                                                        __self: this,
+                                                        children: [
+                                                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                                className: "registration-input",
+                                                                name: "Password",
+                                                                type: "password",
+                                                                required: true,
+                                                                __source: {
+                                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                                    lineNumber: 154
+                                                                },
+                                                                __self: this
+                                                            }),
+                                                            /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                                className: "registration-input-label",
+                                                                htmlFor: "Password",
+                                                                __source: {
+                                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                                    lineNumber: 161
+                                                                },
+                                                                __self: this,
+                                                                children: "Password"
+                                                            }),
+                                                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                                name: "Password",
+                                                                component: "div",
+                                                                className: "input-error",
+                                                                __source: {
+                                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                                    lineNumber: 162
+                                                                },
+                                                                __self: this
+                                                            })
+                                                        ]
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
+                                                        className: "horizontal-input right",
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 169
+                                                        },
+                                                        __self: this,
+                                                        children: [
+                                                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                                className: "registration-input",
+                                                                name: "ConfirmPassword",
+                                                                type: "password",
+                                                                required: true,
+                                                                __source: {
+                                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                                    lineNumber: 170
+                                                                },
+                                                                __self: this
+                                                            }),
+                                                            /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                                className: "registration-input-label",
+                                                                htmlFor: "ConfirmPassword",
+                                                                __source: {
+                                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                                    lineNumber: 177
+                                                                },
+                                                                __self: this,
+                                                                children: "Confirm Password"
+                                                            }),
+                                                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                                name: "ConfirmPassword",
+                                                                component: "div",
+                                                                className: "input-error",
+                                                                __source: {
+                                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                                    lineNumber: 178
+                                                                },
+                                                                __self: this
+                                                            })
+                                                        ]
+                                                    })
+                                                ]
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+                                                className: "registration-input-group mb-2",
+                                                __source: {
+                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                    lineNumber: 186
+                                                },
+                                                __self: this,
+                                                children: [
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                        className: "registration-input",
+                                                        name: "Birthdate",
+                                                        type: "date",
+                                                        required: true,
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 187
+                                                        },
+                                                        __self: this
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                        className: "registration-input-label",
+                                                        htmlFor: "Birthdate",
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 193
+                                                        },
+                                                        __self: this,
+                                                        children: "Birthday"
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                        name: "Birthdate",
+                                                        component: "div",
+                                                        className: "input-error",
+                                                        __source: {
+                                                            fileName: "src/components/registration-view/registration-view.jsx",
+                                                            lineNumber: 194
+                                                        },
+                                                        __self: this
+                                                    })
+                                                ]
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
+                                                className: "justify-content-start",
+                                                __source: {
+                                                    fileName: "src/components/registration-view/registration-view.jsx",
+                                                    lineNumber: 201
+                                                },
+                                                __self: this,
+                                                children: /*#__PURE__*/ _jsxRuntime.jsx("button", {
+                                                    className: "registration-signup",
                                                     type: "submit",
                                                     __source: {
                                                         fileName: "src/components/registration-view/registration-view.jsx",
-                                                        lineNumber: 156
+                                                        lineNumber: 202
                                                     },
                                                     __self: this,
                                                     children: "Sign Up "
                                                 })
-                                            ]
-                                        })
+                                            })
+                                        ]
                                     })
-                                ]
-                            })
+                                })
+                            ]
                         })
                     })
-                }),
-                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
-                    __source: {
-                        fileName: "src/components/registration-view/registration-view.jsx",
-                        lineNumber: 166
-                    },
-                    __self: this
                 })
-            ]
-        })
+            })
+        ]
     }));
 }
 _c = RegistrationView;
@@ -39916,7 +39989,7 @@ $RefreshReg$(_c, "RegistrationView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","formik":"iGPBu","yup":"3JJ0s","axios":"iYoWk","./registration-view.scss":"fr9ZP"}],"lpaPZ":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","formik":"iGPBu","yup":"3JJ0s","axios":"iYoWk","./registration-view.scss":"fr9ZP","../navbar-view/navbar-view-registration":"2VZCc"}],"lpaPZ":[function(require,module,exports) {
 "use strict";
 var Refresh = require('react-refresh/runtime');
 function debounce(func, delay) {
@@ -50367,301 +50440,85 @@ function setLocale(custom) {
 }
 exports.default = setLocale;
 
-},{"./locale":"lNecZ","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4"}],"fr9ZP":[function() {},{}],"054li":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$02dd = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+},{"./locale":"lNecZ","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4"}],"fr9ZP":[function() {},{}],"2VZCc":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$a9ad = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$02dd.prelude(module);
+$parcel$ReactRefreshHelpers$a9ad.prelude(module);
 
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "LoginView", ()=>LoginView
+parcelHelpers.export(exports, "NavbarViewRegistration", ()=>NavbarViewRegistration
 );
 var _jsxRuntime = require("react/jsx-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
-var _propTypes = require("prop-types");
-var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 var _reactBootstrap = require("react-bootstrap");
-var _formik = require("formik");
-var _yup = require("yup");
-var _axios = require("axios");
-var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _reactRouterDom = require("react-router-dom");
 var _logoPng = require("../../media/logo.png");
 var _logoPngDefault = parcelHelpers.interopDefault(_logoPng);
-var _loginViewScss = require("./login-view.scss");
-function LoginView(props) {
-    console.log(props);
-    const onLoggedIn = props.onLoggedIn;
-    const initialValues = {
-        Username: '',
-        Password: ''
-    };
-    const validationSchema = _yup.object({
-        Username: _yup.string().required('Please enter a valid username.').min(5, 'Your username must contain between 5 and 15 characters.').max(15, 'Your username must contain between 5 and 15 characters.'),
-        Password: _yup.string().required('Please enter your password.').min(8, 'Your password must contain between 8 and 50 characters.').max(50, 'Your password must contain between 8 and 50 characters.')
-    });
-    // When user clicks "Log In" button - POST request is made to /login
-    const onSubmit = (values)=>{
-        console.log(values);
-        // Send a request to the server for authentication 
-        _axiosDefault.default.post('https://ancas-myflixapi.herokuapp.com/login', values)// After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
-        .then((response)=>{
-            const data = response.data;
-            console.log(data);
-            onLoggedIn(data);
-        }).catch((error)=>{
-            console.log("Error logging user in / no user found");
-        });
-    };
-    return(/*#__PURE__*/ _jsxRuntime.jsxs("div", {
-        className: "login-view-container",
+var _navbarViewRegistrationScss = require("./navbar-view-registration.scss");
+const NavbarViewRegistration = ()=>{
+    return(/*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Navbar, {
+        className: "registration-navbar",
         __source: {
-            fileName: "src/components/login-view/login-view.jsx",
-            lineNumber: 52
+            fileName: "src/components/navbar-view/navbar-view-registration.jsx",
+            lineNumber: 10
         },
-        __self: this,
+        __self: undefined,
         children: [
             /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Navbar.Brand, {
                 href: "#home",
-                className: "m-3 logo",
+                className: "ml-3",
                 __source: {
-                    fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 53
+                    fileName: "src/components/navbar-view/navbar-view-registration.jsx",
+                    lineNumber: 11
                 },
-                __self: this,
+                __self: undefined,
                 children: /*#__PURE__*/ _jsxRuntime.jsx("img", {
                     src: _logoPngDefault.default,
                     crossOrigin: "*",
                     width: "150px",
                     alt: "myFlix logo",
                     __source: {
-                        fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 54
+                        fileName: "src/components/navbar-view/navbar-view-registration.jsx",
+                        lineNumber: 12
                     },
-                    __self: this
+                    __self: undefined
                 })
             }),
-            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
-                className: "login",
+            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Nav, {
                 __source: {
-                    fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 61
+                    fileName: "src/components/navbar-view/navbar-view-registration.jsx",
+                    lineNumber: 19
                 },
-                __self: this,
-                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
-                    xs: 10,
-                    sm: 7,
-                    md: 6,
-                    lg: 5,
-                    xl: 4,
-                    className: "m-3",
+                __self: undefined,
+                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Nav.Link, {
+                    as: _reactRouterDom.Link,
+                    to: "/",
+                    id: "signin",
                     __source: {
-                        fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 62
+                        fileName: "src/components/navbar-view/navbar-view-registration.jsx",
+                        lineNumber: 20
                     },
-                    __self: this,
-                    children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.CardGroup, {
-                        __source: {
-                            fileName: "src/components/login-view/login-view.jsx",
-                            lineNumber: 63
-                        },
-                        __self: this,
-                        children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card, {
-                            className: "login-card",
-                            __source: {
-                                fileName: "src/components/login-view/login-view.jsx",
-                                lineNumber: 64
-                            },
-                            __self: this,
-                            children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
-                                __source: {
-                                    fileName: "src/components/login-view/login-view.jsx",
-                                    lineNumber: 65
-                                },
-                                __self: this,
-                                children: [
-                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Title, {
-                                        className: "m-4",
-                                        __source: {
-                                            fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 66
-                                        },
-                                        __self: this,
-                                        children: "Sign In"
-                                    }),
-                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.Formik, {
-                                        initialValues: initialValues,
-                                        validationSchema: validationSchema,
-                                        onSubmit: onSubmit,
-                                        __source: {
-                                            fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 67
-                                        },
-                                        __self: this,
-                                        children: /*#__PURE__*/ _jsxRuntime.jsxs(_formik.Form, {
-                                            __source: {
-                                                fileName: "src/components/login-view/login-view.jsx",
-                                                lineNumber: 72
-                                            },
-                                            __self: this,
-                                            children: [
-                                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
-                                                    className: "m-4 login-input-group",
-                                                    __source: {
-                                                        fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 73
-                                                    },
-                                                    __self: this,
-                                                    children: [
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                            className: "login-input",
-                                                            name: "Username",
-                                                            type: "text",
-                                                            required: true,
-                                                            __source: {
-                                                                fileName: "src/components/login-view/login-view.jsx",
-                                                                lineNumber: 74
-                                                            },
-                                                            __self: this
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                            className: "login-input-label",
-                                                            htmlFor: "Username",
-                                                            __source: {
-                                                                fileName: "src/components/login-view/login-view.jsx",
-                                                                lineNumber: 81
-                                                            },
-                                                            __self: this,
-                                                            children: "Username:"
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                            name: "Username",
-                                                            component: "div",
-                                                            className: "input-error",
-                                                            __source: {
-                                                                fileName: "src/components/login-view/login-view.jsx",
-                                                                lineNumber: 82
-                                                            },
-                                                            __self: this
-                                                        })
-                                                    ]
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
-                                                    className: "m-4 login-input-group",
-                                                    __source: {
-                                                        fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 89
-                                                    },
-                                                    __self: this,
-                                                    children: [
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                            className: "login-input",
-                                                            name: "Password",
-                                                            type: "password",
-                                                            required: true,
-                                                            __source: {
-                                                                fileName: "src/components/login-view/login-view.jsx",
-                                                                lineNumber: 90
-                                                            },
-                                                            __self: this
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                            className: "login-input-label",
-                                                            htmlFor: "Password",
-                                                            __source: {
-                                                                fileName: "src/components/login-view/login-view.jsx",
-                                                                lineNumber: 97
-                                                            },
-                                                            __self: this,
-                                                            children: "Password:"
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                            name: "Password",
-                                                            component: "div",
-                                                            className: "input-error",
-                                                            __source: {
-                                                                fileName: "src/components/login-view/login-view.jsx",
-                                                                lineNumber: 98
-                                                            },
-                                                            __self: this
-                                                        })
-                                                    ]
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
-                                                    className: " mt-4 mx-4 justify-content-center",
-                                                    __source: {
-                                                        fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 105
-                                                    },
-                                                    __self: this,
-                                                    children: /*#__PURE__*/ _jsxRuntime.jsx("button", {
-                                                        className: "login-signin",
-                                                        type: "submit",
-                                                        __source: {
-                                                            fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 106
-                                                        },
-                                                        __self: this,
-                                                        children: "Log In"
-                                                    })
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
-                                                    className: "justify-content-start ml-4",
-                                                    __source: {
-                                                        fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 109
-                                                    },
-                                                    __self: this,
-                                                    children: /*#__PURE__*/ _jsxRuntime.jsxs("p", {
-                                                        className: "login-register",
-                                                        __source: {
-                                                            fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 110
-                                                        },
-                                                        __self: this,
-                                                        children: [
-                                                            "New to MyFlix?",
-                                                            /*#__PURE__*/ _jsxRuntime.jsx("a", {
-                                                                href: "/register",
-                                                                className: "ml-1 login-register-button",
-                                                                __source: {
-                                                                    fileName: "src/components/login-view/login-view.jsx",
-                                                                    lineNumber: 111
-                                                                },
-                                                                __self: this,
-                                                                children: " Sign up here"
-                                                            })
-                                                        ]
-                                                    })
-                                                })
-                                            ]
-                                        })
-                                    })
-                                ]
-                            })
-                        })
-                    })
+                    __self: undefined,
+                    children: "Sign In"
                 })
             })
         ]
     }));
-}
-_c = LoginView;
-LoginView.propTypes = {
-    onLoggedIn: _propTypesDefault.default.func.isRequired
 };
+_c = NavbarViewRegistration;
 var _c;
-$RefreshReg$(_c, "LoginView");
+$RefreshReg$(_c, "NavbarViewRegistration");
 
-  $parcel$ReactRefreshHelpers$02dd.postlude(module);
+  $parcel$ReactRefreshHelpers$a9ad.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","./login-view.scss":"lS4BK","prop-types":"1tgq3","react-bootstrap":"h2YVd","axios":"iYoWk","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","react-router-dom":"cpyQW","formik":"iGPBu","yup":"3JJ0s","../../media/logo.png":"1G4Pf"}],"lS4BK":[function() {},{}],"1G4Pf":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-bootstrap":"h2YVd","react-router-dom":"cpyQW","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","../../media/logo.png":"1G4Pf","./navbar-view-registration.scss":"lxTCh"}],"1G4Pf":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('3VpAv') + "logo.9592a62c.png";
 
 },{"./helpers/bundle-url":"7B0nW"}],"7B0nW":[function(require,module,exports) {
@@ -50699,7 +50556,343 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"6EiBJ":[function(require,module,exports) {
+},{}],"lxTCh":[function() {},{}],"054li":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$02dd = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$02dd.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "LoginView", ()=>LoginView
+);
+var _jsxRuntime = require("react/jsx-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _propTypes = require("prop-types");
+var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
+var _reactBootstrap = require("react-bootstrap");
+var _formik = require("formik");
+var _yup = require("yup");
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _loginViewScss = require("./login-view.scss");
+var _navbarViewLogin = require("../navbar-view/navbar-view-login");
+function LoginView(props) {
+    console.log(props);
+    const onLoggedIn = props.onLoggedIn;
+    const initialValues = {
+        Username: '',
+        Password: ''
+    };
+    const validationSchema = _yup.object({
+        Username: _yup.string().required('Please enter a valid username.').min(5, 'Your username must contain between 5 and 15 characters.').max(15, 'Your username must contain between 5 and 15 characters.'),
+        Password: _yup.string().required('Please enter your password.').min(8, 'Your password must contain between 8 and 50 characters.').max(50, 'Your password must contain between 8 and 50 characters.')
+    });
+    // When user clicks "Log In" button - POST request is made to /login
+    const onSubmit = (values)=>{
+        console.log(values);
+        // Send a request to the server for authentication 
+        _axiosDefault.default.post('https://ancas-myflixapi.herokuapp.com/login', values)// After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
+        .then((response)=>{
+            const data = response.data;
+            console.log(data);
+            onLoggedIn(data);
+        }).catch((error)=>{
+            console.log("Error logging user in / no user found");
+        });
+    };
+    return(/*#__PURE__*/ _jsxRuntime.jsxs("div", {
+        className: "login-view-container",
+        __source: {
+            fileName: "src/components/login-view/login-view.jsx",
+            lineNumber: 51
+        },
+        __self: this,
+        children: [
+            /*#__PURE__*/ _jsxRuntime.jsx(_navbarViewLogin.NavbarViewLogin, {
+                __source: {
+                    fileName: "src/components/login-view/login-view.jsx",
+                    lineNumber: 52
+                },
+                __self: this
+            }),
+            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
+                className: "login",
+                __source: {
+                    fileName: "src/components/login-view/login-view.jsx",
+                    lineNumber: 53
+                },
+                __self: this,
+                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
+                    xs: 10,
+                    sm: 7,
+                    md: 6,
+                    lg: 5,
+                    xl: 4,
+                    className: "m-3",
+                    __source: {
+                        fileName: "src/components/login-view/login-view.jsx",
+                        lineNumber: 54
+                    },
+                    __self: this,
+                    children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.CardGroup, {
+                        __source: {
+                            fileName: "src/components/login-view/login-view.jsx",
+                            lineNumber: 55
+                        },
+                        __self: this,
+                        children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card, {
+                            className: "login-card",
+                            __source: {
+                                fileName: "src/components/login-view/login-view.jsx",
+                                lineNumber: 56
+                            },
+                            __self: this,
+                            children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
+                                __source: {
+                                    fileName: "src/components/login-view/login-view.jsx",
+                                    lineNumber: 57
+                                },
+                                __self: this,
+                                children: [
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Title, {
+                                        className: "m-4 login-card-title",
+                                        __source: {
+                                            fileName: "src/components/login-view/login-view.jsx",
+                                            lineNumber: 58
+                                        },
+                                        __self: this,
+                                        children: "Sign In"
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.Formik, {
+                                        initialValues: initialValues,
+                                        validationSchema: validationSchema,
+                                        onSubmit: onSubmit,
+                                        __source: {
+                                            fileName: "src/components/login-view/login-view.jsx",
+                                            lineNumber: 59
+                                        },
+                                        __self: this,
+                                        children: /*#__PURE__*/ _jsxRuntime.jsxs(_formik.Form, {
+                                            __source: {
+                                                fileName: "src/components/login-view/login-view.jsx",
+                                                lineNumber: 64
+                                            },
+                                            __self: this,
+                                            children: [
+                                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+                                                    className: "m-4 login-input-group",
+                                                    __source: {
+                                                        fileName: "src/components/login-view/login-view.jsx",
+                                                        lineNumber: 65
+                                                    },
+                                                    __self: this,
+                                                    children: [
+                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                            className: "login-input",
+                                                            name: "Username",
+                                                            type: "text",
+                                                            required: true,
+                                                            __source: {
+                                                                fileName: "src/components/login-view/login-view.jsx",
+                                                                lineNumber: 66
+                                                            },
+                                                            __self: this
+                                                        }),
+                                                        /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                            className: "login-input-label",
+                                                            htmlFor: "Username",
+                                                            __source: {
+                                                                fileName: "src/components/login-view/login-view.jsx",
+                                                                lineNumber: 73
+                                                            },
+                                                            __self: this,
+                                                            children: "Username:"
+                                                        }),
+                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                            name: "Username",
+                                                            component: "div",
+                                                            className: "login-input-error",
+                                                            __source: {
+                                                                fileName: "src/components/login-view/login-view.jsx",
+                                                                lineNumber: 74
+                                                            },
+                                                            __self: this
+                                                        })
+                                                    ]
+                                                }),
+                                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+                                                    className: "m-4 login-input-group",
+                                                    __source: {
+                                                        fileName: "src/components/login-view/login-view.jsx",
+                                                        lineNumber: 81
+                                                    },
+                                                    __self: this,
+                                                    children: [
+                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                            className: "login-input",
+                                                            name: "Password",
+                                                            type: "password",
+                                                            required: true,
+                                                            __source: {
+                                                                fileName: "src/components/login-view/login-view.jsx",
+                                                                lineNumber: 82
+                                                            },
+                                                            __self: this
+                                                        }),
+                                                        /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                            className: "login-input-label",
+                                                            htmlFor: "Password",
+                                                            __source: {
+                                                                fileName: "src/components/login-view/login-view.jsx",
+                                                                lineNumber: 89
+                                                            },
+                                                            __self: this,
+                                                            children: "Password:"
+                                                        }),
+                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                            name: "Password",
+                                                            component: "div",
+                                                            className: "login-input-error",
+                                                            __source: {
+                                                                fileName: "src/components/login-view/login-view.jsx",
+                                                                lineNumber: 90
+                                                            },
+                                                            __self: this
+                                                        })
+                                                    ]
+                                                }),
+                                                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
+                                                    className: " mt-4 mx-4 justify-content-center",
+                                                    __source: {
+                                                        fileName: "src/components/login-view/login-view.jsx",
+                                                        lineNumber: 97
+                                                    },
+                                                    __self: this,
+                                                    children: /*#__PURE__*/ _jsxRuntime.jsx("button", {
+                                                        className: "login-signin",
+                                                        type: "submit",
+                                                        __source: {
+                                                            fileName: "src/components/login-view/login-view.jsx",
+                                                            lineNumber: 98
+                                                        },
+                                                        __self: this,
+                                                        children: "Log In"
+                                                    })
+                                                }),
+                                                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
+                                                    className: "justify-content-start ml-4",
+                                                    __source: {
+                                                        fileName: "src/components/login-view/login-view.jsx",
+                                                        lineNumber: 101
+                                                    },
+                                                    __self: this,
+                                                    children: /*#__PURE__*/ _jsxRuntime.jsxs("p", {
+                                                        className: "login-register",
+                                                        __source: {
+                                                            fileName: "src/components/login-view/login-view.jsx",
+                                                            lineNumber: 102
+                                                        },
+                                                        __self: this,
+                                                        children: [
+                                                            "New to MyFlix?",
+                                                            /*#__PURE__*/ _jsxRuntime.jsx("a", {
+                                                                href: "/register",
+                                                                className: "ml-1 login-register-button",
+                                                                __source: {
+                                                                    fileName: "src/components/login-view/login-view.jsx",
+                                                                    lineNumber: 103
+                                                                },
+                                                                __self: this,
+                                                                children: " Sign up here"
+                                                            })
+                                                        ]
+                                                    })
+                                                })
+                                            ]
+                                        })
+                                    })
+                                ]
+                            })
+                        })
+                    })
+                })
+            })
+        ]
+    }));
+}
+_c = LoginView;
+LoginView.propTypes = {
+    onLoggedIn: _propTypesDefault.default.func.isRequired
+};
+var _c;
+$RefreshReg$(_c, "LoginView");
+
+  $parcel$ReactRefreshHelpers$02dd.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","./login-view.scss":"lS4BK","prop-types":"1tgq3","react-bootstrap":"h2YVd","axios":"iYoWk","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","formik":"iGPBu","yup":"3JJ0s","../navbar-view/navbar-view-login":"63xZl"}],"lS4BK":[function() {},{}],"63xZl":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$6aab = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$6aab.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "NavbarViewLogin", ()=>NavbarViewLogin
+);
+var _jsxRuntime = require("react/jsx-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _reactBootstrap = require("react-bootstrap");
+var _logoPng = require("../../media/logo.png");
+var _logoPngDefault = parcelHelpers.interopDefault(_logoPng);
+var _navbarViewLoginScss = require("./navbar-view-login.scss");
+const NavbarViewLogin = ()=>{
+    return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Navbar, {
+        className: "logo",
+        __source: {
+            fileName: "src/components/navbar-view/navbar-view-login.jsx",
+            lineNumber: 9
+        },
+        __self: undefined,
+        children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Navbar.Brand, {
+            href: "#home",
+            className: "ml-3",
+            __source: {
+                fileName: "src/components/navbar-view/navbar-view-login.jsx",
+                lineNumber: 10
+            },
+            __self: undefined,
+            children: /*#__PURE__*/ _jsxRuntime.jsx("img", {
+                src: _logoPngDefault.default,
+                crossOrigin: "*",
+                width: "150px",
+                alt: "myFlix logo",
+                __source: {
+                    fileName: "src/components/navbar-view/navbar-view-login.jsx",
+                    lineNumber: 11
+                },
+                __self: undefined
+            })
+        })
+    }));
+};
+_c = NavbarViewLogin;
+var _c;
+$RefreshReg$(_c, "NavbarViewLogin");
+
+  $parcel$ReactRefreshHelpers$6aab.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-bootstrap":"h2YVd","../../media/logo.png":"1G4Pf","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","./navbar-view-login.scss":"8SCg1"}],"8SCg1":[function() {},{}],"6EiBJ":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$4249 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -55386,7 +55579,6 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
-var _logoPng = require("../../media/logo.png");
 const NavbarView = ()=>{
     user = localStorage.getItem("user");
     const onLoggedOut = ()=>{
@@ -55396,117 +55588,115 @@ const NavbarView = ()=>{
             user: null
         });
     };
-    return(/*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Navbar, {
+    return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Navbar, {
         bg: "light",
         expand: "sm",
         __source: {
             fileName: "src/components/navbar-view/navbar-view.jsx",
-            lineNumber: 18
+            lineNumber: 17
         },
         __self: undefined,
-        children: [
-            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Navbar.Brand, {
-                __source: {
-                    fileName: "src/components/navbar-view/navbar-view.jsx",
-                    lineNumber: 19
-                },
-                __self: undefined,
-                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Link, {
-                    to: "/",
+        children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Container, {
+            __source: {
+                fileName: "src/components/navbar-view/navbar-view.jsx",
+                lineNumber: 18
+            },
+            __self: undefined,
+            children: [
+                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Navbar.Brand, {
                     __source: {
                         fileName: "src/components/navbar-view/navbar-view.jsx",
-                        lineNumber: 20
+                        lineNumber: 19
                     },
                     __self: undefined,
-                    children: /*#__PURE__*/ _jsxRuntime.jsx("img", {
-                        src: _logoPng.Logo,
-                        crossOrigin: "*",
-                        width: "90",
+                    children: /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Link, {
+                        to: "/",
                         __source: {
                             fileName: "src/components/navbar-view/navbar-view.jsx",
-                            lineNumber: 21
+                            lineNumber: 20
                         },
-                        __self: undefined
+                        __self: undefined,
+                        children: "MyFlix App"
                     })
-                })
-            }),
-            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Navbar.Toggle, {
-                "aria-controls": "basic-navbar-nav",
-                __source: {
-                    fileName: "src/components/navbar-view/navbar-view.jsx",
-                    lineNumber: 24
-                },
-                __self: undefined
-            }),
-            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Navbar.Collapse, {
-                id: "basic-navbar-nav",
-                __source: {
-                    fileName: "src/components/navbar-view/navbar-view.jsx",
-                    lineNumber: 25
-                },
-                __self: undefined,
-                children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Nav, {
-                    className: "me-auto",
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Navbar.Toggle, {
+                    "aria-controls": "basic-navbar-nav",
                     __source: {
                         fileName: "src/components/navbar-view/navbar-view.jsx",
-                        lineNumber: 26
+                        lineNumber: 22
+                    },
+                    __self: undefined
+                }),
+                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Navbar.Collapse, {
+                    id: "basic-navbar-nav",
+                    __source: {
+                        fileName: "src/components/navbar-view/navbar-view.jsx",
+                        lineNumber: 23
                     },
                     __self: undefined,
-                    children: [
-                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Nav.Link, {
-                            href: "/",
-                            __source: {
-                                fileName: "src/components/navbar-view/navbar-view.jsx",
-                                lineNumber: 27
-                            },
-                            __self: undefined,
-                            children: "Home"
-                        }),
-                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Nav.Link, {
-                            as: _reactRouterDom.Link,
-                            to: `/users/${user}/my-list`,
-                            __source: {
-                                fileName: "src/components/navbar-view/navbar-view.jsx",
-                                lineNumber: 28
-                            },
-                            __self: undefined,
-                            children: "My List"
-                        }),
-                        /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.NavDropdown, {
-                            title: "Profile",
-                            id: "profile-options",
-                            __source: {
-                                fileName: "src/components/navbar-view/navbar-view.jsx",
-                                lineNumber: 29
-                            },
-                            __self: undefined,
-                            children: [
-                                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.NavDropdown.Item, {
-                                    as: _reactRouterDom.Link,
-                                    to: `/users/${user}`,
-                                    __source: {
-                                        fileName: "src/components/navbar-view/navbar-view.jsx",
-                                        lineNumber: 30
-                                    },
-                                    __self: undefined,
-                                    children: "My Account"
-                                }),
-                                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.NavDropdown.Item, {
-                                    onClick: onLoggedOut,
-                                    href: "/",
-                                    __source: {
-                                        fileName: "src/components/navbar-view/navbar-view.jsx",
-                                        lineNumber: 31
-                                    },
-                                    __self: undefined,
-                                    children: "Logout"
-                                })
-                            ]
-                        })
-                    ]
+                    children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Nav, {
+                        className: "me-auto",
+                        __source: {
+                            fileName: "src/components/navbar-view/navbar-view.jsx",
+                            lineNumber: 24
+                        },
+                        __self: undefined,
+                        children: [
+                            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Nav.Link, {
+                                href: "/",
+                                __source: {
+                                    fileName: "src/components/navbar-view/navbar-view.jsx",
+                                    lineNumber: 25
+                                },
+                                __self: undefined,
+                                children: "Home"
+                            }),
+                            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Nav.Link, {
+                                as: _reactRouterDom.Link,
+                                to: `/users/${user}/my-list`,
+                                __source: {
+                                    fileName: "src/components/navbar-view/navbar-view.jsx",
+                                    lineNumber: 26
+                                },
+                                __self: undefined,
+                                children: "My List"
+                            }),
+                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.NavDropdown, {
+                                title: "Profile",
+                                id: "profile-options",
+                                __source: {
+                                    fileName: "src/components/navbar-view/navbar-view.jsx",
+                                    lineNumber: 27
+                                },
+                                __self: undefined,
+                                children: [
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.NavDropdown.Item, {
+                                        as: _reactRouterDom.Link,
+                                        to: `/users/${user}`,
+                                        __source: {
+                                            fileName: "src/components/navbar-view/navbar-view.jsx",
+                                            lineNumber: 28
+                                        },
+                                        __self: undefined,
+                                        children: "My Account"
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.NavDropdown.Item, {
+                                        onClick: onLoggedOut,
+                                        href: "/",
+                                        __source: {
+                                            fileName: "src/components/navbar-view/navbar-view.jsx",
+                                            lineNumber: 29
+                                        },
+                                        __self: undefined,
+                                        children: "Logout"
+                                    })
+                                ]
+                            })
+                        ]
+                    })
                 })
-            })
-        ]
+            ]
+        })
     }));
 };
 _c = NavbarView;
@@ -55518,7 +55708,7 @@ $RefreshReg$(_c, "NavbarView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-bootstrap":"h2YVd","react-router-dom":"cpyQW","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ","../../media/logo.png":"1G4Pf"}],"7ccSJ":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-bootstrap":"h2YVd","react-router-dom":"cpyQW","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lpaPZ"}],"7ccSJ":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$72f8 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;

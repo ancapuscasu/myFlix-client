@@ -2,44 +2,142 @@
   display: flex;
   justify-content: center;
 }
-.container {
+input[type=date]:required:invalid::-webkit-datetime-edit {
+  color: transparent;
+}
+
+input[type=date]:focus::-webkit-datetime-edit {
+  color: black !important;
+}
+
+.registration-view-container input:-webkit-autofill,
+.registration-view-container input:-webkit-autofill:hover,
+.registration-view-container input:-webkit-autofill:focus {
+  border: 1px solid #b3b3b3;
+  -webkit-text-fill-color: #330;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.registration-view-container {
+  width: 100vw;
+  height: 100vh;
   display: flex;
+  flex-direction: column;
+  min-height: 820px;
+}
+.registration-view-container:last-child {
+  align-items: center;
   justify-content: center;
 }
 
-label {
-  font-weight: bold;
+.registration {
+  width: 100vw;
+  justify-content: center;
+}
+
+.card.registration-card {
+  min-width: 320px;
+  max-width: 740px;
+  border: none;
+}
+
+.registration-card-title.h5 {
+  font-size: 2.2rem;
+  font-weight: 600;
+}
+
+.registration-input-group {
+  position: relative;
+  z-index: 10;
+}
+
+.row.registration-input-group.horizontal-group {
   display: flex;
-  margin-bottom: 5px;
-  margin-top: 5px;
+  justify-content: space-between;
 }
 
-input[type=text],
-input[type=email],
-textarea {
-  display: block;
-  width: 400px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  /* margin-bottom: 20px; */
+label.registration-input-label {
+  position: absolute;
+  z-index: 150;
+  color: #330;
+  font-size: 1rem;
+  top: 20px;
+  left: 18px;
+  transition: all 300ms ease-in;
 }
 
-.form-control {
-  margin-bottom: 20px;
+input.registration-input {
+  width: 100%;
+  position: relative;
+  z-index: 100;
+  border-radius: 2px;
+  border: 1px solid #b3b3b3;
+  opacity: 1;
+  font-size: 1rem;
+  line-height: 50px;
+  padding: 12px 18px 0;
 }
 
-.error {
-  color: red;
+.col.horizontal-input {
+  padding-left: 0;
+  padding-right: 0;
 }
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
+.col.horizontal-input.left {
+  margin-right: 4px;
+}
+.col.horizontal-input.right {
+  margin-left: 4px;
+}
+
+input.registration-input:focus + label.registration-input-label {
+  top: 5px;
+  font-size: 0.7rem;
+}
+
+input.registration-input:valid + label.registration-input-label {
+  top: 5px;
+  font-size: 0.7rem;
+}
+
+.input-error {
+  color: #ad181f;
+  font-size: 0.8rem;
+  margin-left: 3px;
+}
+
+.registration-signup {
+  margin: 24px 0 12px;
+  width: 100%;
+  padding: 16px;
+  color: #fff;
+  background: #e50914;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.navbar.registration-navbar {
+  position: absolute;
+  top: 5px;
+  width: 100vw;
+  opacity: 1;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #cdcdcd;
+}
+
+#signin {
+  margin-right: 50px;
+  color: #000;
+  font-weight: 500;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.login-view-container input:-webkit-autofill,
+.login-view-container input:-webkit-autofill:hover,
+.login-view-container input:-webkit-autofill:focus {
   border: 1px solid #333;
   -webkit-text-fill-color: #b3b3b3;
   -webkit-box-shadow: 0 0 0px 1000px #333 inset;
@@ -54,8 +152,7 @@ body {
   width: 100vw;
   height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   background-image: url(popcorn.4253b75f.png);
   background-repeat: no-repeat;
   background-position: center center;
@@ -65,12 +162,9 @@ body {
   min-height: 700px;
 }
 
-.logo {
-  position: absolute;
-  align-self: flex-start;
-  left: 10px;
-  width: 100vw;
-  opacity: 1;
+.login-view-container:last-child {
+  align-items: center;
+  justify-content: center;
 }
 
 .login {
@@ -84,7 +178,7 @@ body {
   max-width: 350px;
 }
 
-.card-title.h5 {
+.login-card-title.h5 {
   font-size: 2.2rem;
   font-weight: 600;
   color: #fff;
@@ -112,7 +206,7 @@ input.login-input {
   position: relative;
   z-index: 100;
   background: #333;
-  border-radius: 3px;
+  border-radius: 2px;
   border: none;
   opacity: 1;
   font-size: 1rem;
@@ -131,10 +225,11 @@ input.login-input:valid + label.login-input-label {
   font-size: 0.7rem;
 }
 
-.input-error {
+.login-input-error {
   color: #ff8400;
-  border-top: 1px solid #ff8400;
+  border-top: 2px solid #ff8400;
   font-size: 0.8rem;
+  width: 100%;
 }
 
 .login-signin {
@@ -152,6 +247,13 @@ input.login-input:valid + label.login-input-label {
 .login-register {
   color: #fff;
   font-size: 0.8rem;
+}
+.navbar.logo {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  width: 100vw;
+  opacity: 1;
 }
 .movie-card {
   max-width: 275px;
