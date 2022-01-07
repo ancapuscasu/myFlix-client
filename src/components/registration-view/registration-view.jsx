@@ -1,140 +1,215 @@
-import React, { useState } from 'react';
-import './registration-view.scss';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import { Card, CardGroup, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import React from 'react';
+import { Card, CardGroup, Container, Row, Col, Button, Navbar, Nav } from 'react-bootstrap';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import axios from 'axios';
+import { NavbarViewRegistration } from '../navbar-view/navbar-view-registration';
+import './registration-view.scss';
 
-export function RegistrationView (props) {
 
-    const [ username, setUsername ] = useState('');
-    const [ password, setPassword ] = useState('');
-    const [ firstname, setFirstname ] = useState('');
-    const [ lastname, setLastname ] = useState('');
-    const [ email, setEmail ] = useState('');
-    const [ birthdate, setBirthdate ] = useState('');
+export function RegistrationView () {
 
-    const handleRegister = (event) => {
-        event.preventDefault();
-        axios.post('https://ancas-myflixapi.herokuapp.com/users', {
-          FirstName: firstname,
-          LastName: lastname,
-          Email: email,
-          Username: username,
-          Password: password,
-          Birthdate: birthdate 
-        })
-        .then(response => {
-          const data = response.data;
-          console.log(data);
-          window.open("/", "_self"); //"_self" is needed so the page will open in the current tab
-        })
-        .catch(error => {
-          console.log("error registering the user")
-        });
-    }
+
+  const initialValues = { 
+    FirstName: '', 
+    LastName: '', 
+    Username: '', 
+    Email: '', 
+    Password: '', 
+    ConfirmPassword: '',
+    Birthdate: '' ,
+  }
+
+
+  const validationSchema = Yup.object({
+    FirstName: Yup.string()
+      .required('Please enter your first name.'),
+    LastName: Yup.string()
+      .required('Please enter your last name.'),
+    Email: Yup.string()
+      .required('Please enter your email address.')
+      .email('Please enter a valid email address.')
+      .max(255, 'Your email address is too long.'),
+    Username: Yup.string()
+      .required('Please enter a username.')
+      .min(5, 'Your username must contain between 5 and 15 characters.')
+      .max(15,'Your username must contain between 5 and 15 characters.')
+      .matches(/^[a-z0-9]+$/, "Your username cannot contain any special characters (it can only contain numbers and letters)."),
+    Password: Yup.string()
+      .required('Please enter a password.')
+      .min(8, 'Your password must contain between 8 and 50 characters.')
+      .max(50, 'Your password must contain between 8 and 50 characters.'),
+    ConfirmPassword: Yup.string()
+      .when("Password", {
+        is: val => (val && val.length > 0 ? true : false),
+      then: Yup.string()
+        .oneOf(
+          [Yup.ref("Password")], "Your passwords must match."
+        )
+      }),
+    Birthdate: Yup.date()
+      .required('Please enter your birthdate.'),
+  });
+
+
+  const onSubmit = values => 
+  {
+    console.log(values);
+    axios.post('https://ancas-myflixapi.herokuapp.com/users', values)
+    .then (response => {
+      const data = response.data;
+      console.log(data);
+      window.open("/", "_self"); //"_self" is needed so the page will open in the current tab
+    })
+    .catch (error => {
+      console.log(error, "Error registering user")
+    });
+  }
+    
 
     return (
-      <Container>
-        <Row>
-          <Col></Col>
-          <Col xs={8} md={6} className="mt-5">
-            <CardGroup>
-              <Card>
-                <Card.Body>
-                  <Card.Title className="mb-3 mt-3">Sign Up</Card.Title>
-                  <Card.Subtitle className="mb-5 text-muted">it's quick and easy </Card.Subtitle>
-                  <Form>   
+      <div className='registration-view-container'>
+        <NavbarViewRegistration/>
+        <Row className='registration'>
+          <Col xs={12} sm={12} md={10} lg={8} xl={6} className="m-3">
+            <Card className='registration-card'>
+              <Card.Body>
+                <Card.Title className="registration-card-title">Sign Up</Card.Title>
+                <Card.Subtitle className="mb-5 text-muted">it's quick and easy </Card.Subtitle>
+                  <Formik 
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={onSubmit}
+                  >
+                    <Form>
 
-                    <Row className="mb-2">
-                      <Form.Group as={Col} controlId="form FirstName">
-                        <Form.Label>First name</Form.Label>
-                        <Form.Control 
+                      <Row className="registration-input-group horizontal-group mb-2">
+                        <Col className='horizontal-input left'>
+                          <Field
+                            className="registration-input"
+                            name="FirstName"
+                            type="text" 
+                            required
+                            // placeholder="First name"
+                          />
+                          <label className="registration-input-label" htmlFor="FirstName">First Name</label>
+                          <ErrorMessage 
+                            name="FirstName"
+                            component="div"
+                            className="input-error"
+                          />
+                        </Col>
+
+                        <Col className='horizontal-input right'>
+                          <Field 
+                            className="registration-input"
+                            name="LastName"
+                            type="text" 
+                            required
+                            // placeholder="Last name"
+                          />
+                          <label className="registration-input-label" htmlFor="LastName">Last name</label>
+                          <ErrorMessage 
+                            name="LastName"
+                            component="div"
+                            className="input-error"                      
+                          />
+                        </Col>
+                      </Row>
+
+                      <Row className="registration-input-group mb-2">
+                        <Field
+                          className="registration-input"
+                          name="Email" 
                           type="text" 
-                          placeholder="First name"
-                          value = {firstname}
-                          onChange = {event => setFirstname(event.target.value)}
-                          required />
-                      </Form.Group>
+                          required
+                          // placeholder="Email address"
+                        />
+                        <label className="registration-input-label" htmlFor="Email">Email address</label>
+                        <ErrorMessage 
+                          name="Email"
+                          component="div"
+                          className="input-error"                      
+                        />
+                      </Row>
 
-                      <Form.Group as={Col} controlId="formLastName">
-                        <Form.Label>Last name</Form.Label>
-                        <Form.Control 
+                      <Row className="registration-input-group mb-2">
+                        <Field  
+                          className="registration-input"
+                          name="Username"
                           type="text" 
-                          placeholder="Last name"
-                          value={lastname}
-                          onChange = {event => setLastname(event.target.value)}
-                          required />
-                      </Form.Group>
-                    </Row>
-                 
-                    <Form.Group className="mb-2" controlId="formEmail"> 
-                      <Form.Label>Email address</Form.Label>
-                      <Form.Control 
-                        type="email" 
-                        placeholder="Email address"
-                        value={email}
-                        onChange = {event => setEmail(event.target.value)}
-                        required />
-                    </Form.Group>
+                          required
+                          // placeholder="Username"
+                        />
+                        <label className="registration-input-label" htmlFor="Username">Username</label>
+                        <ErrorMessage
+                          name="Username"
+                          component="div"
+                          className="input-error"                      
+                        />
+                      </Row>
+                      
+                      <Row className="registration-input-group  horizontal-group mb-2">
+                        <Col className='horizontal-input left'>
+                          <Field  
+                            className="registration-input"
+                            name="Password" 
+                            type="password" 
+                            required
+                            // placeholder="Password"
+                          />
+                          <label className="registration-input-label" htmlFor="Password">Password</label>
+                          <ErrorMessage 
+                            name="Password"
+                            component="div"
+                            className="input-error"                   
+                          />
+                        </Col>
 
-                    <Form.Group className="mb-2" controlId="formUsername"> 
-                      <Form.Label>Username</Form.Label>
-                      <Form.Control 
-                        type="text" 
-                        placeholder="Username"
-                        value={username}
-                        onChange = {event => setUsername(event.target.value)} 
-                        required
-                        minLength="5"/>
-                    </Form.Group>
-
-                    <Form.Group className="mb-2" controlId="formPassword"> 
-                      <Form.Label>Password</Form.Label>
-                      <Form.Control 
-                        type="password" 
-                        placeholder="Password"
-                        value={password}
-                        onChange = {event => setPassword(event.target.value)}
-                        required
-                        minLength="8" />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBirthday"> 
-                      <Form.Label>Birthday</Form.Label>
-                      <Form.Control 
-                        type="date" 
-                        onChange = {event => setBirthdate(event.target.value)}
-                        required>
-                      </Form.Control>
-                    </Form.Group>
-
-                    <Button 
-                      variant="primary" 
-                      type="submit"
-                      onClick={handleRegister}>
-                        Sign Up
-                    </Button>
-
-                  </Form>
-                </Card.Body>
-              </Card>
-            </CardGroup>
+                        <Col className='horizontal-input right'>
+                          <Field  
+                            className="registration-input"
+                            name="ConfirmPassword" 
+                            type="password" 
+                            required
+                            // placeholder="Confirm Password"
+                          />
+                          <label className="registration-input-label" htmlFor="ConfirmPassword">Confirm Password</label>
+                          <ErrorMessage 
+                            name="ConfirmPassword"
+                            component="div"
+                            className="input-error"                        
+                          />
+                        </Col>
+                      </Row>
+                    
+                      <Row className="registration-input-group mb-2">
+                        <Field 
+                          className="registration-input" 
+                          name="Birthdate" 
+                          type="date" 
+                          required
+                        />
+                        <label className="registration-input-label" htmlFor="Birthdate">Birthday</label>
+                        <ErrorMessage 
+                          name="Birthdate" 
+                          component="div"
+                          className="input-error"
+                        />
+                      </Row>
+                      
+                      <Row className='justify-content-start'>
+                        <button className='registration-signup' type="submit">Sign Up </button> 
+                      </Row>
+                      
+                    </Form>
+                  </Formik>
+              </Card.Body>
+            </Card>
           </Col>
-          <Col></Col>
         </Row>
-      </Container>
-    )
-}
+      </div>
+     )
+ }
 
 
-RegistrationView.propTypes = {
-    user: PropTypes.shape({
-      firstname: PropTypes.string.isRequired,
-      lastname: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired,
-      password: PropTypes.string.isRequired,
-      birthdate: PropTypes.instanceOf(Date)
-    })
-};
