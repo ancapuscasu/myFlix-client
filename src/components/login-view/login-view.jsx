@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Container, Row, Col, Card, CardGroup, Button, InputGroup, Navbar} from 'react-bootstrap';
+import { Row, Col, Card, CardGroup, Navbar } from 'react-bootstrap';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import Logo from "../../media/logo.png"
 import './login-view.scss';
+import { NavbarViewLogin } from '../navbar-view/navbar-view-login';
 
 
 
@@ -50,20 +49,13 @@ export function LoginView (props) {
 
     return (
       <div className='login-view-container'>
-        <Navbar.Brand href="#home" className="m-3 logo">
-          <img
-            src={Logo}
-            crossOrigin="*"
-            width='150px'
-            alt="myFlix logo"
-          />
-        </Navbar.Brand>
+        <NavbarViewLogin />
         <Row className='login'>
           <Col xs={10}  sm={7} md={6} lg={5} xl={4} className="m-3">
             <CardGroup>
               <Card className="login-card">
                 <Card.Body>
-                  <Card.Title className="m-4">Sign In</Card.Title>
+                  <Card.Title className="m-4 login-card-title">Sign In</Card.Title>
                     <Formik
                       initialValues={initialValues}
                       validationSchema={validationSchema}
@@ -82,7 +74,7 @@ export function LoginView (props) {
                           <ErrorMessage
                             name="Username"
                             component="div"
-                            className="input-error"
+                            className="login-input-error"
                           />
                         </Row>
 
@@ -98,7 +90,7 @@ export function LoginView (props) {
                           <ErrorMessage
                             name="Password"
                             component="div"
-                            className="input-error"
+                            className="login-input-error"
                           />
                         </Row>
 
