@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Row } from "react-bootstrap";
 
 import { Link } from "react-router-dom";
 
@@ -11,13 +11,17 @@ export class MovieCard extends React.Component {
         const { movie } = this.props;
         
         return (
-            <Card className="movie-card p-3 ">
-                <Card.Img  variant='top' src= { movie.ImagePath } crossOrigin = '*'/>
+            <Card className="movie-cards p-2">
+                <Link to={`/movies/${movie.Title}`}>
+                    <Card.Img  variant='top' src= { movie.ImagePath } crossOrigin = '*'/>
+                </Link>
                 <Card.Body className="p-0">
-                    <Card.Title className="pt-3"> { movie.Title } </Card.Title>
-                    <Link to={`/movies/${movie.Title}`}>
-                        <Button variant='link'>View</Button>
-                    </Link>
+                    <Row className="movie-cards-title-group m-2">
+                        <Card.Title className="movie-cards-title"> { movie.Title } </Card.Title>
+                        <Link to={`/movies/${movie.Title}`}>
+                            <Button className="movie-cards-view-movie" variant='link'>View</Button>
+                        </Link>
+                    </Row>
                 </Card.Body>
             </Card>
         );
