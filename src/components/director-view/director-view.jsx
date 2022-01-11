@@ -20,15 +20,13 @@ export function DirectorView (props) {
 
   // const birthdate=`${birthmonth} - ${birthday} - ${birthyear}`;
   return (
-      <Container className="director-view">
-        <Card>
-          <Card.Body>
-            <Card.Title>{director.Name}</Card.Title>
-            <Card.Text>{director.Bio}</Card.Text>
-            <Card.Text>Born: {formattedDate}</Card.Text>
-            <Button onClick={() => { onBackClick(null); }}>Back</Button>
-          </Card.Body>
-        </Card>
-      </Container>
+    <Card className='director-view-card'>
+      <Card.Body>
+        <Card.Title className='director-view-card-title'>{director.Name}</Card.Title>
+        <Card.Text className='director-view-card-text'>{director.Bio}</Card.Text>
+        <Card.Text className='director-view-card-text'>Born: {formattedDate}</Card.Text>
+      </Card.Body>
+        <button className='director-view-card-back-btn' onClick={() => { onBackClick(null); }}>Back</button>
+    </Card>
   )
 }
