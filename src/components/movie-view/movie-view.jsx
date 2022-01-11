@@ -54,41 +54,39 @@ export function MovieView (props) {
   };
 
       return (
-        <Container>
-          <Row>
-            <Col>
-              <Card className='movie-view p-3'>
-                <Card.Img 
-                  className="movie-poster" 
-                  variant="top" 
-                  src={movie.ImagePath} 
-                  crossOrigin="*"/>
-                <Card.Body>
-                    <Card.Title>{movie.Title}</Card.Title>
-                    <Card.Text>{movie.Description}</Card.Text>
-                    <Card.Text>Released { movie.ReleaseYear}</Card.Text>
-                    <Card.Text>
-                      <Link to={`/directors/${movie.Director.Name}`}>
-                        <Button variant="link">Director</Button>
-                      </Link>
-                      <Link to={`/genres/${genre.Name}`}>
-                        <Button variant="link">Genre</Button>
-                      </Link>
-                    </Card.Text>
-                    <Row>
-                      <Link to={`/movies/${movie.Title}`}>
-                        <Button variant="outline-success" type="submit" onClick={handleAddFavouriteMovie}>Add to My List</Button>
-                      </Link>
-                      <Link to={`/movies/${movie.Title}`}>
-                        <Button variant="outline-danger" type="submit" onClick={handleRemoveFavouriteMovie}>Remove from My List</Button>
-                      </Link>
-                    </Row>
-                </Card.Body>
-                <Button onClick={() => { onBackClick(null); }}>Back</Button>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
+        <>
+          <Card className='p-3 movie-view-card'>
+            <Card.Img 
+              className="movie-view-card-poster" 
+              src={movie.ImagePath} 
+              crossOrigin="*"/>
+            <Card.Body>
+              <Card.Title className="movie-view-card-title">{movie.Title}</Card.Title>
+              <Card.Text className="movie-view-card-text">{movie.Description}</Card.Text>
+              <Card.Text className="movie-view-card-text">Released { movie.ReleaseYear}</Card.Text>
+              <Card.Text className="movie-view-card-text">Directed by:
+                <Link to={`/directors/${movie.Director.Name}`}>
+                  <span> {movie.Director.Name} </span>
+                </Link>
+              </Card.Text>
+              <Card.Text className="movie-view-card-text">Genre:
+                <Link to={`/genres/${genre.Name}`}>
+                  <span> {genre.Name} </span>
+                </Link>
+              </Card.Text>
+            </Card.Body>
+
+            <Row className="movie-view-card-favourite-btns">
+              <Link to={`/movies/${movie.Title}`}>
+                <Button variant="outline-success" type="submit" onClick={handleAddFavouriteMovie}>Add to My List</Button>
+              </Link>
+              <Link to={`/movies/${movie.Title}`}>
+                <Button variant="outline-danger" type="submit" onClick={handleRemoveFavouriteMovie}>Remove from My List</Button>
+              </Link>
+            </Row>
+            <button className="movie-view-card-back-btn"  onClick={() => { onBackClick(null); }}>Back</button>
+          </Card>
+        </>
       );
 }
 
