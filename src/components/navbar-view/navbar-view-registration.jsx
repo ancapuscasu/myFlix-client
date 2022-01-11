@@ -8,7 +8,7 @@ export const NavbarViewRegistration = () => {
   
   return (
     <Navbar className='registration-navbar'>
-      <Navbar.Brand href="#home" className="ml-3">
+      <Navbar.Brand href="/" className="ml-3">
         <img
             src={Logo}
             crossOrigin="*"

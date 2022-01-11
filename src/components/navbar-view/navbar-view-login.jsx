@@ -6,8 +6,8 @@ import "./navbar-view-login.scss";
 export const NavbarViewLogin = () => {
   
   return (
-    <Navbar className='logo'>
-      <Navbar.Brand href="#home" className="ml-3">
+    <Navbar className='login-navbar'>
+      <Navbar.Brand href="/" className="ml-3">
       <img
           src={Logo}
           crossOrigin="*"
