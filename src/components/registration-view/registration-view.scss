@@ -28,6 +28,7 @@ input[type=date]:focus::-webkit-datetime-edit {
     display: flex;
     flex-direction: column;
     min-height: 820px;
+    background-color: $white;
 
   &:last-child {
         align-items: center;
@@ -38,12 +39,11 @@ input[type=date]:focus::-webkit-datetime-edit {
 .registration {
     width:100vw;
     justify-content: center;
-
 }
+
 
 .card.registration-card {
     min-width: 320px;
-    max-width: 740px;
     border: none;
 }
 
@@ -57,7 +57,7 @@ input[type=date]:focus::-webkit-datetime-edit {
     z-index: 10;
 }
 
-.row.registration-input-group.horizontal-group {
+.registration-input-group.horizontal-group {
     display: flex;
     justify-content: space-between;
 }
@@ -112,7 +112,7 @@ input.registration-input:valid + label.registration-input-label {
     margin-left: 3px;
 }
 
-.registration-signup {
+.signup-button {
     margin: 24px 0 12px;
     width: 100%;
     padding: 16px;

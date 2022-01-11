@@ -199,7 +199,7 @@ export function RegistrationView () {
                       </Row>
                       
                       <Row className='justify-content-start'>
-                        <button className='registration-signup' type="submit">Sign Up </button> 
+                        <button className='signup-button' type="submit">Sign Up </button> 
                       </Row>
                       
                     </Form>
