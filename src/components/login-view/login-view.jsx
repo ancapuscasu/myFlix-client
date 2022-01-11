@@ -52,7 +52,7 @@ export function LoginView (props) {
         <NavbarViewLogin />
         <Row className='login'>
           <Col xs={10}  sm={7} md={6} lg={5} xl={4} className="m-3">
-            <CardGroup>
+            <CardGroup className="login-card-group">
               <Card className="login-card">
                 <Card.Body>
                   <Card.Title className="m-4 login-card-title">Sign In</Card.Title>
