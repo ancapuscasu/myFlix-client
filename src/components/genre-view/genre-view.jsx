@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
-
+import "./genre-view.scss";
 
 export function GenreView (props) {
   const genre = props.genre;
@@ -9,12 +9,12 @@ export function GenreView (props) {
   return (
       <Row>
         <Col>
-          <Card>
+          <Card className='genre-view-card'>
             <Card.Body >
-              <Card.Title>{genre.Name}</Card.Title>
-              <Card.Text>{genre.Description}</Card.Text>
-              <Button variant="primary" onClick={() => { onBackClick(null); }}>Back</Button>
+              <Card.Title className='genre-view-card-title'>{genre.Name}</Card.Title>
+              <Card.Text className='genre-view-card-text'>{genre.Description}</Card.Text>
             </Card.Body>
+              <button className='genre-view-card-back-btn' onClick={() => { onBackClick(null); }}>Back</button>
           </Card>
         </Col>
       </Row>
