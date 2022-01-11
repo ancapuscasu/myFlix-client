@@ -1,0 +1,27 @@
+.row.movie-cards-title-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.h5.movie-cards-title {
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.card.movie-cards {
+    border: hidden;
+    border-radius: 2px;
+    background: #fff;
+    transition: .4s transform;
+    padding: 14px 80px 18px 36px;
+    cursor: pointer;
+}
+
+.card.movie-cards:hover{
+    transform: scale(1.05);
+}
+
+.btn.movie-cards-view-movie {
+    text-decoration: none;
+}

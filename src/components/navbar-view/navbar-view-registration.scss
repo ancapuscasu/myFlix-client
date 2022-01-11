@@ -1,0 +1,24 @@
+$grey: #cdcdcd;
+$black: #000;
+
+
+.navbar.registration-navbar {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  opacity: 1;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid $grey;
+
+}
+
+
+#signin {
+  margin-right: 50px;
+  color: $black;
+  font-weight: 500;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+}

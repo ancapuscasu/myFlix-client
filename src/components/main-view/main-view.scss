@@ -1,0 +1,63 @@
+$background-grey: #141414;
+
+
+
+.main-view {
+    background-color: $background-grey;
+    height: 100%;
+}
+
+
+.row.movie-cards-container {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.row.movie-view-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    padding-top: 30px;
+    padding-bottom: 250px;
+}
+div.movie-view-column {
+    display: flex;
+    justify-content: center;
+}
+
+.director-view {
+    width: 100vw;
+    height: 100vh;
+}
+
+.row.director-view-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    min-height: 400px;
+    padding-top: 50px;
+}
+
+.genre-view {
+    width: 100vw;
+    height: 100vh;
+}
+
+.row.genre-view-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    min-height: 400px;
+    padding-top: 50px;
+}
+
+div.my-list-container {
+    height: 100vh;
+}

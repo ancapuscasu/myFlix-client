@@ -1,0 +1,42 @@
+$grey: #b3b3b3;
+$white: #fff;
+$red: #e50914;
+$red-error: #ad181f;
+$background-grey: #141414;
+
+.card.movie-view-card {
+    border: hidden;
+    border-radius: 2px;
+    display: flex;
+    min-width: 385px;
+    max-width: 500px;
+}
+
+.card-img.movie-view-card-poster {
+    width: 80%;
+    align-self: center;
+}
+
+.h5.movie-view-card-title {
+    font-size: 1.3rem;
+}
+
+.card-text.movie-view-card-text {
+    font-size: 0.8rem;
+}
+
+.row.movie-view-card-favourite-btns {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px 20px 20px;
+}
+
+.movie-view-card-back-btn {
+    margin: 0 20px 20px 20px;
+    padding: 16px;
+    color: $white;
+    background: $red;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 2px;
+}

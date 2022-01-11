@@ -1,25 +1,107 @@
-import React from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
+import { Card, Button, Container, Row, Col } from "react-bootstrap";
 
-export class MovieView extends React.Component {
+import './movie-view.scss';
 
-    render() {
-        const { movie, onBackClick } = this.props;
+import { Link } from "react-router-dom";
 
-        return (
-            <div className='movie-view'>
-                <div className='movie-poster'>
-                    <img src={movie.ImagePath} crossorigin="*" width='250px'/>
-                </div>
-                <div className='movie-title'>
-                    <span className='label'>Title: </span>
-                    <span className='value'>{movie.Title}</span>
-                </div>
-                <div className='movie-description'>
-                    <span className='label'>Description: </span>
-                    <span className='value'>{movie.Description}</span>
-                </div>
-                <button onClick={() => { onBackClick(null); }}>Back</button>
-            </div>
-        );
-    }
+
+export function MovieView (props) {
+  const movie=props.movie;
+  const genre=props.genre;
+  const onBackClick=props.onBackClick;
+
+  const token = localStorage.getItem('token');
+  const username = localStorage.getItem('user');
+
+  const handleAddFavouriteMovie = (e) => {
+    e.preventDefault();
+    axios.post(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`, {}, 
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then (response => {
+      const data = response.data;
+      console.log(data);
+      alert(`${movie.Title} was successfully added to your favourites list!`);
+      location.reload();
+    })
+    .catch(function (error) {
+      alert(`${movie.Title} was NOT added to your favourites list!`);
+        console.log(error + " :unable to add to favourites list");
+      });
+  };
+
+  const handleRemoveFavouriteMovie = (e) => {
+    e.preventDefault();
+
+    axios.delete(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`,
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then (response => {
+      const data = response.data;
+      console.log(data);
+      alert (`${movie.Title} was successfully removed from your favourites list!`);
+      location.reload();
+    })
+    .catch(e => {
+      alert(`${movie.Title} was NOT removed to your favourites list!`);
+        console.log(e + " :unable to remove from favourites list");
+      });
+  };
+
+      return (
+        <>
+          <Card className='p-3 movie-view-card'>
+            <Card.Img 
+              className="movie-view-card-poster" 
+              src={movie.ImagePath} 
+              crossOrigin="*"/>
+            <Card.Body>
+              <Card.Title className="movie-view-card-title">{movie.Title}</Card.Title>
+              <Card.Text className="movie-view-card-text">{movie.Description}</Card.Text>
+              <Card.Text className="movie-view-card-text">Released { movie.ReleaseYear}</Card.Text>
+              <Card.Text className="movie-view-card-text">Directed by:
+                <Link to={`/directors/${movie.Director.Name}`}>
+                  <span> {movie.Director.Name} </span>
+                </Link>
+              </Card.Text>
+              <Card.Text className="movie-view-card-text">Genre:
+                <Link to={`/genres/${genre.Name}`}>
+                  <span> {genre.Name} </span>
+                </Link>
+              </Card.Text>
+            </Card.Body>
+
+            <Row className="movie-view-card-favourite-btns">
+              <Link to={`/movies/${movie.Title}`}>
+                <Button variant="outline-success" type="submit" onClick={handleAddFavouriteMovie}>Add to My List</Button>
+              </Link>
+              <Link to={`/movies/${movie.Title}`}>
+                <Button variant="outline-danger" type="submit" onClick={handleRemoveFavouriteMovie}>Remove from My List</Button>
+              </Link>
+            </Row>
+            <button className="movie-view-card-back-btn"  onClick={() => { onBackClick(null); }}>Back</button>
+          </Card>
+        </>
+      );
 }
+
+MovieView.propTypes = {
+    movie: PropTypes.shape({
+        Title: PropTypes.string.isRequired,
+        Description: PropTypes.string.isRequired,
+        Genre: PropTypes.array.isRequired,
+        Director: PropTypes.shape({
+            Name: PropTypes.string.isRequired,
+            Bio: PropTypes.string.isRequired
+        }).isRequired,
+        ImagePath: PropTypes.string.isRequired,
+        Featured: PropTypes.bool,
+        ReleaseYear: PropTypes.number.isRequired
+    }).isRequired,
+    onBackClick: PropTypes.func.isRequired
+};
