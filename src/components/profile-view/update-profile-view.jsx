@@ -226,7 +226,6 @@ export function UpdateProfileView (props) {
                     </p>
                   </Row>
 
-                  {/* <Button variant="outline-danger" type="submit" onClick={handleDeleteAccount}>Delete Account</Button> */}
 
                 </Form>
               </Formik>
