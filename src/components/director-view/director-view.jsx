@@ -11,14 +11,7 @@ export function DirectorView (props) {
   const onBackClick = props.onBackClick;
 
   let formattedDate=moment.utc(director.Birthdate).format('MMMM Do YYYY');
-
-  // const birthday=director.Birthdate.getDate();
-  // console.log(birthday);
-
-  // const birthmonth=director.Birthdate.getMonth();
-  // const birthyear=director.Birthdate.getFullYear(); 
-
-  // const birthdate=`${birthmonth} - ${birthday} - ${birthyear}`;
+  
   return (
     <Card className='director-view-card'>
       <Card.Body>
