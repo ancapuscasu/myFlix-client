@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
+import { Card, Button, Row } from "react-bootstrap";
 
 import './movie-view.scss';
 
@@ -24,7 +24,6 @@ export function MovieView (props) {
     })
     .then (response => {
       const data = response.data;
-      console.log(data);
       alert(`${movie.Title} was successfully added to your favourites list!`);
       location.reload();
     })
@@ -43,7 +42,6 @@ export function MovieView (props) {
     })
     .then (response => {
       const data = response.data;
-      console.log(data);
       alert (`${movie.Title} was successfully removed from your favourites list!`);
       location.reload();
     })
