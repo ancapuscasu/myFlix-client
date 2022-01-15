@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Card, CardGroup, Navbar } from 'react-bootstrap';
+import { Row, Col, Card, CardGroup } from 'react-bootstrap';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -11,7 +11,6 @@ import { NavbarViewLogin } from '../navbar-view/navbar-view-login';
 
 export function LoginView (props) {
 
-  console.log(props);
   const onLoggedIn = props.onLoggedIn;
 
   const initialValues = {
@@ -33,17 +32,15 @@ export function LoginView (props) {
   
   // When user clicks "Log In" button - POST request is made to /login
   const onSubmit = values => {
-    console.log(values);
   // Send a request to the server for authentication 
     axios.post('https://ancas-myflixapi.herokuapp.com/login', values)
   // After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
     .then (response => {
       const data = response.data;
-      console.log(data);
       onLoggedIn(data);
     })
     .catch (error => {
-      console.log("Error logging user in / no user found")
+      console.log(error, "Error logging user in / no user found")
     });
   };
 

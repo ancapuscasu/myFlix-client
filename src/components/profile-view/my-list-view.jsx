@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Card, Form, Button, Container, Row, Col } from 'react-bootstrap';
-import axios from 'axios';
+import React from 'react';
+import { Card, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./my-list-view.scss";
 
