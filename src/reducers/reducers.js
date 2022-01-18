@@ -4,8 +4,9 @@ import {
     SET_FILTER, 
     SET_MOVIES,
     SET_GENRES,
-    SET_USERS,
-    SET_USER
+    SET_USER,
+    UPDATE_USER,
+    SET_LS_USERNAME
 } from '../actions/actions';
 
 
@@ -40,18 +41,21 @@ function genres(state = [], action) {
     }
 }
 
-function users (state = {}, action) {
+
+function user (state = {}, action) {
     switch (action.type) {
-        case SET_USERS:
+        case SET_USER:
+            return action.value;
+        case UPDATE_USER:
             return action.value;
         default:
             return state;
     }
 }
 
-function user (state = '', action) {
+function ls_username (state = '', action) {
     switch (action.type) {
-        case SET_USER:
+        case SET_LS_USERNAME:
             return action.value;
         default:
             return state;
@@ -62,8 +66,8 @@ const moviesApp = combineReducers({
     visibilityFilter,
     movies,
     genres,
-    users,
-    user
+    user,
+    ls_username
 });
 
 

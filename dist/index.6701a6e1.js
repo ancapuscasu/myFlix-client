@@ -55345,8 +55345,6 @@ parcelHelpers.export(exports, "UPDATE_USER", ()=>UPDATE_USER
 );
 parcelHelpers.export(exports, "SET_LS_USERNAME", ()=>SET_LS_USERNAME
 );
-parcelHelpers.export(exports, "UPDATE_LS_USERNAME", ()=>UPDATE_LS_USERNAME
-);
 parcelHelpers.export(exports, "setMovies", ()=>setMovies
 );
 parcelHelpers.export(exports, "setGenres", ()=>setGenres
@@ -55359,15 +55357,12 @@ parcelHelpers.export(exports, "updateUser", ()=>updateUser
 );
 parcelHelpers.export(exports, "setLSUsername", ()=>setLSUsername
 );
-parcelHelpers.export(exports, "updateLSUsername", ()=>updateLSUsername
-);
 const SET_MOVIES = 'SET_MOVIES';
 const SET_GENRES = 'SET_GENRE';
 const SET_FILTER = 'SET_FILTER';
 const SET_USER = 'SET_USER';
 const UPDATE_USER = 'UPDATE_USER';
 const SET_LS_USERNAME = 'SET_LS_USERNAME'; //'set-local-storage-username'
-const UPDATE_LS_USERNAME = 'UPDATE_LS_USERNAME';
 const setMovies = (value)=>{
     return {
         type: SET_MOVIES,
@@ -55401,12 +55396,6 @@ const updateUser = (value)=>{
 const setLSUsername = (value)=>{
     return {
         type: SET_LS_USERNAME,
-        value
-    };
-};
-const updateLSUsername = (value)=>{
-    return {
-        type: UPDATE_LS_USERNAME,
         value
     };
 };
@@ -58311,8 +58300,6 @@ function user(state = {
 function ls_username(state = '', action) {
     switch(action.type){
         case _actions.SET_LS_USERNAME:
-            return action.value;
-        case _actions.UPDATE_LS_USERNAME:
             return action.value;
         default:
             return state;
