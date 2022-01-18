@@ -1,20 +1,21 @@
 import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import "./update-profile-view.scss";
-
-import { Button, Card, Container, Row, Col } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Redirect } from 'react-router-dom';
+
+import { updateUser, setLSUsername } from '../../actions/actions';
+import { connect } from 'react-redux';
+
+import { Card, Row, Col } from "react-bootstrap";
+import "./update-profile-view.scss";
 
 
-
-export function UpdateProfileView (props) {
-  console.log(props);
+function UpdateProfileView (props) {
   const user = props.user;
-
-  let Username = localStorage.getItem("user");
+  const onLoggedOut = props.onLoggedOut;
+  
+  let username = localStorage.getItem("ls_username");
   const token = localStorage.getItem("token");
 
 
@@ -54,23 +55,22 @@ export function UpdateProfileView (props) {
       }),
   });
 
-  const onSubmit = values => {
-    console.log(values);
+  const handleSubmitUpdate = values => {
 
-    axios.put(`https://ancas-myflixapi.herokuapp.com/users/${Username}`, values, 
+    axios.put(`https://ancas-myflixapi.herokuapp.com/users/${username}`, values, 
       { headers: { Authorization: `Bearer ${token}` }}
     )
     .then (response => {
       const data = response.data;
-      console.log(data);
-      alert (Username + " has been updated.");
-      localStorage.setItem('user', data.Username);
-      Username = data.Username;
-      window.location.pathname = `/users/${Username}`;
+      props.updateUser(data);
+      alert (username + " has been updated.");
+      localStorage.setItem('ls_username', data.Username);
+      props.setLSUsername (localStorage.getItem('ls_username'));
+      username = localStorage.getItem("ls_username");
+      window.location.pathname = `/users/${username}`;
     })
     .catch (error => {
-      console.log("Profile update NOT sucessful")
-      console.log(error);
+      console.log(error, "Profile update NOT sucessful")
     });
   };
 
@@ -79,17 +79,13 @@ export function UpdateProfileView (props) {
 
     const answer = window.confirm("This cannot be undone, are you sure?");
     if (answer) {
-      axios.delete(`https://ancas-myflixapi.herokuapp.com/users/${Username}`, 
+      axios.delete(`https://ancas-myflixapi.herokuapp.com/users/${username}`, 
       {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(response => {
-        const data=response.data;
-        console.log(data);
-        alert(Username + " has been deleted.");
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        location.reload();
+        alert(username + " has been deleted.");
+        onLoggedOut();
       })
       .catch(function(error) {
         console.log(error + " unable to delete user");
@@ -100,7 +96,7 @@ export function UpdateProfileView (props) {
     }
   }
 
-  console.log("initial value:", initialValues);
+
   return (
       <Row className="update-profile">
         <Col xs={12} sm={12} md={10} lg={8} xl={6} className="m-3">
@@ -112,7 +108,7 @@ export function UpdateProfileView (props) {
                 enableReinitialize
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={onSubmit}
+                onSubmit={handleSubmitUpdate}
               >
                 <Form>
 
@@ -123,7 +119,6 @@ export function UpdateProfileView (props) {
                         name="FirstName"
                         type="text" 
                         required
-                        // placeholder="First name"
                       />
                       <label htmlFor="FirstName" className="update-profile-input-label">First Name</label>
                       <ErrorMessage 
@@ -139,7 +134,6 @@ export function UpdateProfileView (props) {
                         name="LastName"
                         type="text" 
                         required
-                        // placeholder="Last name"
                       />
                       <label htmlFor="LastName" className="update-profile-input-label">Last name</label>
                       <ErrorMessage 
@@ -156,7 +150,6 @@ export function UpdateProfileView (props) {
                       name="Username"
                       type="text" 
                       required
-                      // placeholder="Username"
                     />
                     <label htmlFor="Username" className="update-profile-input-label">Username</label>
                     <ErrorMessage
@@ -173,7 +166,6 @@ export function UpdateProfileView (props) {
                         name="Password" 
                         type="password" 
                         required
-                        // placeholder="Password"
                       />
                       <label className="update-profile-input-label" htmlFor="Password">Password</label>
                       <ErrorMessage 
@@ -189,7 +181,6 @@ export function UpdateProfileView (props) {
                         name="ConfirmPassword" 
                         type="password" 
                         required
-                        // placeholder="Confirm Password"
                       />
                       <label className="update-profile-input-label" htmlFor="ConfirmPassword">Confirm Password</label>
                       <ErrorMessage 
@@ -206,7 +197,6 @@ export function UpdateProfileView (props) {
                       name="Email" 
                       type="text" 
                       required
-                      // placeholder="Email address"
                     />
                     <label htmlFor="Email" className="update-profile-input-label">Email</label>
                     <ErrorMessage 
@@ -245,5 +235,16 @@ UpdateProfileView.propTypes = {
     LastName: PropTypes.string.isRequired,
     Email: PropTypes.string.isRequired,
     Username: PropTypes.string.isRequired,
-  })
+  }),
+  onLoggedOut: PropTypes.func.isRequired
 };
+
+
+let mapStateToProps = state => {
+  return {
+    user: state.user,
+    ls_username: state.ls_username
+  };
+}
+
+export default connect(mapStateToProps, { updateUser, setLSUsername }) (UpdateProfileView);
