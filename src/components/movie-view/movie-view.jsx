@@ -14,7 +14,7 @@ export function MovieView (props) {
   const onBackClick=props.onBackClick;
 
   const token = localStorage.getItem('token');
-  const username = localStorage.getItem('user');
+  const username = localStorage.getItem('ls_username');
 
   const handleAddFavouriteMovie = (e) => {
     e.preventDefault();
@@ -89,17 +89,23 @@ export function MovieView (props) {
 }
 
 MovieView.propTypes = {
-    movie: PropTypes.shape({
-        Title: PropTypes.string.isRequired,
-        Description: PropTypes.string.isRequired,
-        Genre: PropTypes.array.isRequired,
-        Director: PropTypes.shape({
-            Name: PropTypes.string.isRequired,
-            Bio: PropTypes.string.isRequired
-        }).isRequired,
-        ImagePath: PropTypes.string.isRequired,
-        Featured: PropTypes.bool,
-        ReleaseYear: PropTypes.number.isRequired
+  movie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    Genre: PropTypes.array.isRequired,
+    Director: PropTypes.shape({
+        Name: PropTypes.string.isRequired,
+        Bio: PropTypes.string.isRequired
     }).isRequired,
-    onBackClick: PropTypes.func.isRequired
+    ImagePath: PropTypes.string.isRequired,
+    Featured: PropTypes.bool,
+    ReleaseYear: PropTypes.number.isRequired
+  }).isRequired,
+
+  genre: PropTypes.shape({
+    Name: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired
+  }),
+  
+  onBackClick: PropTypes.func.isRequired
 };

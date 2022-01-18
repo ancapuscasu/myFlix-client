@@ -1,13 +1,14 @@
 import React from 'react';
-import { Nav, Navbar,  NavDropdown, Container } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { Nav, Navbar,  NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Logo from "../../media/logo.png";
 import "./navbar-view.scss";
 
 
 export const NavbarView = (props) => {
-  user = localStorage.getItem("user")
-
+  const username = props.user.Username;
+  console.log(username, props);
   const onLoggedOut = props.onLoggedOut;
 
   return (
@@ -24,9 +25,9 @@ export const NavbarView = (props) => {
       <Navbar.Collapse className="ml-3" id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link as={Link} to={`/users/${user}/my-list`}>My List</Nav.Link>
+          <Nav.Link as={Link} to={`/users/${username}/my-list`}>My List</Nav.Link>
           <NavDropdown title="Profile" id="profile-options">
-            <NavDropdown.Item as={Link} to={`/users/${user}`}>My Account</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to={`/users/${username}`}>My Account</NavDropdown.Item>
             <NavDropdown.Item onClick={onLoggedOut} href="/">Logout</NavDropdown.Item>
           </NavDropdown>
         </Nav>
@@ -34,3 +35,14 @@ export const NavbarView = (props) => {
     </Navbar>
   )
 }
+
+NavbarView.propTypes = {
+  user: PropTypes.shape({
+    FirstName: PropTypes.string.isRequired,
+    LastName: PropTypes.string.isRequired,
+    Email: PropTypes.string.isRequired,
+    Username: PropTypes.string.isRequired,
+  }).isRequired,
+  
+  onLoggedOut: PropTypes.func.isRequired
+};
