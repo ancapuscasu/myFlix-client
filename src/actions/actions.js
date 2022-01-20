@@ -6,7 +6,7 @@ export const SET_GENRES = 'SET_GENRE';
 export const SET_FILTER = 'SET_FILTER';
 export const SET_USER = 'SET_USER';
 export const UPDATE_USER = 'UPDATE_USER';
-export const SET_LS_USERNAME = 'SET_LS_USERNAME'; //'set-local-storage-username'
+export const SIGNOUT_REQUEST = 'SIGNOUT_REQUEST';
 
 
 //actions
@@ -47,9 +47,11 @@ export const updateUser = value => {
     };
 }
 
-export const setLSUsername = value => {
+export const signoutRequest = value => {
     return {
-        type: SET_LS_USERNAME,
+        type: SIGNOUT_REQUEST,
         value
-    };
+    }
 }
+
+

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import storage from 'redux-persist/lib/storage';
 
 import { 
     SET_FILTER, 
@@ -6,7 +7,7 @@ import {
     SET_GENRES,
     SET_USER,
     UPDATE_USER,
-    SET_LS_USERNAME
+    SIGNOUT_REQUEST
 } from '../actions/actions';
 
 
@@ -48,27 +49,31 @@ function user (state = {}, action) {
             return action.value;
         case UPDATE_USER:
             return action.value;
-        default:
-            return state;
-    }
-}
-
-function ls_username (state = '', action) {
-    switch (action.type) {
-        case SET_LS_USERNAME:
+        case SIGNOUT_REQUEST:
             return action.value;
         default:
             return state;
     }
 }
 
+
+
 const moviesApp = combineReducers({
     visibilityFilter,
     movies,
     genres,
-    user,
-    ls_username
+    user
 });
 
 
-export default moviesApp;
+const rootReducer = (state, action) => {
+    if (action.type === SIGNOUT_REQUEST) {;
+        storage.removeItem('persist:root')
+
+        return moviesApp(undefined, action)
+    }
+    return moviesApp(state, action)
+};
+
+export default rootReducer;
+

@@ -8,7 +8,7 @@ import storage from "redux-persist/lib/storage";
 import { Provider } from "react-redux";
 import { devToolsEnhancer } from 'redux-devtools-extension';
 
-import moviesApp from "./reducers/reducers";
+import rootReducer from "./reducers/reducers";
 
 import MainView from "./components/main-view/main-view";
 
@@ -21,7 +21,7 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2
 };
 
-const persistedReducer = persistReducer(persistConfig, moviesApp);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 const myFlixStore = createStore(persistedReducer, devToolsEnhancer());
 const persistor = persistStore(myFlixStore);
 
