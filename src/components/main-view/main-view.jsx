@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import { setMovies, setGenres, setUser, setLSUsername } from '../../actions/actions';
+import { setMovies, setGenres, setUser, signoutRequest } from '../../actions/actions';
 import { connect } from 'react-redux';
 
 //importing styling
@@ -23,16 +23,18 @@ import { FavouritesListView } from '../profile-view/my-list-view';
 
 class MainView extends React.Component {
 
+
   componentDidMount() {
     //Every time a user loads the page and the componentDidMount method is called, 
     //you check if the user is logged in (by retrieving this information from localStorage). 
     //Only if the user is already logged in do you make the same GET requests.
     let accessToken = localStorage.getItem('token');
+    let UserID = localStorage.getItem('UserID');
     if (accessToken !== null) {
-      this.props.setLSUsername (localStorage.getItem('ls_username'));
+
       this.getMovies(accessToken);
       this.getGenres(accessToken);
-      this.getUser(accessToken);
+      this.getUser(accessToken, UserID);
     }
   }
 
@@ -60,10 +62,8 @@ class MainView extends React.Component {
     });
   }
 
-  getUser(token) {
-    let username = localStorage.getItem('ls_username');
-
-    axios.get(`https://ancas-myflixapi.herokuapp.com/users/${username}`, {
+  getUser(token, UserID) {
+    axios.get(`https://ancas-myflixapi.herokuapp.com/users/${UserID}`, {
       headers: { Authorization: `Bearer ${token}`}
     })
     .then((response) => {
@@ -79,31 +79,35 @@ class MainView extends React.Component {
 
   //After logging in, authorized user's username state is updated 
   onLoggedIn(authData) {
-    this.props.setLSUsername(authData.user.Username);
 
     //Storing user's username and token in local storage
     localStorage.setItem('token', authData.token);
-    localStorage.setItem('ls_username', authData.user.Username);
+    let UserID = authData.user._id;
+    localStorage.setItem('UserID', UserID);
+
     this.getMovies(authData.token);
     this.getGenres(authData.token);
-    this.getUser(authData.token);
+    this.getUser(authData.token, UserID);
   }
 
   onLoggedOut = () => {
-    window.location.pathname = `/`;
     localStorage.removeItem('token');
-    localStorage.removeItem('ls_username');
-    this.props.setLSUsername(null);
+    localStorage.removeItem('UserID');
+    window.open('/', '_self');
+    this.props.signoutRequest();
+
   }
   
   render() {
-    const { movies, genres, user, ls_username } = this.props;
+    const { movies, genres, user } = this.props;
+    const UserID = user._id;
+
     
     return (
       <Router>
         <div className="main-view">
         <Route exact path="/" render={() => {
-              if (!ls_username) return (
+              if (!UserID) return (
                 <LoginView onLoggedIn = { user => this.onLoggedIn(user)} /> 
               );
 
@@ -120,7 +124,7 @@ class MainView extends React.Component {
 
 
           <Route exact path="/register" render={() => {
-            if (ls_username) return <Redirect to="/" />
+            if (UserID) return <Redirect to="/" />
             return (
               <RegistrationView />
             );
@@ -130,7 +134,7 @@ class MainView extends React.Component {
 
 
           <Route exact path="/movies/:Title" render={({ match, history }) => {
-            if (!ls_username) return (
+            if (!UserID) return (
                   <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
             );
 
@@ -173,7 +177,7 @@ class MainView extends React.Component {
 
 
           <Route exact path="/directors/:name" render={({ match, history }) => {
-            if (!ls_username) return (
+            if (!UserID) return (
               <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
             );
 
@@ -195,7 +199,7 @@ class MainView extends React.Component {
 
 
           <Route exact path="/genres/:name" render={({ match, history }) => {
-            if (!ls_username) return (
+            if (!UserID) return (
               <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
             );
 
@@ -216,8 +220,8 @@ class MainView extends React.Component {
           
 
 
-          <Route exact path="/users/:username" render={({ match }) => {
-            if (!ls_username || ls_username != match.params.username ) {
+          <Route exact path="/users/:UserID" render={({ match }) => {
+            if (!UserID || UserID != match.params.UserID ) {
               this.onLoggedOut() 
 
               return (
@@ -235,8 +239,8 @@ class MainView extends React.Component {
             );
           }}/>
 
-          <Route exact path="/users/:username/my-list" render={({ match }) => {
-            if (!ls_username || ls_username != match.params.username ) {
+          <Route exact path="/users/:UserID/my-list" render={({ match }) => {
+            if (!UserID || UserID != match.params.UserID ) {
               // this.onLoggedOut()
               return (
               <LoginView onLoggedIn = { user => this.onLoggedIn(user)} />
@@ -264,9 +268,8 @@ let mapStateToProps = state => {
   return {
     movies: state.movies,
     genres: state.genres,
-    user: state.user,
-    ls_username: state.ls_username
+    user: state.user
   };
 }
 
-export default connect(mapStateToProps, { setMovies, setGenres, setUser, setLSUsername }) (MainView);
+export default connect(mapStateToProps, { setMovies, setGenres, setUser, signoutRequest }) (MainView);
