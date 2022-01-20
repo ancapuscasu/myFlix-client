@@ -22810,11 +22810,11 @@ class MainView extends _reactDefault.default.Component {
         //you check if the user is logged in (by retrieving this information from localStorage). 
         //Only if the user is already logged in do you make the same GET requests.
         let accessToken = localStorage.getItem('token');
+        let UserID = localStorage.getItem('UserID');
         if (accessToken !== null) {
-            this.props.setLSUsername(localStorage.getItem('ls_username'));
             this.getMovies(accessToken);
             this.getGenres(accessToken);
-            this.getUser(accessToken);
+            this.getUser(accessToken, UserID);
         }
     }
     getMovies(token) {
@@ -22839,9 +22839,8 @@ class MainView extends _reactDefault.default.Component {
             console.log(error);
         });
     }
-    getUser(token) {
-        let username = localStorage.getItem('ls_username');
-        _axiosDefault.default.get(`https://ancas-myflixapi.herokuapp.com/users/${username}`, {
+    getUser(token, UserID) {
+        _axiosDefault.default.get(`https://ancas-myflixapi.herokuapp.com/users/${UserID}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -22853,33 +22852,36 @@ class MainView extends _reactDefault.default.Component {
     }
     //After logging in, authorized user's username state is updated 
     onLoggedIn(authData) {
-        this.props.setLSUsername(authData.user.Username);
         //Storing user's username and token in local storage
         localStorage.setItem('token', authData.token);
-        localStorage.setItem('ls_username', authData.user.Username);
+        localStorage.setItem('username', authData.user.Username);
+        let UserID = authData.user._id;
+        localStorage.setItem('UserID', UserID);
         this.getMovies(authData.token);
         this.getGenres(authData.token);
-        this.getUser(authData.token);
+        this.getUser(authData.token, UserID);
     }
     onLoggedOut = ()=>{
-        window.location.pathname = `/`;
         localStorage.removeItem('token');
-        localStorage.removeItem('ls_username');
-        this.props.setLSUsername(null);
+        localStorage.removeItem('username');
+        localStorage.removeItem('UserID');
+        window.open('/', '_self');
+        this.props.signoutRequest();
     };
     render() {
-        const { movies , genres , user , ls_username  } = this.props;
+        const { movies , genres , user  } = this.props;
+        const UserID = user._id;
         return(/*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.BrowserRouter, {
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 103
+                lineNumber: 109
             },
             __self: this,
             children: /*#__PURE__*/ _jsxRuntime.jsxs("div", {
                 className: "main-view",
                 __source: {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 104
+                    lineNumber: 110
                 },
                 __self: this,
                 children: [
@@ -22887,7 +22889,7 @@ class MainView extends _reactDefault.default.Component {
                         exact: true,
                         path: "/",
                         render: ()=>{
-                            if (!ls_username) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
+                            if (!UserID) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
                                 onLoggedIn: (user1)=>this.onLoggedIn(user1)
                             }));
                             if (movies.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
@@ -22907,7 +22909,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 105
+                            lineNumber: 111
                         },
                         __self: this
                     }),
@@ -22915,7 +22917,7 @@ class MainView extends _reactDefault.default.Component {
                         exact: true,
                         path: "/register",
                         render: ()=>{
-                            if (ls_username) return(/*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Redirect, {
+                            if (UserID) return(/*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Redirect, {
                                 to: "/"
                             }));
                             return(/*#__PURE__*/ _jsxRuntime.jsx(_registrationView.RegistrationView, {
@@ -22923,7 +22925,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 122
+                            lineNumber: 128
                         },
                         __self: this
                     }),
@@ -22931,7 +22933,7 @@ class MainView extends _reactDefault.default.Component {
                         exact: true,
                         path: "/movies/:Title",
                         render: ({ match , history  })=>{
-                            if (!ls_username) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
+                            if (!UserID) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
                                 onLoggedIn: (user1)=>this.onLoggedIn(user1)
                             }));
                             if (movies.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
@@ -22981,7 +22983,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 132
+                            lineNumber: 138
                         },
                         __self: this
                     }),
@@ -22989,7 +22991,7 @@ class MainView extends _reactDefault.default.Component {
                         exact: true,
                         path: "/directors/:name",
                         render: ({ match , history  })=>{
-                            if (!ls_username) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
+                            if (!UserID) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
                                 onLoggedIn: (user1)=>this.onLoggedIn(user1)
                             }));
                             if (movies.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
@@ -23022,7 +23024,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 175
+                            lineNumber: 181
                         },
                         __self: this
                     }),
@@ -23030,7 +23032,7 @@ class MainView extends _reactDefault.default.Component {
                         exact: true,
                         path: "/genres/:name",
                         render: ({ match , history  })=>{
-                            if (!ls_username) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
+                            if (!UserID) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
                                 onLoggedIn: (user1)=>this.onLoggedIn(user1)
                             }));
                             if (movies.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
@@ -23063,15 +23065,15 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 197
+                            lineNumber: 203
                         },
                         __self: this
                     }),
                     /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, {
                         exact: true,
-                        path: "/users/:username",
+                        path: "/users/:UserID",
                         render: ({ match  })=>{
-                            if (!ls_username || ls_username != match.params.username) {
+                            if (!UserID || UserID != match.params.UserID) {
                                 this.onLoggedOut();
                                 return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
                                     onLoggedIn: (user1)=>this.onLoggedIn(user1)
@@ -23096,15 +23098,15 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 219
+                            lineNumber: 225
                         },
                         __self: this
                     }),
                     /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, {
                         exact: true,
-                        path: "/users/:username/my-list",
+                        path: "/users/:UserID/my-list",
                         render: ({ match  })=>{
-                            if (!ls_username || ls_username != match.params.username) // this.onLoggedOut()
+                            if (!UserID || UserID != match.params.UserID) // this.onLoggedOut()
                             return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
                                 onLoggedIn: (user1)=>this.onLoggedIn(user1)
                             }));
@@ -23127,7 +23129,7 @@ class MainView extends _reactDefault.default.Component {
                         },
                         __source: {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 238
+                            lineNumber: 244
                         },
                         __self: this
                     })
@@ -23140,15 +23142,14 @@ let mapStateToProps = (state)=>{
     return {
         movies: state.movies,
         genres: state.genres,
-        user: state.user,
-        ls_username: state.ls_username
+        user: state.user
     };
 };
 exports.default = _reactRedux.connect(mapStateToProps, {
     setMovies: _actions.setMovies,
     setGenres: _actions.setGenres,
     setUser: _actions.setUser,
-    setLSUsername: _actions.setLSUsername
+    signoutRequest: _actions.signoutRequest
 })(MainView);
 
   $parcel$ReactRefreshHelpers$35bf.postlude(module);
@@ -54841,8 +54842,8 @@ var _reactBootstrap = require("react-bootstrap");
 var _updateProfileViewScss = require("./update-profile-view.scss");
 function UpdateProfileView(props) {
     const user = props.user;
+    const UserID = user._id;
     const onLoggedOut = props.onLoggedOut;
-    let username = localStorage.getItem("ls_username");
     const token = localStorage.getItem("token");
     let initialValues = {
         FirstName: user.FirstName,
@@ -54867,18 +54868,15 @@ function UpdateProfileView(props) {
         })
     });
     const handleSubmitUpdate = (values)=>{
-        _axiosDefault.default.put(`https://ancas-myflixapi.herokuapp.com/users/${username}`, values, {
+        _axiosDefault.default.put(`https://ancas-myflixapi.herokuapp.com/users/${UserID}`, values, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }).then((response)=>{
             const data = response.data;
+            alert(`${user.Username} has been updated`);
             props.updateUser(data);
-            alert(username + " has been updated.");
-            localStorage.setItem('ls_username', data.Username);
-            props.setLSUsername(localStorage.getItem('ls_username'));
-            username = localStorage.getItem("ls_username");
-            window.location.pathname = `/users/${username}`;
+            location.reload();
         }).catch((error)=>{
             console.log(error, "Profile update NOT sucessful");
         });
@@ -54886,12 +54884,12 @@ function UpdateProfileView(props) {
     const handleDeleteAccount = (e)=>{
         e.preventDefault();
         const answer = window.confirm("This cannot be undone, are you sure?");
-        if (answer) _axiosDefault.default.delete(`https://ancas-myflixapi.herokuapp.com/users/${username}`, {
+        if (answer) _axiosDefault.default.delete(`https://ancas-myflixapi.herokuapp.com/users/${UserID}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }).then((response)=>{
-            alert(username + " has been deleted.");
+            alert(`${user.Username} has been deactivated`);
             onLoggedOut();
         }).catch(function(error) {
             console.log(error + " unable to delete user");
@@ -54899,407 +54897,399 @@ function UpdateProfileView(props) {
         });
         else console.log("That was close!");
     };
-    return(/*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+    return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
         className: "update-profile",
         __source: {
             fileName: "src/components/profile-view/update-profile-view.jsx",
-            lineNumber: 101
+            lineNumber: 97
         },
         __self: this,
-        children: [
-            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
-                xs: 12,
-                sm: 12,
-                md: 10,
-                lg: 8,
-                xl: 6,
-                className: "m-3",
+        children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
+            xs: 12,
+            sm: 12,
+            md: 10,
+            lg: 8,
+            xl: 6,
+            className: "m-3",
+            __source: {
+                fileName: "src/components/profile-view/update-profile-view.jsx",
+                lineNumber: 98
+            },
+            __self: this,
+            children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card, {
+                className: "update-profile-card",
                 __source: {
                     fileName: "src/components/profile-view/update-profile-view.jsx",
-                    lineNumber: 102
+                    lineNumber: 99
                 },
                 __self: this,
-                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card, {
-                    className: "update-profile-card",
+                children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
                     __source: {
                         fileName: "src/components/profile-view/update-profile-view.jsx",
-                        lineNumber: 103
+                        lineNumber: 100
                     },
                     __self: this,
-                    children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
-                        __source: {
-                            fileName: "src/components/profile-view/update-profile-view.jsx",
-                            lineNumber: 104
-                        },
-                        __self: this,
-                        children: [
-                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Title, {
-                                className: "mb-3 update-profile-card-title",
+                    children: [
+                        /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Title, {
+                            className: "mb-3 update-profile-card-title",
+                            __source: {
+                                fileName: "src/components/profile-view/update-profile-view.jsx",
+                                lineNumber: 101
+                            },
+                            __self: this,
+                            children: [
+                                "Hello ",
+                                user.FirstName
+                            ]
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Subtitle, {
+                            className: "mb-5 text-muted",
+                            __source: {
+                                fileName: "src/components/profile-view/update-profile-view.jsx",
+                                lineNumber: 102
+                            },
+                            __self: this,
+                            children: "Update your profile"
+                        }),
+                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Formik, {
+                            enableReinitialize: true,
+                            initialValues: initialValues,
+                            validationSchema: validationSchema,
+                            onSubmit: handleSubmitUpdate,
+                            __source: {
+                                fileName: "src/components/profile-view/update-profile-view.jsx",
+                                lineNumber: 103
+                            },
+                            __self: this,
+                            children: /*#__PURE__*/ _jsxRuntime.jsxs(_formik.Form, {
                                 __source: {
                                     fileName: "src/components/profile-view/update-profile-view.jsx",
-                                    lineNumber: 105
+                                    lineNumber: 109
                                 },
                                 __self: this,
                                 children: [
-                                    "Hello ",
-                                    user.FirstName
-                                ]
-                            }),
-                            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Subtitle, {
-                                className: "mb-5 text-muted",
-                                __source: {
-                                    fileName: "src/components/profile-view/update-profile-view.jsx",
-                                    lineNumber: 106
-                                },
-                                __self: this,
-                                children: "Update your profile"
-                            }),
-                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.Formik, {
-                                enableReinitialize: true,
-                                initialValues: initialValues,
-                                validationSchema: validationSchema,
-                                onSubmit: handleSubmitUpdate,
-                                __source: {
-                                    fileName: "src/components/profile-view/update-profile-view.jsx",
-                                    lineNumber: 107
-                                },
-                                __self: this,
-                                children: /*#__PURE__*/ _jsxRuntime.jsxs(_formik.Form, {
-                                    __source: {
-                                        fileName: "src/components/profile-view/update-profile-view.jsx",
-                                        lineNumber: 113
-                                    },
-                                    __self: this,
-                                    children: [
-                                        /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
-                                            className: "mb-2 update-profile-input-group horizontal-group",
-                                            __source: {
-                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                lineNumber: 115
-                                            },
-                                            __self: this,
-                                            children: [
-                                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
-                                                    className: "horizontal-input left",
-                                                    __source: {
-                                                        fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                        lineNumber: 116
-                                                    },
-                                                    __self: this,
-                                                    children: [
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                            className: "update-profile-input",
-                                                            name: "FirstName",
-                                                            type: "text",
-                                                            required: true,
-                                                            __source: {
-                                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                                lineNumber: 117
-                                                            },
-                                                            __self: this
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                            htmlFor: "FirstName",
-                                                            className: "update-profile-input-label",
-                                                            __source: {
-                                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                                lineNumber: 123
-                                                            },
-                                                            __self: this,
-                                                            children: "First Name"
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                            name: "FirstName",
-                                                            component: "div",
-                                                            className: "input-error",
-                                                            __source: {
-                                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                                lineNumber: 124
-                                                            },
-                                                            __self: this
-                                                        })
-                                                    ]
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
-                                                    className: "horizontal-input right",
-                                                    __source: {
-                                                        fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                        lineNumber: 131
-                                                    },
-                                                    __self: this,
-                                                    children: [
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                            className: "update-profile-input",
-                                                            name: "LastName",
-                                                            type: "text",
-                                                            required: true,
-                                                            __source: {
-                                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                                lineNumber: 132
-                                                            },
-                                                            __self: this
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                            htmlFor: "LastName",
-                                                            className: "update-profile-input-label",
-                                                            __source: {
-                                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                                lineNumber: 138
-                                                            },
-                                                            __self: this,
-                                                            children: "Last name"
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                            name: "LastName",
-                                                            component: "div",
-                                                            className: "input-error",
-                                                            __source: {
-                                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                                lineNumber: 139
-                                                            },
-                                                            __self: this
-                                                        })
-                                                    ]
-                                                })
-                                            ]
-                                        }),
-                                        /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
-                                            className: "mb-2 update-profile-input-group",
-                                            __source: {
-                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                lineNumber: 147
-                                            },
-                                            __self: this,
-                                            children: [
-                                                /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                    className: "update-profile-input",
-                                                    name: "Username",
-                                                    type: "text",
-                                                    required: true,
-                                                    __source: {
-                                                        fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                        lineNumber: 148
-                                                    },
-                                                    __self: this
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                    htmlFor: "Username",
-                                                    className: "update-profile-input-label",
-                                                    __source: {
-                                                        fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                        lineNumber: 154
-                                                    },
-                                                    __self: this,
-                                                    children: "Username"
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                    name: "Username",
-                                                    component: "div",
-                                                    className: "input-error",
-                                                    __source: {
-                                                        fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                        lineNumber: 155
-                                                    },
-                                                    __self: this
-                                                })
-                                            ]
-                                        }),
-                                        /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
-                                            className: "update-profile-input-group  horizontal-group mb-2",
-                                            __source: {
-                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                lineNumber: 162
-                                            },
-                                            __self: this,
-                                            children: [
-                                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
-                                                    className: "horizontal-input left",
-                                                    __source: {
-                                                        fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                        lineNumber: 163
-                                                    },
-                                                    __self: this,
-                                                    children: [
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                            className: "update-profile-input",
-                                                            name: "Password",
-                                                            type: "password",
-                                                            required: true,
-                                                            __source: {
-                                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                                lineNumber: 164
-                                                            },
-                                                            __self: this
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                            className: "update-profile-input-label",
-                                                            htmlFor: "Password",
-                                                            __source: {
-                                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                                lineNumber: 170
-                                                            },
-                                                            __self: this,
-                                                            children: "Password"
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                            name: "Password",
-                                                            component: "div",
-                                                            className: "input-error",
-                                                            __source: {
-                                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                                lineNumber: 171
-                                                            },
-                                                            __self: this
-                                                        })
-                                                    ]
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
-                                                    className: "horizontal-input right",
-                                                    __source: {
-                                                        fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                        lineNumber: 178
-                                                    },
-                                                    __self: this,
-                                                    children: [
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                            className: "update-profile-input",
-                                                            name: "ConfirmPassword",
-                                                            type: "password",
-                                                            required: true,
-                                                            __source: {
-                                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                                lineNumber: 179
-                                                            },
-                                                            __self: this
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                            className: "update-profile-input-label",
-                                                            htmlFor: "ConfirmPassword",
-                                                            __source: {
-                                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                                lineNumber: 185
-                                                            },
-                                                            __self: this,
-                                                            children: "Confirm Password"
-                                                        }),
-                                                        /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                            name: "ConfirmPassword",
-                                                            component: "div",
-                                                            className: "input-error",
-                                                            __source: {
-                                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                                lineNumber: 186
-                                                            },
-                                                            __self: this
-                                                        })
-                                                    ]
-                                                })
-                                            ]
-                                        }),
-                                        /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
-                                            className: "mb-2 update-profile-input-group",
-                                            __source: {
-                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                lineNumber: 194
-                                            },
-                                            __self: this,
-                                            children: [
-                                                /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
-                                                    className: "update-profile-input",
-                                                    name: "Email",
-                                                    type: "text",
-                                                    required: true,
-                                                    __source: {
-                                                        fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                        lineNumber: 195
-                                                    },
-                                                    __self: this
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsx("label", {
-                                                    htmlFor: "Email",
-                                                    className: "update-profile-input-label",
-                                                    __source: {
-                                                        fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                        lineNumber: 201
-                                                    },
-                                                    __self: this,
-                                                    children: "Email"
-                                                }),
-                                                /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
-                                                    name: "Email",
-                                                    component: "div",
-                                                    className: "input-error",
-                                                    __source: {
-                                                        fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                        lineNumber: 202
-                                                    },
-                                                    __self: this
-                                                })
-                                            ]
-                                        }),
-                                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
-                                            __source: {
-                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                lineNumber: 209
-                                            },
-                                            __self: this,
-                                            children: /*#__PURE__*/ _jsxRuntime.jsx("button", {
-                                                className: "update-button",
-                                                type: "submit",
+                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+                                        className: "mb-2 update-profile-input-group horizontal-group",
+                                        __source: {
+                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                            lineNumber: 111
+                                        },
+                                        __self: this,
+                                        children: [
+                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
+                                                className: "horizontal-input left",
                                                 __source: {
                                                     fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                    lineNumber: 210
-                                                },
-                                                __self: this,
-                                                children: "Update User"
-                                            })
-                                        }),
-                                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
-                                            className: "justify-content-end",
-                                            __source: {
-                                                fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                lineNumber: 213
-                                            },
-                                            __self: this,
-                                            children: /*#__PURE__*/ _jsxRuntime.jsxs("p", {
-                                                className: "delete-account",
-                                                __source: {
-                                                    fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                    lineNumber: 214
+                                                    lineNumber: 112
                                                 },
                                                 __self: this,
                                                 children: [
-                                                    "Click here to",
-                                                    /*#__PURE__*/ _jsxRuntime.jsx("a", {
-                                                        href: "/",
-                                                        type: "submit",
-                                                        onClick: handleDeleteAccount,
-                                                        className: "ml-1 delete-account-button",
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                        className: "update-profile-input",
+                                                        name: "FirstName",
+                                                        type: "text",
+                                                        required: true,
                                                         __source: {
                                                             fileName: "src/components/profile-view/update-profile-view.jsx",
-                                                            lineNumber: 215
+                                                            lineNumber: 113
+                                                        },
+                                                        __self: this
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                        htmlFor: "FirstName",
+                                                        className: "update-profile-input-label",
+                                                        __source: {
+                                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                            lineNumber: 119
                                                         },
                                                         __self: this,
-                                                        children: "delete account"
+                                                        children: "First Name"
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                        name: "FirstName",
+                                                        component: "div",
+                                                        className: "input-error",
+                                                        __source: {
+                                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                            lineNumber: 120
+                                                        },
+                                                        __self: this
+                                                    })
+                                                ]
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
+                                                className: "horizontal-input right",
+                                                __source: {
+                                                    fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                    lineNumber: 127
+                                                },
+                                                __self: this,
+                                                children: [
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                        className: "update-profile-input",
+                                                        name: "LastName",
+                                                        type: "text",
+                                                        required: true,
+                                                        __source: {
+                                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                            lineNumber: 128
+                                                        },
+                                                        __self: this
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                        htmlFor: "LastName",
+                                                        className: "update-profile-input-label",
+                                                        __source: {
+                                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                            lineNumber: 134
+                                                        },
+                                                        __self: this,
+                                                        children: "Last name"
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                        name: "LastName",
+                                                        component: "div",
+                                                        className: "input-error",
+                                                        __source: {
+                                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                            lineNumber: 135
+                                                        },
+                                                        __self: this
                                                     })
                                                 ]
                                             })
+                                        ]
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+                                        className: "mb-2 update-profile-input-group",
+                                        __source: {
+                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                            lineNumber: 143
+                                        },
+                                        __self: this,
+                                        children: [
+                                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                className: "update-profile-input",
+                                                name: "Username",
+                                                type: "text",
+                                                required: true,
+                                                __source: {
+                                                    fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                    lineNumber: 144
+                                                },
+                                                __self: this
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                htmlFor: "Username",
+                                                className: "update-profile-input-label",
+                                                __source: {
+                                                    fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                    lineNumber: 150
+                                                },
+                                                __self: this,
+                                                children: "Username"
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                name: "Username",
+                                                component: "div",
+                                                className: "input-error",
+                                                __source: {
+                                                    fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                    lineNumber: 151
+                                                },
+                                                __self: this
+                                            })
+                                        ]
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+                                        className: "update-profile-input-group  horizontal-group mb-2",
+                                        __source: {
+                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                            lineNumber: 158
+                                        },
+                                        __self: this,
+                                        children: [
+                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
+                                                className: "horizontal-input left",
+                                                __source: {
+                                                    fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                    lineNumber: 159
+                                                },
+                                                __self: this,
+                                                children: [
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                        className: "update-profile-input",
+                                                        name: "Password",
+                                                        type: "password",
+                                                        required: true,
+                                                        __source: {
+                                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                            lineNumber: 160
+                                                        },
+                                                        __self: this
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                        className: "update-profile-input-label",
+                                                        htmlFor: "Password",
+                                                        __source: {
+                                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                            lineNumber: 166
+                                                        },
+                                                        __self: this,
+                                                        children: "Password"
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                        name: "Password",
+                                                        component: "div",
+                                                        className: "input-error",
+                                                        __source: {
+                                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                            lineNumber: 167
+                                                        },
+                                                        __self: this
+                                                    })
+                                                ]
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
+                                                className: "horizontal-input right",
+                                                __source: {
+                                                    fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                    lineNumber: 174
+                                                },
+                                                __self: this,
+                                                children: [
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                        className: "update-profile-input",
+                                                        name: "ConfirmPassword",
+                                                        type: "password",
+                                                        required: true,
+                                                        __source: {
+                                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                            lineNumber: 175
+                                                        },
+                                                        __self: this
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                        className: "update-profile-input-label",
+                                                        htmlFor: "ConfirmPassword",
+                                                        __source: {
+                                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                            lineNumber: 181
+                                                        },
+                                                        __self: this,
+                                                        children: "Confirm Password"
+                                                    }),
+                                                    /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                        name: "ConfirmPassword",
+                                                        component: "div",
+                                                        className: "input-error",
+                                                        __source: {
+                                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                            lineNumber: 182
+                                                        },
+                                                        __self: this
+                                                    })
+                                                ]
+                                            })
+                                        ]
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Row, {
+                                        className: "mb-2 update-profile-input-group",
+                                        __source: {
+                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                            lineNumber: 190
+                                        },
+                                        __self: this,
+                                        children: [
+                                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.Field, {
+                                                className: "update-profile-input",
+                                                name: "Email",
+                                                type: "text",
+                                                required: true,
+                                                __source: {
+                                                    fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                    lineNumber: 191
+                                                },
+                                                __self: this
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsx("label", {
+                                                htmlFor: "Email",
+                                                className: "update-profile-input-label",
+                                                __source: {
+                                                    fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                    lineNumber: 197
+                                                },
+                                                __self: this,
+                                                children: "Email"
+                                            }),
+                                            /*#__PURE__*/ _jsxRuntime.jsx(_formik.ErrorMessage, {
+                                                name: "Email",
+                                                component: "div",
+                                                className: "input-error",
+                                                __source: {
+                                                    fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                    lineNumber: 198
+                                                },
+                                                __self: this
+                                            })
+                                        ]
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
+                                        className: "update-profile-input-group",
+                                        __source: {
+                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                            lineNumber: 205
+                                        },
+                                        __self: this,
+                                        children: /*#__PURE__*/ _jsxRuntime.jsx("button", {
+                                            className: "update-button",
+                                            type: "submit",
+                                            __source: {
+                                                fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                lineNumber: 206
+                                            },
+                                            __self: this,
+                                            children: "Update User"
                                         })
-                                    ]
-                                })
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
+                                        className: "justify-content-end update-profile-input-group",
+                                        __source: {
+                                            fileName: "src/components/profile-view/update-profile-view.jsx",
+                                            lineNumber: 209
+                                        },
+                                        __self: this,
+                                        children: /*#__PURE__*/ _jsxRuntime.jsxs("p", {
+                                            className: "delete-account",
+                                            __source: {
+                                                fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                lineNumber: 210
+                                            },
+                                            __self: this,
+                                            children: [
+                                                "Click here to",
+                                                /*#__PURE__*/ _jsxRuntime.jsx("a", {
+                                                    href: "/",
+                                                    type: "submit",
+                                                    onClick: handleDeleteAccount,
+                                                    className: "ml-1 delete-account-button",
+                                                    __source: {
+                                                        fileName: "src/components/profile-view/update-profile-view.jsx",
+                                                        lineNumber: 211
+                                                    },
+                                                    __self: this,
+                                                    children: "delete account"
+                                                })
+                                            ]
+                                        })
+                                    })
+                                ]
                             })
-                        ]
-                    })
+                        })
+                    ]
                 })
-            }),
-            /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
-                __source: {
-                    fileName: "src/components/profile-view/update-profile-view.jsx",
-                    lineNumber: 225
-                },
-                __self: this
             })
-        ]
+        })
     }));
 }
 _c = UpdateProfileView;
@@ -55314,13 +55304,11 @@ UpdateProfileView.propTypes = {
 };
 let mapStateToProps = (state)=>{
     return {
-        user: state.user,
-        ls_username: state.ls_username
+        user: state.user
     };
 };
 exports.default = _reactRedux.connect(mapStateToProps, {
-    updateUser: _actions.updateUser,
-    setLSUsername: _actions.setLSUsername
+    updateUser: _actions.updateUser
 })(UpdateProfileView);
 var _c;
 $RefreshReg$(_c, "UpdateProfileView");
@@ -55343,7 +55331,7 @@ parcelHelpers.export(exports, "SET_USER", ()=>SET_USER
 );
 parcelHelpers.export(exports, "UPDATE_USER", ()=>UPDATE_USER
 );
-parcelHelpers.export(exports, "SET_LS_USERNAME", ()=>SET_LS_USERNAME
+parcelHelpers.export(exports, "SIGNOUT_REQUEST", ()=>SIGNOUT_REQUEST
 );
 parcelHelpers.export(exports, "setMovies", ()=>setMovies
 );
@@ -55355,14 +55343,14 @@ parcelHelpers.export(exports, "setUser", ()=>setUser
 );
 parcelHelpers.export(exports, "updateUser", ()=>updateUser
 );
-parcelHelpers.export(exports, "setLSUsername", ()=>setLSUsername
+parcelHelpers.export(exports, "signoutRequest", ()=>signoutRequest
 );
 const SET_MOVIES = 'SET_MOVIES';
 const SET_GENRES = 'SET_GENRE';
 const SET_FILTER = 'SET_FILTER';
 const SET_USER = 'SET_USER';
 const UPDATE_USER = 'UPDATE_USER';
-const SET_LS_USERNAME = 'SET_LS_USERNAME'; //'set-local-storage-username'
+const SIGNOUT_REQUEST = 'SIGNOUT_REQUEST';
 const setMovies = (value)=>{
     return {
         type: SET_MOVIES,
@@ -55393,9 +55381,9 @@ const updateUser = (value)=>{
         value
     };
 };
-const setLSUsername = (value)=>{
+const signoutRequest = (value)=>{
     return {
-        type: SET_LS_USERNAME,
+        type: SIGNOUT_REQUEST,
         value
     };
 };
@@ -56835,8 +56823,7 @@ var _logoPng = require("../../media/logo.png");
 var _logoPngDefault = parcelHelpers.interopDefault(_logoPng);
 var _navbarViewScss = require("./navbar-view.scss");
 const NavbarView = (props)=>{
-    const username = props.user.Username;
-    console.log(username, props);
+    const UserID = props.user._id;
     const onLoggedOut = props.onLoggedOut;
     return(/*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Navbar, {
         expand: "sm",
@@ -56844,7 +56831,7 @@ const NavbarView = (props)=>{
         className: "loggedin-navbar",
         __source: {
             fileName: "src/components/navbar-view/navbar-view.jsx",
-            lineNumber: 15
+            lineNumber: 14
         },
         __self: undefined,
         children: [
@@ -56853,7 +56840,7 @@ const NavbarView = (props)=>{
                 className: "ml-3",
                 __source: {
                     fileName: "src/components/navbar-view/navbar-view.jsx",
-                    lineNumber: 16
+                    lineNumber: 15
                 },
                 __self: undefined,
                 children: /*#__PURE__*/ _jsxRuntime.jsx("img", {
@@ -56863,7 +56850,7 @@ const NavbarView = (props)=>{
                     alt: "myFlix logo",
                     __source: {
                         fileName: "src/components/navbar-view/navbar-view.jsx",
-                        lineNumber: 17
+                        lineNumber: 16
                     },
                     __self: undefined
                 })
@@ -56873,7 +56860,7 @@ const NavbarView = (props)=>{
                 className: "mr-3",
                 __source: {
                     fileName: "src/components/navbar-view/navbar-view.jsx",
-                    lineNumber: 24
+                    lineNumber: 23
                 },
                 __self: undefined
             }),
@@ -56882,14 +56869,14 @@ const NavbarView = (props)=>{
                 id: "basic-navbar-nav",
                 __source: {
                     fileName: "src/components/navbar-view/navbar-view.jsx",
-                    lineNumber: 25
+                    lineNumber: 24
                 },
                 __self: undefined,
                 children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Nav, {
                     className: "me-auto",
                     __source: {
                         fileName: "src/components/navbar-view/navbar-view.jsx",
-                        lineNumber: 26
+                        lineNumber: 25
                     },
                     __self: undefined,
                     children: [
@@ -56897,17 +56884,17 @@ const NavbarView = (props)=>{
                             href: "/",
                             __source: {
                                 fileName: "src/components/navbar-view/navbar-view.jsx",
-                                lineNumber: 27
+                                lineNumber: 26
                             },
                             __self: undefined,
                             children: "Home"
                         }),
                         /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Nav.Link, {
                             as: _reactRouterDom.Link,
-                            to: `/users/${username}/my-list`,
+                            to: `/users/${UserID}/my-list`,
                             __source: {
                                 fileName: "src/components/navbar-view/navbar-view.jsx",
-                                lineNumber: 28
+                                lineNumber: 27
                             },
                             __self: undefined,
                             children: "My List"
@@ -56917,16 +56904,16 @@ const NavbarView = (props)=>{
                             id: "profile-options",
                             __source: {
                                 fileName: "src/components/navbar-view/navbar-view.jsx",
-                                lineNumber: 29
+                                lineNumber: 28
                             },
                             __self: undefined,
                             children: [
                                 /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.NavDropdown.Item, {
                                     as: _reactRouterDom.Link,
-                                    to: `/users/${username}`,
+                                    to: `/users/${UserID}`,
                                     __source: {
                                         fileName: "src/components/navbar-view/navbar-view.jsx",
-                                        lineNumber: 30
+                                        lineNumber: 29
                                     },
                                     __self: undefined,
                                     children: "My Account"
@@ -56936,7 +56923,7 @@ const NavbarView = (props)=>{
                                     href: "/",
                                     __source: {
                                         fileName: "src/components/navbar-view/navbar-view.jsx",
-                                        lineNumber: 31
+                                        lineNumber: 30
                                     },
                                     __self: undefined,
                                     children: "Logout"
@@ -57445,10 +57432,10 @@ function MovieView(props) {
     const genre = props.genre;
     const onBackClick = props.onBackClick;
     const token = localStorage.getItem('token');
-    const username = localStorage.getItem('ls_username');
+    const UserID = localStorage.getItem('UserID');
     const handleAddFavouriteMovie = (e)=>{
         e.preventDefault();
-        _axiosDefault.default.post(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`, {
+        _axiosDefault.default.post(`https://ancas-myflixapi.herokuapp.com/users/${UserID}/movies/${movie._id}`, {
         }, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -57464,7 +57451,7 @@ function MovieView(props) {
     };
     const handleRemoveFavouriteMovie = (e)=>{
         e.preventDefault();
-        _axiosDefault.default.delete(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`, {
+        _axiosDefault.default.delete(`https://ancas-myflixapi.herokuapp.com/users/${UserID}/movies/${movie._id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -58257,6 +58244,8 @@ exports.devToolsEnhancer = typeof window !== 'undefined' && window.__REDUX_DEVTO
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _redux = require("redux");
+var _storage = require("redux-persist/lib/storage");
+var _storageDefault = parcelHelpers.interopDefault(_storage);
 var _actions = require("../actions/actions");
 //reducers
 // -- receives current (or initial) state and an action object
@@ -58293,13 +58282,7 @@ function user(state = {
             return action.value;
         case _actions.UPDATE_USER:
             return action.value;
-        default:
-            return state;
-    }
-}
-function ls_username(state = '', action) {
-    switch(action.type){
-        case _actions.SET_LS_USERNAME:
+        case _actions.SIGNOUT_REQUEST:
             return action.value;
         default:
             return state;
@@ -58309,12 +58292,105 @@ const moviesApp = _redux.combineReducers({
     visibilityFilter,
     movies,
     genres,
-    user,
-    ls_username
+    user
 });
-exports.default = moviesApp;
+const rootReducer = (state, action)=>{
+    if (action.type === _actions.SIGNOUT_REQUEST) {
+        _storageDefault.default.removeItem('persist:root');
+        return moviesApp(undefined, action);
+    }
+    return moviesApp(state, action);
+};
+exports.default = rootReducer;
 
-},{"redux":"4d0QS","../actions/actions":"1Ttfj","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4"}],"cvgs6":[function(require,module,exports) {
+},{"redux":"4d0QS","../actions/actions":"1Ttfj","@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4","redux-persist/lib/storage":"4PpbC"}],"4PpbC":[function(require,module,exports) {
+"use strict";
+exports.__esModule = true;
+exports.default = void 0;
+var _createWebStorage = _interopRequireDefault(require("./createWebStorage"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+var _default = _createWebStorage.default('local');
+exports.default = _default;
+
+},{"./createWebStorage":"6Bkl8"}],"6Bkl8":[function(require,module,exports) {
+"use strict";
+exports.__esModule = true;
+exports.default = createWebStorage;
+var _getStorage = _interopRequireDefault(require("./getStorage"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+function createWebStorage(type) {
+    var storage = _getStorage.default(type);
+    return {
+        getItem: function getItem(key) {
+            return new Promise(function(resolve, reject) {
+                resolve(storage.getItem(key));
+            });
+        },
+        setItem: function setItem(key, item) {
+            return new Promise(function(resolve, reject) {
+                resolve(storage.setItem(key, item));
+            });
+        },
+        removeItem: function removeItem(key) {
+            return new Promise(function(resolve, reject) {
+                resolve(storage.removeItem(key));
+            });
+        }
+    };
+}
+
+},{"./getStorage":"esWow"}],"esWow":[function(require,module,exports) {
+"use strict";
+exports.__esModule = true;
+exports.default = getStorage;
+function _typeof(obj) {
+    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") _typeof = function _typeof1(obj1) {
+        return typeof obj1;
+    };
+    else _typeof = function _typeof2(obj1) {
+        return obj1 && typeof Symbol === "function" && obj1.constructor === Symbol && obj1 !== Symbol.prototype ? "symbol" : typeof obj1;
+    };
+    return _typeof(obj);
+}
+function noop() {
+}
+var noopStorage = {
+    getItem: noop,
+    setItem: noop,
+    removeItem: noop
+};
+function hasStorage(storageType) {
+    if ((typeof self === "undefined" ? "undefined" : _typeof(self)) !== 'object' || !(storageType in self)) return false;
+    try {
+        var storage = self[storageType];
+        var testKey = "redux-persist ".concat(storageType, " test");
+        storage.setItem(testKey, 'test');
+        storage.getItem(testKey);
+        storage.removeItem(testKey);
+    } catch (e) {
+        console.warn("redux-persist ".concat(storageType, " test failed, persistence will be disabled."));
+        return false;
+    }
+    return true;
+}
+function getStorage(type) {
+    var storageType = "".concat(type, "Storage");
+    if (hasStorage(storageType)) return self[storageType];
+    else {
+        console.error("redux-persist failed to create sync storage. falling back to noop storage.");
+        return noopStorage;
+    }
+}
+
+},{}],"cvgs6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "persistReducer", ()=>_persistReducerDefault.default
@@ -59095,94 +59171,7 @@ function createTransform(inbound, outbound) {
 }
 exports.default = createTransform;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4"}],"4PpbC":[function(require,module,exports) {
-"use strict";
-exports.__esModule = true;
-exports.default = void 0;
-var _createWebStorage = _interopRequireDefault(require("./createWebStorage"));
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
-}
-var _default = _createWebStorage.default('local');
-exports.default = _default;
-
-},{"./createWebStorage":"6Bkl8"}],"6Bkl8":[function(require,module,exports) {
-"use strict";
-exports.__esModule = true;
-exports.default = createWebStorage;
-var _getStorage = _interopRequireDefault(require("./getStorage"));
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
-}
-function createWebStorage(type) {
-    var storage = _getStorage.default(type);
-    return {
-        getItem: function getItem(key) {
-            return new Promise(function(resolve, reject) {
-                resolve(storage.getItem(key));
-            });
-        },
-        setItem: function setItem(key, item) {
-            return new Promise(function(resolve, reject) {
-                resolve(storage.setItem(key, item));
-            });
-        },
-        removeItem: function removeItem(key) {
-            return new Promise(function(resolve, reject) {
-                resolve(storage.removeItem(key));
-            });
-        }
-    };
-}
-
-},{"./getStorage":"esWow"}],"esWow":[function(require,module,exports) {
-"use strict";
-exports.__esModule = true;
-exports.default = getStorage;
-function _typeof(obj) {
-    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") _typeof = function _typeof1(obj1) {
-        return typeof obj1;
-    };
-    else _typeof = function _typeof2(obj1) {
-        return obj1 && typeof Symbol === "function" && obj1.constructor === Symbol && obj1 !== Symbol.prototype ? "symbol" : typeof obj1;
-    };
-    return _typeof(obj);
-}
-function noop() {
-}
-var noopStorage = {
-    getItem: noop,
-    setItem: noop,
-    removeItem: noop
-};
-function hasStorage(storageType) {
-    if ((typeof self === "undefined" ? "undefined" : _typeof(self)) !== 'object' || !(storageType in self)) return false;
-    try {
-        var storage = self[storageType];
-        var testKey = "redux-persist ".concat(storageType, " test");
-        storage.setItem(testKey, 'test');
-        storage.getItem(testKey);
-        storage.removeItem(testKey);
-    } catch (e) {
-        console.warn("redux-persist ".concat(storageType, " test failed, persistence will be disabled."));
-        return false;
-    }
-    return true;
-}
-function getStorage(type) {
-    var storageType = "".concat(type, "Storage");
-    if (hasStorage(storageType)) return self[storageType];
-    else {
-        console.error("redux-persist failed to create sync storage. falling back to noop storage.");
-        return noopStorage;
-    }
-}
-
-},{}],"8bQ7S":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"5lGN4"}],"8bQ7S":[function(require,module,exports) {
 "use strict";
 exports.__esModule = true;
 exports.default = autoMergeLevel2;
