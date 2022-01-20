@@ -14,11 +14,11 @@ export function MovieView (props) {
   const onBackClick=props.onBackClick;
 
   const token = localStorage.getItem('token');
-  const username = localStorage.getItem('ls_username');
+  const UserID = localStorage.getItem('UserID');
 
   const handleAddFavouriteMovie = (e) => {
     e.preventDefault();
-    axios.post(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`, {}, 
+    axios.post(`https://ancas-myflixapi.herokuapp.com/users/${UserID}/movies/${movie._id}`, {}, 
     {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -36,7 +36,7 @@ export function MovieView (props) {
   const handleRemoveFavouriteMovie = (e) => {
     e.preventDefault();
 
-    axios.delete(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`,
+    axios.delete(`https://ancas-myflixapi.herokuapp.com/users/${UserID}/movies/${movie._id}`,
     {
       headers: { Authorization: `Bearer ${token}` }
     })

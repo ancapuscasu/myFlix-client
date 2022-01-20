@@ -7,8 +7,7 @@ import "./navbar-view.scss";
 
 
 export const NavbarView = (props) => {
-  const username = props.user.Username;
-  console.log(username, props);
+  const UserID = props.user._id;
   const onLoggedOut = props.onLoggedOut;
 
   return (
@@ -25,9 +24,9 @@ export const NavbarView = (props) => {
       <Navbar.Collapse className="ml-3" id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link as={Link} to={`/users/${username}/my-list`}>My List</Nav.Link>
+          <Nav.Link as={Link} to={`/users/${UserID}/my-list`}>My List</Nav.Link>
           <NavDropdown title="Profile" id="profile-options">
-            <NavDropdown.Item as={Link} to={`/users/${username}`}>My Account</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to={`/users/${UserID}`}>My Account</NavDropdown.Item>
             <NavDropdown.Item onClick={onLoggedOut} href="/">Logout</NavDropdown.Item>
           </NavDropdown>
         </Nav>

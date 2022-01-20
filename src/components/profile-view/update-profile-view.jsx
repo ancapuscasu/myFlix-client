@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import { updateUser, setLSUsername } from '../../actions/actions';
+import { updateUser } from '../../actions/actions';
 import { connect } from 'react-redux';
 
 import { Card, Row, Col } from "react-bootstrap";
@@ -13,9 +13,8 @@ import "./update-profile-view.scss";
 
 function UpdateProfileView (props) {
   const user = props.user;
+  const UserID = user._id;
   const onLoggedOut = props.onLoggedOut;
-  
-  let username = localStorage.getItem("ls_username");
   const token = localStorage.getItem("token");
 
 
@@ -57,17 +56,14 @@ function UpdateProfileView (props) {
 
   const handleSubmitUpdate = values => {
 
-    axios.put(`https://ancas-myflixapi.herokuapp.com/users/${username}`, values, 
+    axios.put(`https://ancas-myflixapi.herokuapp.com/users/${UserID}`, values, 
       { headers: { Authorization: `Bearer ${token}` }}
     )
     .then (response => {
       const data = response.data;
+      alert(`${user.Username} has been updated`);
       props.updateUser(data);
-      alert (username + " has been updated.");
-      localStorage.setItem('ls_username', data.Username);
-      props.setLSUsername (localStorage.getItem('ls_username'));
-      username = localStorage.getItem("ls_username");
-      window.location.pathname = `/users/${username}`;
+      location.reload();
     })
     .catch (error => {
       console.log(error, "Profile update NOT sucessful")
@@ -79,12 +75,12 @@ function UpdateProfileView (props) {
 
     const answer = window.confirm("This cannot be undone, are you sure?");
     if (answer) {
-      axios.delete(`https://ancas-myflixapi.herokuapp.com/users/${username}`, 
+      axios.delete(`https://ancas-myflixapi.herokuapp.com/users/${UserID}`, 
       {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(response => {
-        alert(username + " has been deleted.");
+        alert(`${user.Username} has been deactivated`);
         onLoggedOut();
       })
       .catch(function(error) {
@@ -206,11 +202,11 @@ function UpdateProfileView (props) {
                     />
                   </Row>
 
-                  <Row>
+                  <Row className='update-profile-input-group'>
                     <button className="update-button" type="submit">Update User</button>
                   </Row>
 
-                  <Row className="justify-content-end">
+                  <Row className="justify-content-end update-profile-input-group">
                     <p className='delete-account'>Click here to
                       <a href='/' type="submit" onClick={handleDeleteAccount} className='ml-1 delete-account-button'>delete account</a>
                     </p>
@@ -222,7 +218,6 @@ function UpdateProfileView (props) {
             </Card.Body>
           </Card>
         </Col>
-        <Col></Col>
       </Row>
 
   );
@@ -242,9 +237,8 @@ UpdateProfileView.propTypes = {
 
 let mapStateToProps = state => {
   return {
-    user: state.user,
-    ls_username: state.ls_username
+    user: state.user
   };
 }
 
-export default connect(mapStateToProps, { updateUser, setLSUsername }) (UpdateProfileView);
+export default connect(mapStateToProps, { updateUser }) (UpdateProfileView);
