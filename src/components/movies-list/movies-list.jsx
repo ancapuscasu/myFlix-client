@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 
@@ -40,3 +41,18 @@ function MoviesList(props) {
 }
 
 export default connect(mapStateToProps)(MoviesList);
+
+MoviesList.propTypes = {
+    movies: PropTypes.arrayOf(PropTypes.shape({
+        Title: PropTypes.string.isRequired,
+        Description: PropTypes.string.isRequired,
+        Genre: PropTypes.array.isRequired,
+        Director: PropTypes.shape({
+            Name: PropTypes.string.isRequired,
+            Bio: PropTypes.string.isRequired
+        }).isRequired,
+        ImagePath: PropTypes.string.isRequired,
+        Featured: PropTypes.bool,
+        ReleaseYear: PropTypes.number.isRequired
+    })).isRequired
+};

@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
+import storage from 'redux-persist/lib/storage';
 
 import { 
     SET_FILTER, 
     SET_MOVIES,
     SET_GENRES,
-    SET_USERS,
-    SET_USER
+    SET_USER,
+    UPDATE_USER,
+    SIGNOUT_REQUEST
 } from '../actions/actions';
 
 
@@ -40,31 +42,38 @@ function genres(state = [], action) {
     }
 }
 
-function users (state = {}, action) {
+
+function user (state = {}, action) {
     switch (action.type) {
-        case SET_USERS:
+        case SET_USER:
+            return action.value;
+        case UPDATE_USER:
+            return action.value;
+        case SIGNOUT_REQUEST:
             return action.value;
         default:
             return state;
     }
 }
 
-function user (state = '', action) {
-    switch (action.type) {
-        case SET_USER:
-            return action.value;
-        default:
-            return state;
-    }
-}
+
 
 const moviesApp = combineReducers({
     visibilityFilter,
     movies,
     genres,
-    users,
     user
 });
 
 
-export default moviesApp;
+const rootReducer = (state, action) => {
+    if (action.type === SIGNOUT_REQUEST) {;
+        storage.removeItem('persist:root')
+
+        return moviesApp(undefined, action)
+    }
+    return moviesApp(state, action)
+};
+
+export default rootReducer;
+

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./my-list-view.scss";
@@ -9,7 +10,6 @@ export function FavouritesListView (props) {
   const user = props.user;
 
   const favouriteMovies = movies.filter(movie => user.FavouriteMovies.indexOf(movie._id) > -1);
-  console.log(favouriteMovies);
 
   
   return (
@@ -41,3 +41,26 @@ export function FavouritesListView (props) {
       </div>
   );
 }
+
+
+FavouritesListView.propTypes = {
+  user: PropTypes.shape({
+    FirstName: PropTypes.string.isRequired,
+    LastName: PropTypes.string.isRequired,
+    Email: PropTypes.string.isRequired,
+    Username: PropTypes.string.isRequired,
+  }).isRequired,
+
+  movies: PropTypes.arrayOf(PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    Genre: PropTypes.array.isRequired,
+    Director: PropTypes.shape({
+        Name: PropTypes.string.isRequired,
+        Bio: PropTypes.string.isRequired
+    }).isRequired,
+    ImagePath: PropTypes.string.isRequired,
+    Featured: PropTypes.bool,
+    ReleaseYear: PropTypes.number.isRequired
+})).isRequired
+};

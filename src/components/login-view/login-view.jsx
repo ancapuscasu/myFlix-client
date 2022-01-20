@@ -31,7 +31,7 @@ export function LoginView (props) {
   
   
   // When user clicks "Log In" button - POST request is made to /login
-  const onSubmit = values => {
+  const handleLogin = values => {
   // Send a request to the server for authentication 
     axios.post('https://ancas-myflixapi.herokuapp.com/login', values)
   // After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
@@ -56,7 +56,7 @@ export function LoginView (props) {
                     <Formik
                       initialValues={initialValues}
                       validationSchema={validationSchema}
-                      onSubmit={onSubmit}
+                      onSubmit={handleLogin}
                     >
                       <Form> 
                         <Row className="m-4 login-input-group"> 
@@ -65,7 +65,6 @@ export function LoginView (props) {
                             name="Username"
                             type="text" 
                             required
-                            // placeholder="Username"
                           />
                           <label className="login-input-label" htmlFor="Username">Username:</label>
                           <ErrorMessage
@@ -81,7 +80,6 @@ export function LoginView (props) {
                             name="Password"
                             type="password" 
                             required
-                            // placeholder="Password"
                           />
                           <label className="login-input-label" htmlFor="Password">Password:</label>
                           <ErrorMessage

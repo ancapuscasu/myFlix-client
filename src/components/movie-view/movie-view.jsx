@@ -14,11 +14,11 @@ export function MovieView (props) {
   const onBackClick=props.onBackClick;
 
   const token = localStorage.getItem('token');
-  const username = localStorage.getItem('user');
+  const UserID = localStorage.getItem('UserID');
 
   const handleAddFavouriteMovie = (e) => {
     e.preventDefault();
-    axios.post(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`, {}, 
+    axios.post(`https://ancas-myflixapi.herokuapp.com/users/${UserID}/movies/${movie._id}`, {}, 
     {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -36,7 +36,7 @@ export function MovieView (props) {
   const handleRemoveFavouriteMovie = (e) => {
     e.preventDefault();
 
-    axios.delete(`https://ancas-myflixapi.herokuapp.com/users/${username}/movies/${movie._id}`,
+    axios.delete(`https://ancas-myflixapi.herokuapp.com/users/${UserID}/movies/${movie._id}`,
     {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -89,17 +89,23 @@ export function MovieView (props) {
 }
 
 MovieView.propTypes = {
-    movie: PropTypes.shape({
-        Title: PropTypes.string.isRequired,
-        Description: PropTypes.string.isRequired,
-        Genre: PropTypes.array.isRequired,
-        Director: PropTypes.shape({
-            Name: PropTypes.string.isRequired,
-            Bio: PropTypes.string.isRequired
-        }).isRequired,
-        ImagePath: PropTypes.string.isRequired,
-        Featured: PropTypes.bool,
-        ReleaseYear: PropTypes.number.isRequired
+  movie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired,
+    Genre: PropTypes.array.isRequired,
+    Director: PropTypes.shape({
+        Name: PropTypes.string.isRequired,
+        Bio: PropTypes.string.isRequired
     }).isRequired,
-    onBackClick: PropTypes.func.isRequired
+    ImagePath: PropTypes.string.isRequired,
+    Featured: PropTypes.bool,
+    ReleaseYear: PropTypes.number.isRequired
+  }).isRequired,
+
+  genre: PropTypes.shape({
+    Name: PropTypes.string.isRequired,
+    Description: PropTypes.string.isRequired
+  }),
+  
+  onBackClick: PropTypes.func.isRequired
 };

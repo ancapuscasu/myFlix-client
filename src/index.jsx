@@ -1,17 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Container from "react-bootstrap/Container";
 import { createStore } from "redux";
+import {persistStore, persistReducer} from "redux-persist";
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import storage from "redux-persist/lib/storage";
 import { Provider } from "react-redux";
 import { devToolsEnhancer } from 'redux-devtools-extension';
 
-import moviesApp from "./reducers/reducers";
+import rootReducer from "./reducers/reducers";
 
 import MainView from "./components/main-view/main-view";
 
+import Container from "react-bootstrap/Container";
 import "./index.scss";
 
-const myFlixStore = createStore(moviesApp, devToolsEnhancer());
+const persistConfig = {
+  key: "root",
+  storage: storage,
+  stateReconciler: autoMergeLevel2
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+const myFlixStore = createStore(persistedReducer, devToolsEnhancer());
+const persistor = persistStore(myFlixStore);
 
 
 class MyFlixApplication extends React.Component {
@@ -19,7 +31,9 @@ class MyFlixApplication extends React.Component {
     return (
       <Provider store = {myFlixStore}>
         <Container fluid>
-          <MainView />
+          <PersistGate persistor={persistor} >
+            <MainView />
+          </PersistGate>
         </Container>
       </Provider>
     );

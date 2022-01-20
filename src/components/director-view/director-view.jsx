@@ -1,7 +1,6 @@
 import React from 'react';
-import { Card, Container, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import './director-view.scss';
@@ -23,3 +22,13 @@ export function DirectorView (props) {
     </Card>
   )
 }
+
+
+DirectorView.propTypes = {
+  director: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Bio: PropTypes.string.isRequired
+  }).isRequired,
+
+  onBackClick: PropTypes.func.isRequired
+};
