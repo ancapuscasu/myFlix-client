@@ -55313,6 +55313,7 @@ parcelHelpers.export(exports, "LoginView", ()=>LoginView);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+var _reactRouterDom = require("react-router-dom");
 var _propTypes = require("prop-types");
 var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 var _reactBootstrap = require("react-bootstrap");
@@ -55334,7 +55335,8 @@ function LoginView(props) {
     });
     // When user clicks "Log In" button - POST request is made to /login
     const handleLogin = (values)=>{
-        // Send a request to the server for authentication 
+        // Send a request to the server for authentication
+        console.log(values);
         (0, _axiosDefault.default).post("https://ancas-myflixapi.herokuapp.com/login", values)// After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
         .then((response)=>{
             const data = response.data;
@@ -55348,8 +55350,8 @@ function LoginView(props) {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _navbarViewLogin.NavbarViewLogin), {}, void 0, false, {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 49,
-                columnNumber: 9
+                lineNumber: 48,
+                columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Row), {
                 className: "login",
@@ -55371,8 +55373,8 @@ function LoginView(props) {
                                         children: "Sign In"
                                     }, void 0, false, {
                                         fileName: "src/components/login-view/login-view.jsx",
-                                        lineNumber: 55,
-                                        columnNumber: 19
+                                        lineNumber: 54,
+                                        columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.Formik), {
                                         initialValues: initialValues,
@@ -55390,8 +55392,8 @@ function LoginView(props) {
                                                             required: true
                                                         }, void 0, false, {
                                                             fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 63,
-                                                            columnNumber: 27
+                                                            lineNumber: 64,
+                                                            columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
                                                             className: "login-input-label",
@@ -55399,8 +55401,8 @@ function LoginView(props) {
                                                             children: "Username:"
                                                         }, void 0, false, {
                                                             fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 69,
-                                                            columnNumber: 27
+                                                            lineNumber: 70,
+                                                            columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.ErrorMessage), {
                                                             name: "Username",
@@ -55408,14 +55410,14 @@ function LoginView(props) {
                                                             className: "login-input-error"
                                                         }, void 0, false, {
                                                             fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 70,
-                                                            columnNumber: 27
+                                                            lineNumber: 73,
+                                                            columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/components/login-view/login-view.jsx",
-                                                    lineNumber: 62,
-                                                    columnNumber: 25
+                                                    lineNumber: 63,
+                                                    columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Row), {
                                                     className: "m-4 login-input-group",
@@ -55427,8 +55429,8 @@ function LoginView(props) {
                                                             required: true
                                                         }, void 0, false, {
                                                             fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 78,
-                                                            columnNumber: 27
+                                                            lineNumber: 81,
+                                                            columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
                                                             className: "login-input-label",
@@ -55436,8 +55438,8 @@ function LoginView(props) {
                                                             children: "Password:"
                                                         }, void 0, false, {
                                                             fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 84,
-                                                            columnNumber: 27
+                                                            lineNumber: 87,
+                                                            columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formik.ErrorMessage), {
                                                             name: "Password",
@@ -55445,14 +55447,14 @@ function LoginView(props) {
                                                             className: "login-input-error"
                                                         }, void 0, false, {
                                                             fileName: "src/components/login-view/login-view.jsx",
-                                                            lineNumber: 85,
-                                                            columnNumber: 27
+                                                            lineNumber: 90,
+                                                            columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/components/login-view/login-view.jsx",
-                                                    lineNumber: 77,
-                                                    columnNumber: 25
+                                                    lineNumber: 80,
+                                                    columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Row), {
                                                     className: " mt-4 mx-4 justify-content-center",
@@ -55462,13 +55464,13 @@ function LoginView(props) {
                                                         children: "Log In"
                                                     }, void 0, false, {
                                                         fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 93,
-                                                        columnNumber: 27
+                                                        lineNumber: 98,
+                                                        columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "src/components/login-view/login-view.jsx",
-                                                    lineNumber: 92,
-                                                    columnNumber: 25
+                                                    lineNumber: 97,
+                                                    columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Row), {
                                                     className: "justify-content-start ml-4",
@@ -55476,68 +55478,68 @@ function LoginView(props) {
                                                         className: "login-register",
                                                         children: [
                                                             "New to MyFlix?",
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("a", {
-                                                                href: "/register",
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
+                                                                to: `/register`,
                                                                 className: "ml-1 login-register-button",
-                                                                children: " Sign up here"
+                                                                children: "Sign up here"
                                                             }, void 0, false, {
                                                                 fileName: "src/components/login-view/login-view.jsx",
-                                                                lineNumber: 98,
-                                                                columnNumber: 29
+                                                                lineNumber: 106,
+                                                                columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/components/login-view/login-view.jsx",
-                                                        lineNumber: 97,
-                                                        columnNumber: 27
+                                                        lineNumber: 104,
+                                                        columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "src/components/login-view/login-view.jsx",
-                                                    lineNumber: 96,
-                                                    columnNumber: 25
+                                                    lineNumber: 103,
+                                                    columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 61,
-                                            columnNumber: 23
+                                            lineNumber: 62,
+                                            columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/components/login-view/login-view.jsx",
-                                        lineNumber: 56,
-                                        columnNumber: 21
+                                        lineNumber: 57,
+                                        columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/components/login-view/login-view.jsx",
-                                lineNumber: 54,
-                                columnNumber: 17
+                                lineNumber: 53,
+                                columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "src/components/login-view/login-view.jsx",
-                            lineNumber: 53,
-                            columnNumber: 15
+                            lineNumber: 52,
+                            columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 52,
-                        columnNumber: 13
+                        lineNumber: 51,
+                        columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 51,
-                    columnNumber: 11
+                    lineNumber: 50,
+                    columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 50,
-                columnNumber: 9
+                lineNumber: 49,
+                columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/components/login-view/login-view.jsx",
-        lineNumber: 48,
-        columnNumber: 7
+        lineNumber: 47,
+        columnNumber: 5
     }, this);
 }
 _c = LoginView;
@@ -55552,7 +55554,7 @@ $RefreshReg$(_c, "LoginView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","prop-types":"7wKI2","react-bootstrap":"3AD9A","formik":"aefoQ","yup":"b4KAh","axios":"jo6P5","./login-view.scss":"e57ax","../navbar-view/navbar-view-login":"8p5VL","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"e57ax":[function() {},{}],"8p5VL":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","prop-types":"7wKI2","react-bootstrap":"3AD9A","formik":"aefoQ","yup":"b4KAh","axios":"jo6P5","./login-view.scss":"e57ax","../navbar-view/navbar-view-login":"8p5VL","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react-router-dom":"cHIiW"}],"e57ax":[function() {},{}],"8p5VL":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$e52e = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
