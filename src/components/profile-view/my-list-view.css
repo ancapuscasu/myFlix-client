@@ -1,0 +1,14 @@
+$white: #fff;
+
+h3.favourites-list-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.row.my-list-view-container {
+  padding-bottom: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
