@@ -221,6 +221,7 @@ body {
 
 .card-group.login-card-group {
   align-items: center;
+  justify-content: center;
 }
 
 .card.login-card {
