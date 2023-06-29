@@ -303,6 +303,16 @@ input.login-input:focus + label.login-input-label, input.login-input:valid + lab
   font-size: .8rem;
 }
 
+.test-account {
+  width: -moz-fit-content;
+  width: fit-content;
+  color: #fff;
+  text-align: center;
+  background-color: #000000b3;
+  margin-top: 1rem;
+  padding: 2rem;
+}
+
 .navbar.login-navbar {
   width: 100%;
   position: absolute;
@@ -516,7 +526,7 @@ input.update-profile-input {
   margin-left: 4px;
 }
 
-input.update-profile-input:focus + label.update-profile-input-label, input.update-profile-input:valid + label.update-profile-input-label {
+input.update-profile-input:focus + label.update-profile-input-label, input.update-profile-input:valid + label.update-profile-input-label, input.update-profile-input.focus + label.update-profile-input-label {
   font-size: .7rem;
   top: 5px;
 }

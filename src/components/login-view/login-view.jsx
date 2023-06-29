@@ -32,7 +32,7 @@ export function LoginView(props) {
     // Send a request to the server for authentication
     console.log(values);
     axios
-      .post("https://ancas-myflixapi.herokuapp.com/login", values)
+      .post("https://myflix-bna0.onrender.com/login", values)
       // After authentication, get user data. Then pass user data into onLoggedIn function in main-view.
       .then((response) => {
         const data = response.data;
@@ -47,7 +47,14 @@ export function LoginView(props) {
     <div className="login-view-container">
       <NavbarViewLogin />
       <Row className="login">
-        <Col xs={10} sm={7} md={6} lg={5} xl={4} className="m-3">
+        <Col
+          xs={10}
+          sm={7}
+          md={6}
+          lg={5}
+          xl={4}
+          className="m-3 d-flex flex-column"
+        >
           <CardGroup className="login-card-group">
             <Card className="login-card">
               <Card.Body>
@@ -121,6 +128,11 @@ export function LoginView(props) {
               </Card.Body>
             </Card>
           </CardGroup>
+          <div className="test-account align-self-center">
+            <p>YOU CAN USE</p>
+            <p>Username: account</p>
+            <p>Password: password</p>
+          </div>
         </Col>
       </Row>
     </div>
